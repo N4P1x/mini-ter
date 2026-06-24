@@ -5,7 +5,7 @@
   border-radius: 0;
   font-family: "JetBrainsMono Nerd Font Mono", "monospace";
   font-size: 11px;
-  min-height: 24px;
+  min-height: 0;
 }
 
 @keyframes blinker {
