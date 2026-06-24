@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/screenshot.png" alt="Desktop Screenshot" width="800"/>
+  <img src="assets/screenshot.png" alt="Desktop" width="800"/>
   <br/>
   <h1>mini-ter</h1>
   <p><b>Arch Linux · Hyprland · N4P1x · Material You</b></p>
@@ -10,6 +10,16 @@
     <img src="https://img.shields.io/badge/Terminal-Ghostty-ebc16c?style=flat"/>
     <img src="https://img.shields.io/badge/Editor-Neovim-6bbe6b?style=flat&logo=neovim"/>
   </p>
+</div>
+
+<br/>
+
+<div align="center">
+  <img src="assets/prowser.png" alt="Browser" width="390"/>
+  <img src="assets/fastfetch.png" alt="Fastfetch" width="390"/>
+  <br/>
+  <img src="assets/powermenu.png" alt="Powermenu" width="390"/>
+  <img src="assets/Appmenu.png" alt="App Menu" width="390"/>
 </div>
 
 ---

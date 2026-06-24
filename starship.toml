@@ -7,8 +7,8 @@ format = """$hostname$directory$git_branch$git_status$character"""
 palette = "colors"
 
 [palettes.colors]
-primary = '#a3d398'       # directory, prompt
-secondary = '#a0cfd3'     # git branch
+primary = '#ffb688'       # directory, prompt
+secondary = '#caca93'     # git branch
 error = '#ffb4ab'         # errors, git status
 
 [hostname]
