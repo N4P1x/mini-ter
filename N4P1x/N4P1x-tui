@@ -2,10 +2,10 @@
 
 set -e
 
-SCRIPT_DIR="$HOME/.config/N4P1x"
-DOTFILES="$HOME/N4P1x"
-THEMES_DIR="$DOTFILES/themes"
-BRANDING="$DOTFILES/branding"
+source "$(dirname "$(readlink -f "$0")")/env.sh"
+
+THEMES_DIR="$N4P1X_EXTERNAL/themes"
+BRANDING="$N4P1X_EXTERNAL/branding"
 API="https://omarchythemes.com/api/themes/all"
 
 C_ACCENT="\033[38;5;218m"
@@ -61,7 +61,7 @@ EOF
     url=$(cut -f2 <<< "$sel")
     
     echo ""
-    "$DOTFILES/install/themes/catbug0x1-import/import.sh" "$url" && echo -e "${C_OK}done${C_RESET}" || echo -e "${C_ERR}failed${C_RESET}"
+    "$N4P1X_EXTERNAL/install/themes/catbug0x1-import/import.sh" "$url" && echo -e "${C_OK}done${C_RESET}" || echo -e "${C_ERR}failed${C_RESET}"
     sleep 2
 }
 
@@ -93,7 +93,7 @@ delete_themes() {
     gum confirm "confirm?" || return
     
     while IFS= read -r theme; do
-        "$SCRIPT_DIR/N4P1x" remove "$theme" <<< "y" 2>/dev/null
+        "$N4P1X_CLI" remove "$theme" <<< "y" 2>/dev/null
     done <<< "$result"
     echo -e "${C_OK}done${C_RESET}"
     sleep 1
@@ -109,7 +109,7 @@ import_url() {
     [[ -z "$url" ]] && return
     echo ""
     
-    "$DOTFILES/install/themes/catbug0x1-import/import.sh" "$url" && echo -e "${C_OK}done${C_RESET}" || echo -e "${C_ERR}failed${C_RESET}"
+    "$N4P1X_EXTERNAL/install/themes/catbug0x1-import/import.sh" "$url" && echo -e "${C_OK}done${C_RESET}" || echo -e "${C_ERR}failed${C_RESET}"
     sleep 2
 }
 
@@ -129,7 +129,7 @@ omarchy_menu() {
 }
 
 
-WEBAPP_DIR="$DOTFILES/.config/hypr/scripts"
+WEBAPP_DIR="$N4P1X_SCRIPTS"
 
 webapp_menu() {
     clear
@@ -183,7 +183,7 @@ main() {
     case "$choice" in
         "Omarchy Themes") omarchy_menu; main ;;
         "Web Apps")       webapp_menu; main ;;
-        "Choose Shell")   "$DOTFILES/scripts/choose-shell"; main ;;
+        "Choose Shell")   "$N4P1X_EXTERNAL/scripts/system/choose-shell"; main ;;
         "Delete Themes")  delete_themes; main ;;
         *)                clear; exit 0 ;;
     esac

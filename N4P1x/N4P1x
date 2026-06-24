@@ -1,28 +1,27 @@
 #!/bin/bash
 
-TF="$HOME/.config/N4P1x/.current-theme"
-SYNC="$HOME/.config/hypr/scripts/theme/sync-all"
+source "$(dirname "$(readlink -f "$0")")/env.sh"
 
-if [[ -d "$HOME/.config/N4P1x/$1" && "$1" != "list" && "$1" != "info" && "$1" != "sync" && "$1" != "current" && "$1" != "i" ]]; then
-    echo "$1" > "$TF"
-    $SYNC
+if [[ -d "$N4P1X_DIR/$1" && "$1" != "list" && "$1" != "info" && "$1" != "sync" && "$1" != "current" && "$1" != "i" ]]; then
+    echo "$1" > "$N4P1X_CURRENT_THEME"
+    "$N4P1X_SYNC_SCRIPT"
     exit $?
 fi
 
 case "${1:-}" in
     l|list)
-        ls -d "$HOME/.config/N4P1x"/*/ | xargs -n1 basename | grep -v "hooks\|current" | sort
+        ls -d "$N4P1X_DIR"/*/ | xargs -n1 basename | grep -v "hooks\|current" | sort
         ;;
     i|info|current)
-        cat "$TF" 2>/dev/null || echo "dynamic"
+        cat "$N4P1X_CURRENT_THEME" 2>/dev/null || echo "dynamic"
         ;;
     s|switch)
         shift
-        echo "${1:-dynamic}" > "$TF"
-        $SYNC
+        echo "${1:-dynamic}" > "$N4P1X_CURRENT_THEME"
+        "$N4P1X_SYNC_SCRIPT"
         ;;
     sync)
-        $SYNC
+        "$N4P1X_SYNC_SCRIPT"
         ;;
     help|--help|-h|"")
         echo "N4P1x"
@@ -32,6 +31,6 @@ case "${1:-}" in
         echo "       N4P1x sync"
         echo ""
         echo "Themes:"
-        ls -d "$HOME/.config/N4P1x"/*/ | xargs -n1 basename | grep -v "hooks\|current" | sort | sed 's/^/  /'
+        ls -d "$N4P1X_DIR"/*/ | xargs -n1 basename | grep -v "hooks\|current" | sort | sed 's/^/  /'
         ;;
 esac
