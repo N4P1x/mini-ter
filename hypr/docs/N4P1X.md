@@ -137,8 +137,8 @@ Each theme contains `.config/` subdirectories:
 N4P1x sets these for applications:
 
 ```bash
-CATBUG0X1_THEME=<theme-name>
-CATBUG0X1_DIR=~/.config/N4P1x
+N4P1X_THEME=<theme-name>
+N4P1X_DIR=~/.config/N4P1x
 GTK_THEME=<theme-name>
 ```
 
