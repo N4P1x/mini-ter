@@ -1,0 +1,147 @@
+#!/bin/bash
+
+TF="$HOME/.config/catbug0x1/.current-theme"
+SYM="$HOME/.config/catbug0x1"
+T=$(cat "$TF" 2>/dev/null)
+SRC="$SYM/current/.config"
+FAST_SYNC="${CATBUG0X1_FAST_SYNC:-0}"
+
+CYAN='\033[0;36m'; GREEN='\033[0;32m'; BOLD='\033[1m'; RESET='\033[0m'
+
+echo -e "${BOLD}══════════════════════════════════════${RESET}"
+echo -e "${BOLD}  SYNC v12.0 - $T${RESET}"
+echo -e "${BOLD}══════════════════════════════════════${RESET}"
+
+copy() { [[ -f "$1" ]] && rm -f "$2" && cp "$1" "$2" 2>/dev/null; }
+
+copy "$SRC/gtk-3.0/colors.css" "$HOME/.config/gtk-3.0/gtk.css"
+sed -i "s/^gtk-theme-name=.*/gtk-theme-name=$T/" "$HOME/.config/gtk-3.0/settings.ini" 2>/dev/null
+echo -e "${GREEN}✓${RESET} GTK3"
+
+copy "$SRC/gtk-4.0/colors.css" "$HOME/.config/gtk-4.0/gtk.css"
+sed -i "s/^gtk-theme-name=.*/gtk-theme-name=$T/" "$HOME/.config/gtk-4.0/settings.ini" 2>/dev/null
+echo -e "${GREEN}✓${RESET} GTK4"
+
+copy "$SRC/waybar/colors.css" "$HOME/.config/waybar/colors.css"
+if [[ -f "$HOME/dotfiles/.config/waybar/style.css" ]]; then
+    cp "$HOME/dotfiles/.config/waybar/style.css" "$HOME/.config/waybar/style.css"
+else
+    {
+        echo '@import "colors.css";'
+        [[ -f "$SYM/base-waybar.css" ]] && cat "$SYM/base-waybar.css"
+    } > "$HOME/.config/waybar/style.css"
+fi
+if [[ "$FAST_SYNC" != "1" ]]; then
+    pkill -x waybar 2>/dev/null; uwsm-app -- waybar &>/dev/null &
+fi
+echo -e "${GREEN}✓${RESET} Waybar"
+
+copy "$SRC/rofi/config.rasi" "$HOME/.config/rofi/config.rasi"
+[[ -f "$SRC/rofi/colors.rasi" ]] && copy "$SRC/rofi/colors.rasi" "$HOME/.config/rofi/colors.rasi"
+[[ -d "$SRC/rofi/custom-rofi" ]] && cp -r "$SRC/rofi/custom-rofi"/* "$HOME/.config/rofi/custom-rofi/" 2>/dev/null
+pkill -x rofi 2>/dev/null
+echo -e "${GREEN}✓${RESET} Rofi"
+
+copy "$SRC/mako/colors" "$HOME/.config/mako/colors"
+if [[ "$FAST_SYNC" != "1" ]]; then
+    pkill -x mako 2>/dev/null; uwsm-app -- mako &>/dev/null &
+fi
+echo -e "${GREEN}✓${RESET} Mako"
+
+mkdir -p "$HOME/.config/swaync/matugen"
+copy "$SRC/swaync/matugen/colors.css" "$HOME/.config/swaync/matugen/colors.css"
+if [[ "$FAST_SYNC" != "1" ]]; then
+    pkill -x swaync 2>/dev/null; uwsm-app -- swaync &>/dev/null &
+fi
+echo -e "${GREEN}✓${RESET} SwayNC"
+
+mkdir -p "$HOME/.config/hypr/theme"
+copy "$SRC/hypr/theme/colors.conf" "$HOME/.config/hypr/theme/colors.conf"
+if [[ "$FAST_SYNC" == "1" ]]; then
+    hyprctl reload 2>/dev/null &
+else
+    hyprctl reload 2>/dev/null
+fi
+echo -e "${GREEN}✓${RESET} Hyprland"
+
+if [[ "${CATBUG0X1_SKIP_WALLPAPER:-0}" != "1" ]]; then
+    BG_DIR="$HOME/Pictures/Wallpapers"
+    [[ -d "$HOME/Wallpapers" ]] && BG_DIR="$HOME/Wallpapers"
+    if [[ -d "$BG_DIR" ]]; then
+        mapfile -t BGS < <(find "$BG_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) | sort)
+        [[ ${#BGS[@]} -gt 0 ]] && {
+            SELECTED="${BGS[0]}"
+            if [[ -L "$HOME/.config/catbug0x1/current/wallpaper" || -f "$HOME/.config/catbug0x1/current/wallpaper" ]]; then
+                CURRENT_WALLPAPER="$(readlink -f "$HOME/.config/catbug0x1/current/wallpaper" 2>/dev/null || true)"
+                if [[ -n "${CURRENT_WALLPAPER:-}" && -f "$CURRENT_WALLPAPER" ]]; then
+                    SELECTED="$CURRENT_WALLPAPER"
+                fi
+            fi
+            if command -v swww >/dev/null 2>&1; then
+                swww img "$SELECTED" --transition-type grow --transition-pos top-right --transition-fps 120 --transition-duration 1 2>/dev/null &
+            elif command -v awww >/dev/null 2>&1; then
+                pgrep -x awww-daemon >/dev/null 2>&1 || awww-daemon >/dev/null 2>&1 &
+                awww img "$SELECTED" 2>/dev/null || true
+            elif command -v hyprpaper >/dev/null 2>&1; then
+                pkill hyprpaper 2>/dev/null; hyprpaper &>/dev/null &
+            fi
+        }
+    fi
+    echo -e "${GREEN}✓${RESET} Wallpaper"
+else
+    echo -e "${GREEN}✓${RESET} Wallpaper (kept current)"
+fi
+
+for v in 5 6; do [[ -f "$HOME/.config/qt${v}ct/qt${v}ct.conf" ]] && sed -i "s/^theme=.*/theme=$T/" "$HOME/.config/qt${v}ct/qt${v}ct.conf"; done
+echo -e "${GREEN}✓${RESET} Qt"
+
+copy "$SRC/alacritty/colors.toml" "$HOME/.config/alacritty/colors.toml"
+pgrep -x alacritty >/dev/null && touch "$HOME/.config/alacritty/alacritty.toml"
+copy "$SRC/kitty/colors.conf" "$HOME/.config/kitty/colors.conf"
+pgrep -x kitty >/dev/null && killall -SIGUSR1 kitty 2>/dev/null
+copy "$SRC/ghostty/theme" "$HOME/.config/ghostty/theme"
+pgrep -x ghostty >/dev/null && killall -SIGUSR2 ghostty 2>/dev/null
+echo -e "${GREEN}✓${RESET} Terminals"
+
+copy "$SRC/starship.toml" "$HOME/.config/starship.toml"
+echo -e "${GREEN}✓${RESET} Starship"
+
+[[ -d "$SRC/btop" ]] && mkdir -p "$HOME/.config/btop/themes" && copy "$SRC/btop/themes/current.theme" "$HOME/.config/btop/themes/current.theme"
+copy "$SRC/cava/config" "$HOME/.config/cava/config"
+echo -e "${GREEN}✓${RESET} Monitors"
+
+mkdir -p "$HOME/.mozilla/firefox"/*/chrome
+cp "$SRC/gtk-3.0/colors.css" "$HOME/.mozilla/firefox"/*/chrome/colors.css 2>/dev/null
+echo -e "${GREEN}✓${RESET} Firefox"
+
+if [[ -f "$SRC/Code/User/settings.json" ]]; then 
+    ct=$(grep -oP '"workbench.colorTheme"\s*:\s*"\K[^"]+' "$SRC/Code/User/settings.json")
+    [[ -n "$ct" ]] && sed -i "s/\"workbench.colorTheme\": \"[^\"]*\"/\"workbench.colorTheme\": \"$ct\"/" "$HOME/.config/Code/User/settings.json"
+fi
+echo -e "${GREEN}✓${RESET} VS Code"
+
+[[ -d "$SRC/rmpc" ]] && cp -r "$SRC/rmpc/"* "$HOME/.config/rmpc/" 2>/dev/null
+copy "$SRC/vesktop/config.json" "$HOME/.config/vesktop/config.json"
+if [[ "$FAST_SYNC" != "1" ]]; then
+    command -v spicetify >/dev/null 2>&1 && spicetify apply >/dev/null 2>&1 || true
+fi
+echo -e "${GREEN}✓${RESET} Media"
+
+copy "$SRC/yazi/theme.toml" "$HOME/.config/yazi/theme.toml"
+echo -e "${GREEN}✓${RESET} Files"
+
+hyprctl setcursor Bibata-Modern-Ice 24 2>/dev/null
+if [[ "$FAST_SYNC" != "1" ]]; then
+    command -v nwg-look >/dev/null && nwg-look -s "$T" 2>/dev/null &
+    pkill -x nautilus 2>/dev/null
+fi
+echo -e "${GREEN}✓${RESET} System"
+
+echo -e "${BOLD}══════════════════════════════════════${RESET}"
+echo -e "${GREEN}✓${RESET} Sync Complete"
+echo -e "${BOLD}══════════════════════════════════════${RESET}"
+
+echo ""
+echo -e "${GREEN}══════════════════════════════════════${RESET}"
+echo -e "${GREEN}  Complete: $T${RESET}"
+echo -e "${GREEN}══════════════════════════════════════${RESET}"

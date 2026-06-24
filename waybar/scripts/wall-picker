@@ -1,0 +1,18 @@
+#!/bin/bash
+set -euo pipefail
+
+if command -v swww >/dev/null 2>&1; then wallbin=swww
+elif command -v awww >/dev/null 2>&1; then wallbin=awww
+else notify-send "No wallpaper daemon" "Install swww or awww" "critical"; exit 1; fi
+
+WALLPAPER_DIR="$HOME/Wallpapers/"
+WALLPAPER_PARAMS="--transition-fps 60 --transition-type=any --transition-duration=1"
+focused_monitor=$(hyprctl -j monitors | jq -r '.[] | select(.focused==true).name' || echo "HDMI-A-1")
+
+mapfile -d '' wallpapers < <(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) -print0)
+[[ ${#wallpapers[@]} -eq 0 ]] && { notify-send -A "open=Get Wallpapers" --wait "No Wallpapers" "Add to ~/Wallpapers"; xdg-open "https://github.com/catbug0x1/Wallpapers" & exit 1; }
+
+choice=$(printf "%s\x00icon\x1f%s\n" "$(basename "${wallpapers[@]}")" "${wallpapers[@]}" | sort | rofi -i -dmenu -config ~/.config/rofi/custom-rofi/config-wallpaper.rasi)
+[[ -z "$choice" ]] && exit 0
+
+for wp in "${wallpapers[@]}"; do [[ "$(basename "$wp")" == "$choice" ]] && { "$wallbin" img -o "$focused_monitor" "$wp" $WALLPAPER_PARAMS; notify-send -i "$wp" "Wallpaper" "$(basename "$wp")"; break; }; done

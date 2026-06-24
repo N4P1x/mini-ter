@@ -1,0 +1,4 @@
+#!/bin/bash
+set -euo pipefail
+
+"$HOME/.config/hypr/scripts/cycle-wallpaper" next

@@ -1,0 +1,23 @@
+#!/bin/bash
+set -euo pipefail
+
+pkill rofi 2>/dev/null || true
+
+tmp_dir="/tmp/cliphist"
+rm -rf "$tmp_dir"; mkdir -p "$tmp_dir"
+
+result=$(cliphist list | while IFS=$'\t' read -r id rest; do
+  if [[ "$rest" =~ binary.*\.(jpg|jpeg|png|bmp) ]]; then
+    img="$tmp_dir/$id.${BASH_REMATCH[2]}"
+    echo "$id" | cliphist decode >"$img" 2>/dev/null
+    printf "%s\0icon\x1f%s\n" "$id	$rest" "$img"
+  else
+    echo "$id	$rest"
+  fi
+done | rofi -dmenu -p "📋" -show-icons -kb-custom-1 "Control+Delete" -kb-custom-2 "Alt+Delete" -config ~/.config/rofi/custom-rofi/config-clipboard.rasi)
+
+case $? in
+  0) [[ -n "$result" ]] && echo "$result" | cliphist decode | wl-copy ;;
+  10) cliphist delete <<<"$result" ;;
+  11) cliphist wipe ;;
+esac

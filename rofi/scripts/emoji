@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+pkill rofi 2>/dev/null || true
+exec rofimoji --skin-tone neutral --hidden-descriptions --clipboarder wl-copy --typer wtype \
+    --selector-args="-theme ~/.config/rofi/custom-rofi/config-emoji.rasi"

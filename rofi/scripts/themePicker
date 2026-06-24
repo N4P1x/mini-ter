@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+THUMB_DIR="$HOME/.cache/rofi/thumbs"
+MENU_FILE="/tmp/rofi-theme-menu"
+
+generate_menu() {
+    > "$MENU_FILE"
+    for dir in ~/dotfiles/themes/*/; do
+        theme=${dir%/}; theme=${theme##*/}
+        [[ "$theme" == @(Wallpapers|.git|dynamic) ]] && continue
+        [[ ! -d "$dir/.config" ]] && continue
+        wall=$(find "$dir/backgrounds" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.webp" \) 2>/dev/null | sort -V | head -1)
+        [[ -z "$wall" ]] && continue
+        hash=$(echo -n "$wall" | md5sum | cut -c1-32)
+        thumb="$THUMB_DIR/$hash.jpg"
+        [[ -f "$thumb" ]] && echo "$theme|$thumb" >> "$MENU_FILE"
+    done
+    sort -o "$MENU_FILE" "$MENU_FILE"
+}
+
+apply() {
+    local theme="$1"
+    local wall=$(find "$HOME/dotfiles/themes/$theme/backgrounds" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.webp" \) 2>/dev/null | sort -V | head -1)
+    [[ -z "$wall" ]] && return 1
+
+    awww img "$wall" 2>/dev/null
+    matugen image "$wall" --prefer=darkness 2>/dev/null &
+    bash "$HOME/.config/rofi/scripts/sync-theme" &
+    generate_menu &
+}
+
+case "${1:-menu}" in
+    -g|--generate) generate_menu ;;
+    -a|--apply)
+        shift; apply "$1"; notify-send "Theme Applied" "$1" ;;
+    *)
+        [[ -f "$MENU_FILE" ]] || generate_menu
+        choice=$(cat "$MENU_FILE" | while IFS='|' read -r name img; do
+            echo -en "$name\0icon\x1f$img\n"
+        done | rofi -i -dmenu -p "Theme")
+        [[ -z "$choice" ]] && exit 0
+        apply "$choice"
+        notify-send "Theme Applied" "$choice"
+        ;;
+esac

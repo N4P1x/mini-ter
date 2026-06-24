@@ -1,0 +1,23 @@
+#!/bin/bash
+set -euo pipefail
+
+pidof rofi >/dev/null && { pkill rofi; exit 0; }
+
+declare -A mods=(
+  [0]="," [1]="SHIFT," [4]="CTRL," [5]="SHIFT CTRL,"
+  [8]="ALT," [9]="SHIFT ALT," [12]="CTRL ALT," [13]="SHIFT CTRL ALT,"
+  [64]="SUPER," [65]="SUPER SHIFT," [68]="SUPER CTRL,"
+  [69]="SUPER SHIFT CTRL," [72]="SUPER ALT," [73]="SUPER SHIFT ALT,"
+  [76]="SUPER CTRL ALT," [77]="SUPER SHIFT CTRL ALT,"
+)
+declare -A kmap=([10]=1 [11]=2 [12]=3 [13]=4 [14]=5 [15]=6 [16]=7 [17]=8 [18]=9 [19]=0 [20]="-" [21]="=")
+
+hyprctl -j binds | jq -r '.[] | "\(.modmask),\(.key),\(.keycode),\(.description),\(.dispatcher),\(.arg)"' | \
+sed -E 's/^([0-9]+),/${\1},/' | \
+while IFS=, read -r mod key keycode desc dispatcher arg; do
+  [[ -n "${mods[$mod]:-}" ]] && mod="${mods[$mod]%,}" || mod=""
+  [[ -z "$key" && -n "$keycode" ]] && key="${kmap[$keycode]:-code:$keycode}"
+  [[ "$key" =~ ^mouse: ]] && key="${key//mouse:/}"
+  [[ -z "$desc" ]] && desc="$dispatcher${arg:+, $arg}"
+  printf "%-35s → %s\n" "${mod:+$mod + }$key" "$desc"
+done | sort -u | rofi -dmenu -i -p "" -config ~/.config/rofi/custom-rofi/config-keybinds.rasi

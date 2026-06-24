@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -euo pipefail
+
+echo "═══════════════════════════════════════════════════════════════════════════"
+echo "  SYSTEM OPTIMIZATION - Applying all configurations"
+echo "═══════════════════════════════════════════════════════════════════════════"
+echo ""
+
+echo "⚡ CPU: Setting performance mode..."
+for cpu in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do
+    echo "performance" | sudo tee "$cpu" 2>/dev/null || true
+done
+
+echo "🧠 Memory: Applying optimizations..."
+sudo sysctl -p /etc/sysctl.d/99-memory.conf 2>/dev/null || true
+
+echo "🎨 Theme: Syncing to all applications..."
+CATBUG0X1_SKIP_WALLPAPER=1 "$HOME/.config/hypr/scripts/theme/sync-all"
+
+echo "🎯 Hyprland: Applying performance settings..."
+
+sed -i 's/animations {/animations {\n    enabled = false/' ~/.config/hypr/looknfeel.conf 2>/dev/null || true
+
+
+hyprctl setcursor Bibata-Modern-Ice 24 2>/dev/null || true
+
+echo ""
+echo "═══════════════════════════════════════════════════════════════════════════"
+echo "  VERIFICATION"
+echo "═══════════════════════════════════════════════════════════════════════════"
+
+"$HOME/.config/hypr/scripts/theme/verify"
+
+echo ""
+echo "✅ System optimization complete!"
+echo ""
+echo "Quick commands:"
+echo "  sync-all   - Sync theme to everything"
+echo "  verify     - Verify theme sync"
+echo "  catbug0x1 switch <theme> - Change theme"

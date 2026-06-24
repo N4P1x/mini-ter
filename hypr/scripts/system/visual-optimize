@@ -1,0 +1,185 @@
+# ════════════════════════════════════════════════════════════════════════════════
+# VISUAL OPTIMIZATION - Sharp fonts, DPI, compositor
+# ════════════════════════════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────────────────────────
+# FONTS & DPI (1366x768 @ 12.1" = ~113 DPI)
+# ───────────────────────────────────────────────────────────────────────────────
+
+# ~/.config/gtk-3.0/settings.ini
+cat > ~/.config/gtk-3.0/settings.ini << 'EOF'
+[Settings]
+gtk-theme-name=dynamic
+gtk-icon-theme-name=Adwaita
+gtk-font-name=Inter 11
+gtk-cursor-theme-name=Bibata-Modern-Ice
+gtk-cursor-theme-size=24
+gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
+gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+gtk-button-images=0
+gtk-menu-images=0
+gtk-enable-event-sounds=1
+gtk-enable-input-feedback-sounds=0
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle=hintslight
+gtk-xft-rgba=rgb
+gtk-xft-dpi=98304
+gtk-application-prefer-dark-theme=1
+gtk-decoration-layout=:minimize,maximize,close
+EOF
+
+# ~/.config/gtk-4.0/settings.ini
+cat > ~/.config/gtk-4.0/settings.ini << 'EOF'
+[Settings]
+gtk-theme-name=dynamic
+gtk-icon-theme-name=Adwaita
+gtk-font-name=Inter 11
+gtk-cursor-theme-name=Bibata-Modern-Ice
+gtk-cursor-theme-size=24
+gtk-application-prefer-dark-theme=1
+gtk-decoration-layout=:minimize,maximize,close
+EOF
+
+# Qt fonts
+for v in 5 6; do
+    cat > ~/.config/qt${v}ct/qt${v}ct.conf << 'EOF'
+general {
+    font_family = "Inter"
+    font_size = 11
+}
+
+[Interface]
+font-family=Inter
+font-size=11
+icon-theme=Adwaita
+theme=dynamic
+cursor-theme=Bibata-Modern-Ice
+cursor-size=24
+dialogs-use-header=false
+show-accessibility=true
+
+[ColorScheme]
+prefer-dark=true
+EOF
+done
+
+# ───────────────────────────────────────────────────────────────────────────────
+# HYPRLAND DPI & SCALING
+# ───────────────────────────────────────────────────────────────────────────────
+
+# ~/.config/hypr/monitors.conf - Already has correct resolution (1366x768)
+# Scale 1 for native DPI
+
+# Add to ~/.config/hypr/envs.conf:
+echo "
+# Font rendering
+export FREETYPE_PROPERTIES=\"autohint=1:bitmap=0:hinting=1: hintstyle=hintslight\"
+export FONTCONFIG_PATH=/etc/fonts
+" >> ~/.config/hypr/envs.conf
+
+# ───────────────────────────────────────────────────────────────────────────────
+# FONT CONFIG
+# ───────────────────────────────────────────────────────────────────────────────
+
+# /etc/fonts/local.conf
+echo '<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+    <match target="font">
+        <edit name="antialias" mode="assign"><bool>true</bool></edit>
+        <edit name="hinting" mode="assign"><bool>true</bool></edit>
+        <edit name="hintstyle" mode="assign"><const>hintslight</const></edit>
+        <edit name="rgba" mode="assign"><const>rgb</const></edit>
+        <edit name="lcdfilter" mode="assign"><const>lcdlight</const></edit>
+    </match>
+    <match target="font" name="Inter">
+        <edit name="weight" mode="assign"><const>medium</const></edit>
+    </match>
+    <alias binding="strong">
+        <family>Inter</family>
+        <default>
+            <family>sans-serif</family>
+        </default>
+    </alias>
+</fontconfig>' | sudo tee /etc/fonts/local.conf 2>/dev/null || echo "Create /etc/fonts/local.conf manually for system-wide"
+
+# User font config
+mkdir -p ~/.config/fontconfig
+echo '<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+    <match target="font">
+        <edit name="antialias" mode="assign"><bool>true</bool></edit>
+        <edit name="hinting" mode="assign"><bool>true</bool></edit>
+        <edit name="hintstyle" mode="assign"><const>hintslight</const></edit>
+        <edit name="rgba" mode="assign"><const>rgb</const></edit>
+    </match>
+</fontconfig>' > ~/.config/fontconfig/fonts.conf
+
+# ───────────────────────────────────────────────────────────────────────────────
+# HYPRLAND VISUAL TWEAKS
+# ───────────────────────────────────────────────────────────────────────────────
+
+# Update looknfeel.conf for crisp visuals
+cat > ~/.config/hypr/looknfeel.conf << 'EOF'
+# ════════════════════════════════════════════════════════════════════════════════
+# LOOK & FEEL - Optimized for visual sharpness
+# ════════════════════════════════════════════════════════════════════════════════
+
+source = ~/.config/catbug0x1/current/.config/hypr/theme/colors.conf
+
+general {
+    gaps_in = 5
+    gaps_out = 12
+    border_size = 1
+    col.active_border = $secondary
+    col.inactive_border = $outline_variant
+    resize_on_border = true
+    layout = dwindle
+}
+
+decoration {
+    rounding = 0
+    
+    blur {
+        enabled = false
+        size = 0
+        passes = 0
+    }
+    
+    drop_shadow = true
+    shadow_range = 8
+    shadow_render_power = 2
+}
+
+misc {
+    disable_hyprland_logo = true
+    disable_splash_rendering = true
+    vfr = true
+    vrr = 0
+}
+
+input {
+    follow_mouse = 1
+    sensitivity = 0
+    touchpad {
+        natural_scroll = true
+    }
+}
+
+animations {
+    enabled = false
+}
+
+dwindle {
+    pseudotile = true
+    preserve_split = true
+}
+
+master {
+    new_on_top = false
+}
+EOF
+
+echo "Visual optimization complete!"

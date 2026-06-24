@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euo pipefail
+
+command -v ddcutil >/dev/null || { notify-send "Error" "ddcutil not installed"; exit 1; }
+
+state=$(ddcutil getvcp D6 2>/dev/null | grep -o 'sl=0x[0-9A-Fa-f]*') || state=""
+
+if [ "$state" = "sl=0x01" ]; then
+	ddcutil setvcp D6 05 2>/dev/null || true
+else
+	ddcutil setvcp D6 01 2>/dev/null || true
+fi

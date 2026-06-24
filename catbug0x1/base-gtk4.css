@@ -1,0 +1,79 @@
+
+window.background, window { background-color: @background; color: @foreground; }
+window.background.csd { background-color: @background; }
+window.background decoration { background-color: @headerbar_bg_color; }
+.view { background-color: @view_bg_color; }
+.view:selected { background-color: @theme_selected_bg_color; color: @theme_selected_fg_color; }
+.view:hover { background-color: rgba(232, 184, 154, 0.1); }
+.sidebar { background-color: @sidebar_bg_color; }
+.sidebar:selected { background-color: @theme_selected_bg_color; }
+headerbar, .titlebar { background-color: @headerbar_bg_color; }
+.titlebar:backdrop { background-color: @sidebar_bg_color; }
+.statusbar { background-color: @sidebar_bg_color; }
+toolbar, menubar { background-color: @headerbar_bg_color; }
+menu { background-color: @popover_bg_color; border: 1px solid @borders; border-radius: 8px; padding: 4px; }
+menuitem { background-color: transparent; border-radius: 4px; padding: 8px 12px; }
+menuitem:hover { background-color: @theme_selected_bg_color; }
+popover { background-color: @popover_bg_color; border: 1px solid @borders; border-radius: 8px; padding: 4px; }
+popover modelbutton { background-color: transparent; border-radius: 4px; padding: 8px 16px; }
+popover modelbutton:hover { background-color: @theme_selected_bg_color; }
+button { background-color: @card_bg_color; border: 1px solid @borders; border-radius: 6px; padding: 6px 12px; }
+button:hover { background-color: @accent; color: @accent_fg_color; }
+button:active { background-color: @sidebar_bg_color; }
+button:disabled { background-color: @insensitive_bg_color; color: @insensitive_fg_color; }
+button.suggested-action { background-color: @accent; color: @accent_fg_color; }
+button.destructive-action { background-color: @destructive_color; color: @background; }
+entry { background-color: @view_bg_color; border: 1px solid @borders; border-radius: 6px; padding: 6px 10px; }
+entry:focus { border-color: @accent; }
+entry:disabled { background-color: @insensitive_bg_color; }
+textview { background-color: @view_bg_color; }
+scrollbar { background-color: @background; }
+scrollbar > slider { background-color: @sidebar_bg_color; border-radius: 8px; }
+scrollbar > slider:hover { background-color: @accent; }
+scrollbar > slider:disabled { background-color: @insensitive_bg_color; }
+progressbar { background-color: @view_bg_color; }
+progressbar > progress { background-color: @accent; }
+progressbar > trough { background-color: @sidebar_bg_color; }
+treeview { background-color: @view_bg_color; }
+treeview:selected { background-color: @theme_selected_bg_color; }
+treeview > header > button { background-color: @headerbar_bg_color; }
+Rubberband { background-color: rgba(232, 184, 154, 0.3); border: 1px solid @accent; }
+.selection { background-color: @theme_selected_bg_color; color: @theme_selected_fg_color; }
+combobox { background-color: @card_bg_color; border: 1px solid @borders; border-radius: 6px; padding: 4px 8px; }
+combobox:hover { background-color: @accent; color: @accent_fg_color; }
+list { background-color: @view_bg_color; }
+list > row { background-color: transparent; }
+list > row:selected { background-color: @theme_selected_bg_color; }
+list > row:hover { background-color: rgba(232, 184, 154, 0.1); }
+frame { border: 1px solid @borders; border-radius: 6px; }
+separator { background-color: @borders; }
+dialog, messagedialog { background-color: @dialog_bg_color; }
+filechooser { background-color: @background; }
+infobar { background-color: @sidebar_bg_color; }
+infobar.info { background-color: @accent; color: @accent_fg_color; }
+infobar.warning { background-color: @warning_color; color: @background; }
+infobar.error { background-color: @destructive_color; color: @background; }
+tooltip { background-color: @popover_bg_color; border: 1px solid @borders; border-radius: 6px; padding: 4px 8px; }
+spinner { color: @accent; }
+switch { background-color: @sidebar_bg_color; }
+switch:checked { background-color: @accent; color: @accent_fg_color; }
+checkbutton, radiobutton { color: @foreground; }
+checkbutton:hover, radiobutton:hover { color: @accent; }
+checkbutton > check { background-color: @card_bg_color; border: 1px solid @borders; border-radius: 4px; }
+checkbutton > check:checked { background-color: @accent; color: @accent_fg_color; }
+radiobutton > radio { background-color: @card_bg_color; border: 1px solid @borders; border-radius: 50%; }
+radiobutton > radio:checked { background-color: @accent; color: @accent_fg_color; }
+label:selected { background-color: @theme_selected_bg_color; }
+.dim-label { color: @insensitive_fg_color; }
+card { background-color: @card_bg_color; border-radius: 8px; border: 1px solid @borders; }
+.preferences-page { background-color: @background; }
+preferencesgroup > box { background-color: @card_bg_color; border-radius: 8px; padding: 12px; }
+windowdialog, .aboutdialog, assistant { background-color: @dialog_bg_color; }
+assistant > stack { background-color: @dialog_bg_color; }
+NautilusIconView, NautilusListView { background-color: @view_bg_color; }
+NautilusIconView:selected, NautilusListView:selected, .NautilusWindow .view:selected {
+    background-color: @theme_selected_bg_color; color: @theme_selected_fg_color;
+}
+.NautilusWindow .view:selected:focus, .NautilusWindow .view:selected:hover {
+    background-color: @theme_selected_bg_color;
+}

@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+
+[[ -n "${1:-}" ]] || { echo "Usage: $(basename "$0") <url>"; exit 1; }
+
+lspci | grep -qi "VGA.*AMD\|Radeon" && export LIBVA_DRIVER_NAME=radeonsi
+lspci | grep -qi "VGA.*Intel" && export LIBVA_DRIVER_NAME=iHD
+
+browser=$(xdg-settings get default-web-browser 2>/dev/null || echo "")
+[[ "$browser" =~ ^(brave|chrome|edge|opera|vivaldi|helium) ]] || browser="brave-browser.desktop"
+browser_exec=$(sed -n 's/^Exec=\([^ ]*\).*/\1/p' "/usr/share/applications/$browser" 2>/dev/null | head -1)
+[[ -z "$browser_exec" ]] && browser_exec="brave"
+
+exec setsid uwsm-app -- "$browser_exec" --app="$1" "${@:2}"

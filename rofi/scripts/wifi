@@ -1,0 +1,39 @@
+#!/bin/bash
+set -euo pipefail
+
+notify-send "Wi-Fi Scanning..." || true
+
+require_cmd() { command -v "$1" >/dev/null 2>&1 || { notify-send "Missing" "$1"; exit 1; }; }
+require_cmd nmcli
+require_cmd rofi
+
+scan_wifi() {
+    nmcli --fields SECURITY,SSID device wifi list 2>/dev/null | \
+        sed '1d; /^--/d; s/  */ /g' | \
+        awk '$2 != "" { print }'
+}
+
+is_enabled() { nmcli -fields WIFI g 2>/dev/null | grep -q "^WIFI.*enabled"; }
+
+connect() {
+    local ssid="$1" pass="${2:-}"
+    
+    if nmcli -g NAME connection 2>/dev/null | grep -qwx "$ssid"; then
+        nmcli connection up id "$ssid" && notify-send "Wi-Fi" "Connected to $ssid"
+    else
+        [[ -z "$pass" ]] && pass=$(rofi -dmenu -p "Password:") && [[ -z "$pass" ]] && exit 0
+        nmcli device wifi connect "$ssid" password "$pass" 2>/dev/null && \
+            notify-send "Wi-Fi" "Connected to $ssid" || notify-send "Wi-Fi" "Connection failed"
+    fi
+}
+
+toggle=$([ "$(is_enabled)" ] && echo "󰖪  Disable Wi-Fi" || echo "󰖩  Enable Wi-Fi")
+
+chosen=$(echo -e "$toggle\n$(scan_wifi)" | rofi -dmenu -i -selected-row 1 -p "Wi-Fi:")
+[[ -z "$chosen" ]] && exit 0
+
+case "$chosen" in
+    "󰖩  Enable Wi-Fi") nmcli radio wifi on ;;
+    "󰖪  Disable Wi-Fi") nmcli radio wifi off ;;
+    *) connect "${chosen:3}" ;;
+esac

@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -e
+
+log() { echo "[AUTO-OPT] $*"; }
+
+log "Starting system optimization..."
+
+log "Setting CPU to performance mode..."
+for f in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do
+    echo "performance" | sudo tee "$f" 2>/dev/null || true
+done
+
+log "Applying memory settings..."
+sudo sysctl -p /etc/sysctl.d/99-memory.conf 2>/dev/null || true
+
+log "Syncing theme..."
+CATBUG0X1_SKIP_WALLPAPER=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1
+
+log "Applying visual optimizations..."
+[[ -f "$HOME/.config/hypr/looknfeel.conf" ]] && {
+    sed -i 's/animations {/animations {\n    enabled = false/' "$HOME/.config/hypr/looknfeel.conf" 2>/dev/null || true
+    sed -i 's/blur {/blur {\n    enabled = false/' "$HOME/.config/hypr/looknfeel.conf" 2>/dev/null || true
+}
+
+log "Setting cursor..."
+hyprctl setcursor Bibata-Modern-Ice 24 2>/dev/null || true
+
+log "GPU optimization loaded (require reboot for full effect)"
+
+log "Cleaning up..."
+pkill -9 -f "chrome://tray" 2>/dev/null || true
+
+log "Restarting services..."
+pkill -x waybar 2>/dev/null && uwsm-app -- waybar >/dev/null 2>&1 &
+pkill -x mako 2>/dev/null && mako >/dev/null 2>&1 &
+
+log "Final theme sync..."
+CATBUG0X1_SKIP_WALLPAPER=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1
+
+log "Optimization complete!"

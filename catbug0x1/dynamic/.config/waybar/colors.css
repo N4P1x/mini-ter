@@ -1,0 +1,33 @@
+
+
+
+@define-color foreground #ede1d4;
+@define-color accent_color #f2be6e;
+@define-color red #ffb4ab;
+@define-color yellow #f2be6e;
+@define-color cyan #b6cea3;
+@define-color blue #8ba3eb;
+@define-color green #b6cea3;
+@define-color magenta #dcc3a1;
+
+
+@define-color waybar_accent rgba(242, 190, 110, 0.10);
+@define-color waybar_accent_fg @foreground;
+@define-color surface_container #241f17;
+@define-color on_background #ede1d4;
+@define-color error #ffb4ab;
+
+
+@define-color waybar_bg @surface_container;
+@define-color waybar_border @waybar_accent;
+@define-color waybar_fg @foreground;
+@define-color waybar_dim rgba(242, 190, 110, 0.15);
+@define-color col_cpu @green;
+@define-color col_mem @cyan;
+@define-color col_disk @magenta;
+@define-color col_net @blue;
+@define-color col_vol @accent_color;
+@define-color col_bat @green;
+@define-color col_warn @yellow;
+@define-color col_crit @red;
+@define-color dark_orange @accent_color;

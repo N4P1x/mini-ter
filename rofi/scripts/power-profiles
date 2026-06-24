@@ -1,0 +1,8 @@
+#!/bin/bash
+set -euo pipefail
+
+profile=$(powerprofilesctl list | awk '/^[*[:space:]]+[a-zA-Z0-9-]+:$/ { gsub(/^[*[:space:]]+|:$/,""); print }' | tac | \
+    rofi -dmenu -p "" -config "$HOME/.config/rofi/custom-rofi/config-power-profiles.rasi")
+
+[[ -n "$profile" ]] && powerprofilesctl set "$profile" && \
+    notify-send -i "power-profile-${profile}-symbolic" -a "Power" "Power Profile" "Switched to ${profile}"

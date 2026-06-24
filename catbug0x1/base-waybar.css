@@ -1,0 +1,180 @@
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrainsMono Nerd Font Mono", "monospace";
+  font-size: 11px;
+  min-height: 24px;
+}
+
+@keyframes blinker {
+  from { opacity: 1.0; }
+  50% { opacity: 0.3; }
+  to { opacity: 1.0; }
+}
+
+window#waybar {
+  background: alpha(@background, 0.95);
+  color: @on_background;
+  border-top: 1px solid alpha(@outline_variant, 0.55);
+  margin: 0;
+  padding: 0 6px;
+  font-weight: 600;
+}
+
+#workspaces button {
+  margin: 0 1px;
+  padding: 0 6px;
+  transition: background-color 0.15s ease-in-out;
+  background: transparent;
+  color: alpha(@on_background, 0.72);
+}
+
+#workspaces button:hover {
+  background: alpha(@surface_container_high, 0.5);
+  color: @on_background;
+}
+
+#workspaces button.visible {
+  background: alpha(@surface_container_high, 0.6);
+  color: @on_background;
+}
+
+#workspaces button.active {
+  color: @primary;
+  font-weight: 700;
+  background: alpha(@primary, 0.14);
+  border-bottom: 1px solid alpha(@primary, 0.7);
+  animation: none;
+}
+
+#workspaces button.urgent {
+  background: alpha(@error, 0.15);
+  color: @error;
+  font-weight: 700;
+}
+
+#clock {
+  color: @on_background;
+  font-weight: 600;
+  padding: 0 8px;
+  margin-left: 4px;
+  background: alpha(@surface_container, 0.35);
+}
+
+#cpu {
+  color: @primary;
+  padding: 0 8px;
+  background: alpha(@primary, 0.06);
+}
+
+#cpu:hover {
+  background: alpha(@primary, 0.15);
+  color: @primary_fixed_dim;
+}
+
+#memory {
+  color: @secondary;
+  padding: 0 8px;
+  background: alpha(@secondary, 0.06);
+}
+
+#disk {
+  color: @tertiary;
+  padding: 0 8px;
+  background: alpha(@tertiary, 0.06);
+}
+
+#network {
+  color: @primary;
+  padding: 0 8px;
+  background: alpha(@primary, 0.06);
+}
+
+#network.disconnected {
+  color: @error;
+  background: alpha(@error, 0.1);
+}
+
+#pulseaudio {
+  color: @secondary;
+  padding: 0 8px;
+  background: alpha(@secondary, 0.06);
+}
+
+#pulseaudio.muted {
+  color: @error;
+  background: alpha(@error, 0.1);
+}
+
+#battery {
+  color: @primary_fixed_dim;
+  padding: 0 8px;
+  background: alpha(@primary_fixed_dim, 0.06);
+}
+
+#battery.charging {
+  color: @primary;
+  background: alpha(@primary, 0.12);
+}
+
+#battery.critical {
+  color: @error;
+  background: alpha(@error, 0.15);
+  animation: blinker 1s linear infinite;
+}
+
+#backlight {
+  color: @tertiary;
+  padding: 0 8px;
+  background: alpha(@tertiary, 0.06);
+}
+
+#bluetooth {
+  color: @secondary;
+  padding: 0 8px;
+  background: alpha(@secondary, 0.06);
+}
+
+#bluetooth.unavailable {
+  opacity: 0.5;
+}
+
+#custom-power {
+  color: @error;
+  padding: 0 8px;
+  background: alpha(@error, 0.08);
+  margin-left: 4px;
+}
+
+#mpris {
+  color: @on_background;
+  padding: 0 8px;
+  background: alpha(@surface_container, 0.3);
+  margin: 0 2px;
+}
+
+#tray {
+  color: @on_background;
+  padding: 0 6px;
+  background: transparent;
+  margin-right: 2px;
+}
+
+#tray > .passive {
+  padding: 0 4px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease-in-out;
+}
+
+#tray > .passive:hover {
+  opacity: 1;
+}
+
+tooltip {
+  background: alpha(@background, 0.96);
+  border: 1px solid alpha(@outline_variant, 0.6);
+  border-radius: 0;
+  color: @on_background;
+  padding: 4px 6px;
+}

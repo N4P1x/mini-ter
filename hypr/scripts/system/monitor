@@ -1,0 +1,170 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
+THEME=$(cat ~/.config/catbug0x1/.current-theme 2>/dev/null)
+
+draw_bar() {
+    local value=$1
+    local max=$2
+    local width=20
+    local filled=$((value * width / max))
+    local empty=$((width - filled))
+    
+    printf "["
+    for i in $(seq 1 $filled); do printf "█"; done
+    for i in $(seq 1 $empty); do printf "░"; done
+    printf "] %d%%" "$value"
+}
+
+get_cpu_usage() {
+    top -bn1 | grep "Cpu(s)" | awk '{print $2}' | tr -d '%'
+}
+
+get_cpu_temp() {
+    temp=$(cat /sys/class/thermal/thermal_zone0/temp 2>/dev/null || echo 0)
+    echo $((temp / 1000))
+}
+
+get_cpu_freq() {
+    cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq 2>/dev/null | awk '{print $1/1000000}'
+}
+
+get_mem_used() {
+    free | awk '/^Mem:/ {printf "%.0f", $3/$2*100}'
+}
+
+get_disk_used() {
+    df / | awk 'NR==2 {print $5}' | tr -d '%'
+}
+
+print_header() {
+    clear
+    echo -e "${BOLD}═══════════════════════════════════════════════════════════════════════════════${RESET}"
+    echo -e "${BOLD}  SYSTEM MONITOR v2.0${RESET}  |  Theme: ${GREEN}$THEME${RESET}  |  $(date '+%H:%M:%S')"
+    echo -e "${BOLD}═══════════════════════════════════════════════════════════════════════════════${RESET}"
+    echo ""
+}
+
+print_cpu() {
+    local usage=$(get_cpu_usage)
+    local temp=$(get_cpu_temp)
+    local freq=$(get_cpu_freq)
+    local gov=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 2>/dev/null)
+    
+    echo -e "${CYAN}┌─ CPU ─────────────────────────────────────────────────────────┐${RESET}"
+    printf "${CYAN}│${RESET} Usage:  "
+    draw_bar ${usage:-0} 100
+    echo ""
+    printf "${CYAN}│${RESET} Temp:   ${temp}°C"
+    [[ $temp -gt 80 ]] && echo -e " ${RED}HOT!${RESET}" || echo ""
+    printf "${CYAN}│${RESET} Freq:   ${freq}GHz"
+    [[ $(echo "$freq > 2.5" | bc -l 2>/dev/null) -eq 1 ]] && echo -e " ${GREEN}✓${RESET}" || echo ""
+    printf "${CYAN}│${RESET} Gov:    $gov"
+    [[ "$gov" == "performance" ]] && echo -e " ${GREEN}PERF${RESET}" || echo -e " ${YELLOW}SAVE${RESET}"
+    echo -e "${CYAN}└──────────────────────────────────────────────────────────────┘${RESET}"
+}
+
+print_memory() {
+    local used=$(get_mem_used)
+    local total=$(free -h | awk '/^Mem:/ {print $2}')
+    local used_h=$(free -h | awk '/^Mem:/ {print $3}')
+    local avail=$(free -h | awk '/^Mem:/ {print $7}')
+    
+    echo -e "${CYAN}┌─ MEMORY ───────────────────────────────────────────────────────┐${RESET}"
+    printf "${CYAN}│${RESET} Used:   $used_h / $total ("
+    draw_bar ${used:-0} 100
+    echo ""
+    printf "${CYAN}│${RESET} Avail:  $avail"
+    [[ $(echo "$used > 80" | bc -l 2>/dev/null) -eq 1 ]] && echo -e " ${RED}LOW!${RESET}" || echo ""
+    echo -e "${CYAN}└──────────────────────────────────────────────────────────────┘${RESET}"
+}
+
+print_storage() {
+    local used=$(get_disk_used)
+    local total=$(df -h / | awk 'NR==2 {print $2}')
+    local used_h=$(df -h / | awk 'NR==2 {print $3}')
+    
+    echo -e "${CYAN}┌─ STORAGE ───────────────────────────────────────────────────────┐${RESET}"
+    printf "${CYAN}│${RESET} Root:   $used_h / $total ("
+    draw_bar ${used:-0} 100
+    echo ""
+    echo -e "${CYAN}└──────────────────────────────────────────────────────────────┘${RESET}"
+}
+
+print_theme() {
+    echo -e "${CYAN}┌─ THEME ─────────────────────────────────────────────────────────┐${RESET}"
+    printf "${CYAN}│${RESET} Current:   ${GREEN}$THEME${RESET}\n"
+    printf "${CYAN}│${RESET} GTK3:       $(grep gtk-theme-name ~/.config/gtk-3.0/settings.ini 2>/dev/null | cut -d= -f2)\n"
+    printf "${CYAN}│${RESET} GTK4:       $(grep gtk-theme-name ~/.config/gtk-4.0/settings.ini 2>/dev/null | cut -d= -f2)\n"
+    printf "${CYAN}│${RESET} Qt5:        $(grep ^theme= ~/.config/qt5ct/qt5ct.conf 2>/dev/null | cut -d= -f2)\n"
+    printf "${CYAN}│${RESET} Qt6:        $(grep ^theme= ~/.config/qt6ct/qt6ct.conf 2>/dev/null | cut -d= -f2)\n"
+    echo -e "${CYAN}└──────────────────────────────────────────────────────────────┘${RESET}"
+}
+
+print_services() {
+    echo -e "${CYAN}┌─ SERVICES ────────────────────────────────────────────────────┐${RESET}"
+    
+    for svc in Hyprland waybar mako swaync; do
+        if pgrep -x "$svc" >/dev/null 2>&1; then
+            printf "${CYAN}│${RESET} ${GREEN}●${RESET} $svc\n"
+        else
+            printf "${CYAN}│${RESET} ${RED}○${RESET} $svc\n"
+        fi
+    done
+    
+    echo -e "${CYAN}└──────────────────────────────────────────────────────────────┘${RESET}"
+}
+
+print_menu() {
+    echo -e "${CYAN}┌─ COMMANDS ────────────────────────────────────────────────────┐${RESET}"
+    echo -e "${CYAN}│${RESET} [s] Sync Theme    [r] Reload Hyprland    [c] CPU Perf"
+    echo -e "${CYAN}│${RESET} [w] Restart Waybar [t] Switch Theme      [v] Verify"
+    echo -e "${CYAN}│${RESET} [a] Apply All     [d] Dashboard         [q] Quit"
+    echo -e "${CYAN}└──────────────────────────────────────────────────────────────┘${RESET}"
+}
+
+main() {
+    local key=""
+    
+    while true; do
+        print_header
+        print_cpu
+        echo ""
+        print_memory
+        echo ""
+        print_storage
+        echo ""
+        print_theme
+        echo ""
+        print_services
+        echo ""
+        print_menu
+        echo ""
+        
+        read -t 3 -n 1 key 2>/dev/null
+        
+        case "$key" in
+            s|S) ~/.config/hypr/scripts/theme/sync-all ;;
+            r|R) hyprctl reload ;;
+            c|C) for f in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo performance | sudo tee "$f" 2>/dev/null; done; echo "CPU: performance" ;;
+            w|W) pkill -x waybar; uwsm-app -- waybar &; echo "Waybar restarted" ;;
+            t|T) echo "Use: catbug0x1 switch <theme>" ;;
+            v|V) ~/.config/hypr/scripts/theme/verify ;;
+            a|A) ~/.config/hypr/scripts/system/apply-optimizations ;;
+            d|D) ~/.config/hypr/scripts/system/dashboard ;;
+            q|Q) break ;;
+        esac
+    done
+    
+    echo ""
+    echo "Goodbye!"
+}
+
+main "$@"

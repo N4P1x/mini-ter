@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+pkill -x rofi 2>/dev/null || true
+query=$(rofi -dmenu -config "$HOME/.config/rofi/custom-rofi/config-search.rasi" -p "")
+[[ -n "$query" ]] && xdg-open "https://www.google.com/search?q=${query// /+}"

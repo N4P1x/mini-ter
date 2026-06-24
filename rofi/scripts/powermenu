@@ -1,0 +1,15 @@
+#!/bin/bash
+
+SCRDIR="$HOME/.config/hypr/scripts"
+CONFIG="$HOME/.config/rofi/custom-rofi/config-powermenu.rasi"
+
+choice=$(printf '%s\n' "Shutdown" "Reboot" "Suspend" "Logout" | rofi -dmenu -config "$CONFIG" -format "s" -p "")
+
+[ -z "$choice" ] && exit 1
+
+case "$choice" in
+    Shutdown) exec "$SCRDIR/graceful-shutdown" ;;
+    Reboot) exec "$SCRDIR/graceful-reboot" ;;
+    Suspend) exec systemctl suspend ;;
+    Logout) exec hyprctl dispatch exit ;;
+esac

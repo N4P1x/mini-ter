@@ -1,0 +1,23 @@
+#!/bin/bash
+
+THEME=$(cat ~/.config/catbug0x1/.current-theme)
+GREEN='\033[0;32m'; RED='\033[0;31m'; RESET='\033[0m'
+
+echo "Theme: $THEME"
+echo ""
+
+chk() { [[ -f "$1" ]] && echo "✓ $2" || echo "✗ $2"; }
+
+chk "$HOME/.config/gtk-3.0/gtk.css" "GTK3"
+chk "$HOME/.config/gtk-4.0/gtk.css" "GTK4"
+chk "$HOME/.config/waybar/colors.css" "Waybar"
+chk "$HOME/.config/waybar/style.css" "Waybar"
+chk "$HOME/.config/rofi/config.rasi" "Rofi"
+chk "$HOME/.config/mako/colors" "Mako"
+chk "$HOME/.config/swaync/matugen/colors.css" "SwayNC"
+chk "$HOME/.config/hypr/theme/colors.conf" "Hyprland"
+
+echo ""
+echo "Colors match:"
+echo "  GTK: $(grep background ~/.config/gtk-3.0/gtk.css | head -1 | tr -d '\n')"
+echo "  Mako: $(head -1 ~/.config/mako/colors | tr -d '\n')"

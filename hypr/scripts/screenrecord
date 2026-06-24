@@ -1,0 +1,39 @@
+#!/bin/bash
+set -euo pipefail
+
+OUTPUT_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}"
+[[ -d "$OUTPUT_DIR" ]] || { notify-send "Error" "Videos dir missing"; exit 1; }
+
+WEBCAM=0; AUDIO=""; for arg in "$@"; do
+  case "$arg" in
+    --with-desktop-audio) AUDIO="${AUDIO}default_output|" ;;
+    --with-microphone-audio) AUDIO="${AUDIO}default_input|" ;;
+    --with-webcam) WEBCAM=1 ;;
+    --stop-recording) pkill -SIGINT -f "^gpu-screen-recorder"; exit 0 ;;
+  esac
+done
+AUDIO="${AUDIO%|}"
+
+start_webcam() {
+  local scale=$(hyprctl monitors -j | jq -r '.[] | select(.focused == true).scale')
+  local width=$((360 * ${scale%.*}))
+  ffplay -f v4l2 -video_size 640x360 -framerate 30 /dev/video0 -vf "scale=${width}:-1" -noborder -loglevel quiet &>/dev/null &
+}
+
+stop_recording() {
+  pkill -SIGINT -f "^gpu-screen-recorder" 2>/dev/null || true
+  for i in {1..50}; do pgrep -f "^gpu-screen-recorder" >/dev/null || break; sleep 0.1; done
+  pkill -9 -f "^gpu-screen-recorder" 2>/dev/null || true
+  pkill -f "WebcamOverlay" 2>/dev/null || true
+  pkill -RTMIN+8 waybar
+  notify-send "Recording" "Stopped"
+}
+
+pgrep -f "^gpu-screen-recorder" >/dev/null && { stop_recording; exit 0; }
+
+[[ $WEBCAM -eq 1 ]] && start_webcam
+FILENAME="$OUTPUT_DIR/screenrecording-$(date +'%Y-%m-%d_%H-%M-%S').mp4"
+
+gpu-screen-recorder -w portal -f 60 -fallback-cpu-encoding yes -o "$FILENAME" ${AUDIO:+-a "$AUDIO"} -ac aac &>/dev/null &
+pkill -RTMIN+8 waybar
+notify-send "Recording" "Started"

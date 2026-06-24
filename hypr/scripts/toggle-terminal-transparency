@@ -1,0 +1,16 @@
+#!/bin/bash
+
+toggle_conf() {
+    local file="$1" pattern="$2" a="$3" b="$4" signal="$5"
+    [[ ! -f "$file" ]] && return
+    if grep -q "$a" "$file"; then
+        sed -i "s|$a|$b|" "$file"
+    else
+        sed -i "s|$b|$a|" "$file"
+    fi
+    [[ -n "$signal" ]] && pkill -SIGUSR1 -x "$signal" 2>/dev/null || true
+}
+
+toggle_conf "$HOME/.config/kitty/kitty.conf" "background_opacity" "background_opacity 1" "background_opacity 0.8" "kitty"
+toggle_conf "$HOME/.config/ghostty/config" "background-opacity" "background-opacity = 1" "background-opacity = 0.8" "ghostty"
+toggle_conf "$HOME/.config/alacritty/alacritty.toml" "opacity" "opacity = 1" "opacity = 0.8"

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+T=$(cat "$HOME/.config/catbug0x1/.current-theme")
+SRC="$HOME/.config/catbug0x1/$T/.config"
+
+echo "Theme: $T"
+echo ""
+
+BG=$(grep "^@define-color background" "$SRC/gtk-3.0/colors.css" | sed 's/.*#\([0-9a-fA-F]*\).*/\1/')
+FG=$(grep "^@define-color foreground" "$SRC/gtk-3.0/colors.css" | sed 's/.*#\([0-9a-fA-F]*\).*/\1/')
+ACCENT=$(grep "^@define-color blue" "$SRC/gtk-3.0/colors.css" | sed 's/.*#\([0-9a-fA-F]*\).*/\1/')
+
+echo "Colors:"
+echo "  Background: #$BG"
+echo "  Foreground: #$FG"
+echo "  Accent:     #$ACCENT"
+echo ""
+
+echo "Configs: $(ls "$SRC" | wc -l)"
+echo "Apps: $(ls "$SRC" | tr '\n' ', ')"

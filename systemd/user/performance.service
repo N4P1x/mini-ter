@@ -1,0 +1,11 @@
+[Unit]
+Description=System Performance Optimizer
+After=graphical.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.config/hypr/scripts/system/apply-optimizations
+RemainAfterExit=yes
+
+[Install]
+WantedBy=graphical.target

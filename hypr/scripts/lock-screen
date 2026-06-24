@@ -1,0 +1,15 @@
+#!/bin/bash
+set -euo pipefail
+shopt -s nullglob
+
+wallbin=$(command -v swww && echo swww || command -v awww && echo awww) || {
+    notify-send "No wallpaper daemon" "Install swww or awww"
+    exit 1
+}
+
+CACHE="$HOME/.cache/$wallbin"
+MON=$(ls "$CACHE" 2>/dev/null | grep -v '_' | head -1)
+[[ -f "$CACHE/$MON" ]] && ln -sf "$(tr '\0' '\n' < "$CACHE/$MON" | sed -n '3p')" "$HOME/.cache/hyprlock-wallpaper"
+
+pkill -f "alacritty --class Screensaver" 2>/dev/null || true
+pidof hyprlock >/dev/null || exec hyprlock

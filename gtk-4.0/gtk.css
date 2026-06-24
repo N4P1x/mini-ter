@@ -1,0 +1,129 @@
+
+
+
+@define-color background     #17130b;
+@define-color foreground     #ebe1d4;
+@define-color black          #17130b;
+@define-color red            #ffb4ab;
+@define-color green          #ebc16c;
+@define-color yellow         #b1cfa8;
+@define-color blue           #d9c4a0;
+@define-color magenta        #344d2f;
+@define-color cyan           #53452a;
+@define-color white          #ebe1d4;
+@define-color bright_black   #241f17;
+@define-color bright_white   #ebe1d4;
+
+
+@define-color accent_bg_color #ebc16c;
+@define-color accent_fg_color #402d00;
+@define-color accent_color #ebc16c;
+
+
+@define-color window_bg_color #17130b;
+@define-color window_fg_color #ebe1d4;
+
+
+@define-color view_bg_color #17130b;
+@define-color view_fg_color #ebe1d4;
+
+
+@define-color sidebar_bg_color #1f1b13;
+@define-color sidebar_fg_color #ebe1d4;
+@define-color sidebar_backdrop_color #17130b;
+@define-color sidebar_shade_color #17130b;
+
+
+@define-color headerbar_bg_color #1f1b13;
+@define-color headerbar_fg_color #ebe1d4;
+@define-color headerbar_backdrop_color #17130b;
+@define-color headerbar_shade_color #17130b;
+
+
+@define-color card_bg_color #241f17;
+@define-color card_fg_color #ebe1d4;
+
+
+@define-color popover_bg_color #241f17;
+@define-color popover_fg_color #ebe1d4;
+
+
+@define-color dialog_bg_color #241f17;
+@define-color dialog_fg_color #ebe1d4;
+
+
+@define-color destructive_bg_color #ffb4ab;
+@define-color destructive_fg_color #690005;
+@define-color destructive_color #ffb4ab;
+
+@define-color success_bg_color #ebc16c;
+@define-color success_fg_color #402d00;
+@define-color success_color #ebc16c;
+
+@define-color warning_bg_color #b1cfa8;
+@define-color warning_fg_color #1e361b;
+@define-color warning_color #b1cfa8;
+
+@define-color error_bg_color #ffb4ab;
+@define-color error_fg_color #690005;
+@define-color error_color #ffb4ab;
+
+
+@define-color borders alpha(@foreground, 0.1);
+
+@define-color theme_fg_color @foreground;
+@define-color theme_text_color @foreground;
+@define-color theme_bg_color @background;
+@define-color theme_base_color @black;
+@define-color theme_selected_bg_color @accent_bg_color;
+@define-color theme_selected_fg_color @accent_fg_color;
+
+@define-color insensitive_bg_color @background;
+@define-color insensitive_fg_color @bright_black;
+@define-color insensitive_base_color @black;
+
+@define-color theme_unfocused_fg_color @foreground;
+@define-color theme_unfocused_text_color @foreground;
+@define-color theme_unfocused_bg_color @background;
+@define-color theme_unfocused_base_color @black;
+@define-color theme_unfocused_selected_bg_color @accent_bg_color;
+@define-color theme_unfocused_selected_fg_color @accent_fg_color;
+
+@define-color unfocused_insensitive_color @bright_black;
+@define-color unfocused_borders alpha(@foreground, 0.1);
+
+@define-color content_view_bg @view_bg_color;
+@define-color text_view_bg @view_bg_color;
+
+
+messagedialog {
+    background-color: @dialog_bg_color;
+}
+
+messagedialog label {
+    color: @dialog_fg_color;
+}
+
+banner revealer widget {
+    background: @bright_black;
+    padding: 5px;
+    color: @foreground;
+}
+
+alertdialog.background {
+    background-color: @dialog_bg_color;
+    color: @dialog_fg_color;
+}
+
+alertdialog box {
+    background-color: @dialog_bg_color;
+}
+
+alertdialog label {
+    color: @dialog_fg_color;
+}
+
+toast {
+    background-color: @card_bg_color;
+    color: @foreground;
+}

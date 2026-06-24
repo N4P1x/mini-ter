@@ -1,0 +1,31 @@
+#!/bin/bash
+set -euo pipefail
+
+OUTPUT_DIR="$HOME/Pictures/Screenshots"
+[[ -d "$OUTPUT_DIR" ]] || { notify-send "Error" "Screenshots dir missing"; exit 1; }
+pkill slurp 2>/dev/null && exit 0
+
+MODE="${1:-smart}"
+OUTPUT="$OUTPUT_DIR/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png"
+
+get_selection() {
+  case "$MODE" in
+    fullscreen)
+      hyprctl monitors -j | jq -r '.[] | select(.focused == true) | "\(.x),\(.y) \((.width / .scale) | floor)x\((.height / .scale) | floor)"'
+      ;;
+    *)
+      hyprctl clients -j | jq -r '[.[] | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"] | .[]'
+      ;;
+  esac
+}
+
+SLURP_OPTS=(-r)
+[[ "$MODE" == "smart" ]] && SLURP_OPTS=()
+
+SELECTION=$(slurp "${SLURP_OPTS[@]}" 2>/dev/null) || exit 0
+
+if [[ "$MODE" == "clipboard" ]]; then
+  grim -g "$SELECTION" - | wl-copy
+else
+  grim -g "$SELECTION" - | satty --filename - --output-filename "$OUTPUT" --early-exit --actions-on-enter save-to-clipboard --save-after-copy --copy-command 'wl-copy'
+fi

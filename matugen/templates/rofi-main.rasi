@@ -1,0 +1,117 @@
+configuration {
+    modi: "drun";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    display-drun: "";
+    drun-display-format: "{name}";
+    disable-history: false;
+    hide-scrollbar: true;
+    sidebar-mode: false;
+    terminal: "kitty";
+    font: "CaskaydiaCove Nerd Font Mono 11";
+}
+
+* {
+    background: transparent;
+    background-alt: transparent;
+    foreground: {{colors.on_surface.default.hex}};
+    selected: {{colors.surface_container_high.default.hex}};
+    active: {{colors.surface_container.default.hex}};
+    urgent: {{colors.error.default.hex}};
+    border-colour: transparent;
+    separatorcolor: transparent;
+    background-color: transparent;
+    text-color: {{colors.on_surface.default.hex}};
+}
+
+window {
+    transparency: "real";
+    location: center;
+    anchor: center;
+    width: 350px;
+    border: 0;
+    border-radius: 12px;
+    background-color: {{colors.surface_container.default.hex}};
+}
+
+mainbox {
+    padding: 12px;
+    spacing: 10px;
+    background-color: transparent;
+    children: [ "inputbar", "listview" ];
+}
+
+inputbar {
+    padding: 10px 14px;
+    margin: 0;
+    border: 0;
+    border-radius: 8px;
+    background-color: {{colors.surface_container_high.default.hex}};
+    children: [ "entry" ];
+}
+
+prompt {
+    enabled: false;
+}
+
+entry {
+    placeholder: "search";
+    placeholder-color: {{colors.on_surface_variant.default.hex}};
+    background-color: transparent;
+    text-color: {{colors.on_surface.default.hex}};
+    horizontal-align: 0.5;
+    cursor: text;
+    font: "CaskaydiaCove Nerd Font Mono 10";
+}
+
+listview {
+    columns: 1;
+    lines: 5;
+    spacing: 4px;
+    cycle: true;
+    dynamic: true;
+    scrollbar: false;
+    layout: vertical;
+    fixed-height: true;
+    fixed-columns: true;
+    background-color: transparent;
+}
+
+element {
+    padding: 8px 12px;
+    spacing: 10px;
+    border-radius: 8px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: {{colors.on_surface.default.hex}};
+}
+
+element selected.normal {
+    background-color: {{colors.primary_container.default.hex}};
+    text-color: {{colors.on_primary_container.default.hex}};
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color: {{colors.on_surface.default.hex}};
+}
+
+element-icon {
+    size: 26px;
+    background-color: transparent;
+    cursor: inherit;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    highlight: none;
+    vertical-align: 0.5;
+    horizontal-align: 0.0;
+    cursor: inherit;
+    font: "CaskaydiaCove Nerd Font Mono 11";
+}

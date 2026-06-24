@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+D="$HOME/dotfiles/themes/dynamic"
+
+for src in "$D/.config/gtk-3.0/colors.css" "$D/.config/gtk-4.0/colors.css" "$D/.config/rofi/config.rasi" "$D/.config/mako/colors" "$D/.config/hypr/theme/colors.conf" "$D/.config/kitty/colors.conf" "$D/.config/starship.toml"; do
+    [[ -f "$src" ]] || continue
+    case "$src" in
+        *gtk-3.0*) cp "$src" "$HOME/.config/gtk-3.0/colors.css" ;;
+        *gtk-4.0*) cp "$src" "$HOME/.config/gtk-4.0/colors.css" ;;
+        *rofi*) cp "$src" "$HOME/.config/rofi/config.rasi" ;;
+        *mako*) cp "$src" "$HOME/.config/mako/colors" ;;
+        *hypr*) cp "$src" "$HOME/.config/hypr/theme/colors.conf" ;;
+        *kitty*) cp "$src" "$HOME/.config/kitty/colors.conf" ;;
+        *starship*) cp "$src" "$HOME/.config/starship.toml" ;;
+    esac
+done &
+
+bash "$HOME/dotfiles/install/themes/hooks/10-waybar.sh" &
+
+wait
+
+killall rofi nautilus mako 2>/dev/null
+nwg-look -a 2>/dev/null &
+hyprctl reload 2>/dev/null

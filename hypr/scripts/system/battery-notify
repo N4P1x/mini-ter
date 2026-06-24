@@ -1,0 +1,69 @@
+#!/bin/bash
+set -euo pipefail
+
+exec 200>/tmp/battery-notify.lock
+flock -n 200 || exit 0
+
+LOW=20; CRITICAL=10; DANGER=5
+notified_low=false; notified_critical=false; notified_full=false
+last_status=""
+
+for bat in /sys/class/power_supply/BAT*; do [[ -e "$bat" ]] && BATTERY="$bat" && break; done
+[[ -z "$BATTERY" ]] && exit 0
+
+get_percent() { cat "$BATTERY/capacity" 2>/dev/null || echo 0; }
+get_status() { cat "$BATTERY/status" 2>/dev/null || echo "Unknown"; }
+
+notify() { notify-send -u "$1" -i "$2" -a "Power" -h string:x-canonical-private-synchronous:battery "$3" "$4"; }
+set_profile() { command -v powerprofilesctl &>/dev/null && powerprofilesctl set "$1" 2>/dev/null; }
+
+suspend_with_countdown() {
+  local p=$1 countdown=10
+  while ((countdown > 0)); do
+    [[ "$(get_status)" != "Discharging" ]] && { notify normal battery-good-charging "Suspend Cancelled" "Charger connected"; return; }
+    notify critical battery-empty "Suspending in ${countdown}s" "Battery at ${p}%"
+    sleep 5; ((countdown -= 5))
+  done
+  [[ "$(get_status)" == "Discharging" ]] && { notify critical battery-empty "Suspending Now" "Battery critically low"; sleep 1; systemctl suspend; }
+}
+
+check_battery() {
+  local percent=$(get_percent) status=$(get_status)
+  
+  if [[ -n "$last_status" && "$status" != "$last_status" ]]; then
+    if [[ "$last_status" == "Discharging" && "$status" != "Discharging" ]]; then
+      set_profile performance; notify low battery-good-charging "Charging (Performance)" "Battery at ${percent}%"
+      notified_low=false; notified_critical=false; notified_full=false
+    elif [[ "$status" == "Discharging" ]]; then
+      set_profile balanced; notify low battery-good "On Battery (Balanced)" "Battery at ${percent}%"
+    fi
+  fi
+  last_status=$status
+
+  if [[ "$status" == "Discharging" ]]; then
+    if ((percent <= DANGER)); then
+      notify critical battery-empty "Battery Critical" "Suspending in 10s"
+      sleep 10 && systemctl suspend
+    elif ((percent <= CRITICAL)) && ! $notified_critical; then
+      notify critical battery-empty "Battery Critical" "Battery at ${percent}%"
+      notified_critical=true; notified_low=true
+    elif ((percent <= LOW)) && ! $notified_low; then
+      notify normal battery-caution "Low Battery" "Battery at ${percent}%"
+      notified_low=true
+    fi
+  elif [[ "$status" == "Full" || "$status" == "Charging" && $percent -ge 100 ]] && ! $notified_full; then
+    notify low battery-full-charged "Battery Full" "Unplug charger"
+    notified_full=true; notified_low=false; notified_critical=false
+  elif [[ "$status" == "Charging" ]]; then
+    ((percent > LOW)) && notified_low=false; ((percent > CRITICAL)) && notified_critical=false
+  fi
+}
+
+last_status=$(get_status)
+[[ "$last_status" == "Discharging" ]] && set_profile balanced || set_profile performance
+
+if command -v upower &>/dev/null; then
+  while read -r _; do check_battery; done < <(upower --monitor-detail 2>/dev/null)
+else
+  while true; do check_battery; sleep 60; done
+fi

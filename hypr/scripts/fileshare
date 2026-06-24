@@ -1,0 +1,17 @@
+#!/bin/bash
+set -euo pipefail
+
+[[ -n "${1:-}" ]] || { echo "Usage: $(basename "$0") [clipboard|file|folder]"; exit 1; }
+
+MODE="$1"; shift
+TEMP_FILE=""
+
+[[ "$MODE" == "clipboard" ]] && { TEMP_FILE=$(mktemp --suffix=.txt); wl-paste >"$TEMP_FILE"; FILES="$TEMP_FILE"; }
+[[ "$MODE" == "folder" ]] && FILES=$(find "$HOME" -type d 2>/dev/null | fzf) || FILES="${@:-$MODE}"
+[[ -z "$FILES" ]] && exit 0
+
+[[ "$FILES" =~ $'\n' ]] && readarray -t ARR <<<"$FILES" || ARR=("$FILES")
+systemd-run --user --quiet --collect localsend --headless send "${ARR[@]}"
+
+[[ -n "$TEMP_FILE" ]] && rm -f "$TEMP_FILE"
+exit 0

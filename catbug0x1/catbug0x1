@@ -1,0 +1,37 @@
+#!/bin/bash
+
+TF="$HOME/.config/catbug0x1/.current-theme"
+SYNC="$HOME/.config/hypr/scripts/theme/sync-all"
+
+if [[ -d "$HOME/.config/catbug0x1/$1" && "$1" != "list" && "$1" != "info" && "$1" != "sync" ]]; then
+    echo "$1" > "$TF"
+    $SYNC
+    exit $?
+fi
+
+case "${1:-}" in
+    l|list)
+        ls -d "$HOME/.config/catbug0x1"/*/ | xargs -n1 basename | grep -v "hooks\|current" | sort
+        ;;
+    i|info|current)
+        cat "$TF" 2>/dev/null || echo "dynamic"
+        ;;
+    s|switch)
+        shift
+        echo "${1:-dynamic}" > "$TF"
+        $SYNC
+        ;;
+    sync)
+        $SYNC
+        ;;
+    help|--help|-h|"")
+        echo "catbug0x1"
+        echo ""
+        echo "Usage: catbug0x1 <theme>"
+        echo "       catbug0x1 list"
+        echo "       catbug0x1 sync"
+        echo ""
+        echo "Themes:"
+        ls -d "$HOME/.config/catbug0x1"/*/ | xargs -n1 basename | grep -v "hooks\|current" | sort | sed 's/^/  /'
+        ;;
+esac

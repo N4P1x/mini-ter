@@ -1,0 +1,11 @@
+[Unit]
+Description=Apply catbug0x1 dynamic theme at session start
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -lc '%h/.config/hypr/scripts/theme/sync-all || true'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=graphical.target

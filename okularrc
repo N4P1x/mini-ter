@@ -1,0 +1,15 @@
+[Desktop Entry]
+FullScreen=false
+
+[General]
+LockSidebar=true
+ShowSidebar=false
+
+[MainWindow]
+MenuBar=Disabled
+
+[Recent Files]
+File1[$e]=$HOME/Downloads/All cloud lecs.pdf
+File2[$e]=$HOME/Cloud/All Cloud Lectures - Arabic.pdf
+Name1[$e]=All cloud lecs.pdf
+Name2[$e]=All Cloud Lectures - Arabic.pdf

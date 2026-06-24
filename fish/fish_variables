@@ -1,0 +1,4 @@
+# This file contains fish universal variable definitions.
+# VERSION: 3.0
+SETUVAR fish_color_normal:forest
+SETUVAR fish_user_paths:/home/n4p1/\x2elocal/bin

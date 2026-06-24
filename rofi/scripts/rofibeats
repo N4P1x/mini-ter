@@ -1,0 +1,36 @@
+#!/bin/bash
+set -euo pipefail
+
+music_dir="$HOME/Music"
+icon="$HOME/.config/rofi/music.png"
+rofi_dir="$HOME/.config/rofi/custom-rofi"
+
+declare -A stations=(
+  ["Radio - Lofi Girl"]="https://play.streamafrica.net/lofiradio"
+  ["Radio - Chillhop"]="http://stream.zeno.fm/fyn8eh3h5f8uv"
+  ["FM - Love Radio 90.7"]="https://radio-stations-philippines.com/love"
+)
+
+pkill mpv 2>/dev/null && { notify-send -u low "Music stopped"; exit 0; }
+
+menu=$(printf "Online Stations\nLocal Music\nShuffle\n" | rofi -dmenu -config "$rofi_dir/config-rofi-Beats-menu.rasi" -p "")
+
+case "$menu" in
+  "Online Stations")
+    choice=$(printf '%s\n' "${!stations[@]}" | sort | rofi -dmenu -p "Select")
+    [[ -z "$choice" ]] && exit 0
+    mpv --vid=no "${stations[$choice]}" &>/dev/null &
+    ;;
+  "Local Music"|"Shuffle")
+    [[ ! -d "$music_dir" ]] && exit 1
+    mapfile -t files < <(find "$music_dir" -type f \( -iname "*.mp3" -o -iname "*.flac" -o -iname "*.wav" -o -iname "*.ogg" \) 2>/dev/null)
+    [[ ${#files[@]} -eq 0 ]] && exit 1
+    if [[ "$menu" == "Shuffle" ]]; then
+      mpv --shuffle --vid=no "${files[@]}" &>/dev/null &
+    else
+      mpv --vid=no "${files[@]}" &>/dev/null &
+    fi
+    ;;
+esac
+
+notify-send -i "$icon" "Now Playing" "$menu"

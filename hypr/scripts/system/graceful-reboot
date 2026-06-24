@@ -1,0 +1,44 @@
+#!/bin/bash
+set -euo pipefail
+
+usage() {
+    cat <<EOF
+Usage: $(basename "$0") [command]
+
+Commands:
+  reboot     - Graceful reboot (default)
+  poweroff   - Graceful shutdown
+  suspend    - Suspend system
+  hibernate  - Hibernate system
+
+Requires: hyprctl, systemctl
+EOF
+    exit 1
+}
+
+close_all_windows() {
+    hyprctl clients -j 2>/dev/null | jq -r '.[].address' 2>/dev/null | while read -r addr; do
+        hyprctl dispatch closewindow "address:$addr" 2>/dev/null || true
+    done
+}
+
+case "${1:-reboot}" in
+    reboot)
+        close_all_windows
+        sleep 1
+        systemctl reboot --no-wall
+        ;;
+    poweroff)
+        close_all_windows
+        sleep 1
+        systemctl poweroff --no-wall
+        ;;
+    suspend)
+        systemctl suspend
+        ;;
+    hibernate)
+        systemctl hibernate
+        ;;
+    -h|--help) usage ;;
+    *) usage ;;
+esac

@@ -1,0 +1,23 @@
+#!/bin/bash
+set -euo pipefail
+
+APPS_DIR="$HOME/.local/share/applications"
+ICON_DIR="$APPS_DIR/icons"
+
+mapfile -t APP_NAMES < <(
+    for file in "$APPS_DIR"/*.desktop; do
+        [[ -f "$file" && "$(grep -c "X-WebApp=true\|launch-webapp" "$file" 2>/dev/null)" -gt 0 ]] && basename "$file" .desktop
+    done
+)
+
+[[ ${#APP_NAMES[@]} -eq 0 ]] && { echo "No webapps found."; exit 0; }
+
+SELECTED=$(printf '%s\n' "${APP_NAMES[@]}" | gum choose --no-limit --header "Select webapps to remove")
+[[ -z "$SELECTED" ]] && exit 0
+
+while IFS= read -r app; do
+    rm -f "$APPS_DIR/$app.desktop" "$ICON_DIR/$app.png"
+    echo "Removed: $app"
+done <<< "$SELECTED"
+
+echo "Done."

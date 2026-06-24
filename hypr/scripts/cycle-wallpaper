@@ -1,0 +1,67 @@
+#!/bin/bash
+set -euo pipefail
+
+LOCKDIR="${XDG_RUNTIME_DIR:-/tmp}/catbug0x1-wallpaper.lock"
+if ! mkdir "$LOCKDIR" 2>/dev/null; then
+    exit 0
+fi
+
+COOLDOWN_MS=900
+STAMP_FILE="${XDG_RUNTIME_DIR:-/tmp}/catbug0x1-wallpaper.last"
+update_stamp() { date +%s%3N 2>/dev/null > "$STAMP_FILE" || echo "$(( $(date +%s) * 1000 ))" > "$STAMP_FILE"; }
+trap 'update_stamp; rmdir "$LOCKDIR" 2>/dev/null || true' EXIT
+now_ms="$(date +%s%3N 2>/dev/null || echo "$(( $(date +%s) * 1000 ))")"
+last_ms="$(cat "$STAMP_FILE" 2>/dev/null || echo 0)"
+if [[ "$last_ms" =~ ^[0-9]+$ ]] && (( now_ms - last_ms < COOLDOWN_MS )); then
+    exit 0
+fi
+echo "$now_ms" > "$STAMP_FILE"
+
+BG_DIR="$HOME/Pictures/Wallpapers"
+[[ -d "$HOME/Wallpapers" ]] && BG_DIR="$HOME/Wallpapers"
+MATUGEN_CONFIG="$HOME/.config/matugen/config.toml"
+
+[[ ! -d "$BG_DIR" ]] && { notify-send "No backgrounds" "Wallpapers folder not found" >/dev/null 2>&1 || true; exit 1; }
+
+mapfile -t BGS < <(find "$BG_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" \) | sort)
+[[ ${#BGS[@]} -eq 0 ]] && { notify-send "No wallpapers" "No images in $BG_DIR" >/dev/null 2>&1 || true; exit 1; }
+
+CACHE="$HOME/.cache/catbug0x1"
+mkdir -p "$CACHE"
+INDEX_FILE="$CACHE/wallpaper_index"
+
+read_index() { [[ -f "$INDEX_FILE" ]] && cat "$INDEX_FILE" || echo 0; }
+write_index() { echo "$1" > "$INDEX_FILE"; }
+
+current=$(read_index)
+direction="${1:-next}"
+
+if [[ "$direction" == "prev" ]]; then
+    new_index=$(( (current - 1 + ${#BGS[@]}) % ${#BGS[@]} ))
+elif [[ "$direction" == "random" ]]; then
+    new_index=$(( RANDOM % ${#BGS[@]} ))
+else
+    new_index=$(( (current + 1) % ${#BGS[@]} ))
+fi
+
+write_index "$new_index"
+SELECTED="${BGS[$new_index]}"
+
+if command -v swww >/dev/null 2>&1; then
+    swww img "$SELECTED" --transition-type grow --transition-pos top-right --transition-fps 60 --transition-duration 0.45 >/dev/null 2>&1 &
+elif command -v awww >/dev/null 2>&1; then
+    pgrep -x awww-daemon >/dev/null 2>&1 || awww-daemon >/dev/null 2>&1 &
+    awww img "$SELECTED" >/dev/null 2>&1 &
+fi
+
+cp -f "$SELECTED" "$HOME/.config/catbug0x1/current/wallpaper" 2>/dev/null || true
+
+notify-send -i "$SELECTED" "Wallpaper" "$((new_index + 1))/${#BGS[@]}: $(basename "$SELECTED")" >/dev/null 2>&1 &
+
+if command -v matugen >/dev/null 2>&1; then
+    WALL="$SELECTED" MATUGEN_CONFIG="$MATUGEN_CONFIG" HOME="$HOME" \
+        nohup bash -lc 'matugen image "$WALL" -c "$MATUGEN_CONFIG" --quiet --prefer saturation >/dev/null 2>&1 || true; CATBUG0X1_SKIP_WALLPAPER=1 CATBUG0X1_FAST_SYNC=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1 || true' \
+        >/dev/null 2>&1 &
+else
+    HOME="$HOME" nohup bash -lc 'CATBUG0X1_SKIP_WALLPAPER=1 CATBUG0X1_FAST_SYNC=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1 || true' >/dev/null 2>&1 &
+fi

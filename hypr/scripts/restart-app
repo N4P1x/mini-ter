@@ -1,0 +1,8 @@
+#!/bin/bash
+set -euo pipefail
+
+[[ -n "${1:-}" ]] || { echo "Usage: $0 <app-name>"; exit 1; }
+pkill -x "$1" 2>/dev/null || true
+sleep 0.1
+setsid uwsm-app -- "$1" >/dev/null 2>&1 &
+disown

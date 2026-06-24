@@ -1,0 +1,87 @@
+{
+  "reload_style_on_change": true,
+  "layer": "top",
+  "position": "bottom",
+  "height": 30,
+  "margin": [0, 0, 0, 0],
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["mpris"],
+  "modules-right": ["cpu", "memory", "disk", "network", "pulseaudio", "battery", "clock", "tray"],
+
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "on-click": "activate"
+  },
+
+  "cpu": {
+    "interval": 3,
+    "format": "[CPU {usage:>3}%]",
+    "on-click": "ghostty -e btop",
+    "tooltip": true
+  },
+
+  "memory": {
+    "interval": 5,
+    "format": "[RAM {percentage:>3}%]",
+    "tooltip": true
+  },
+
+  "disk": {
+    "interval": 30,
+    "format": "[DSK {percentage_used:>3}%]",
+    "path": "/",
+    "tooltip": true
+  },
+
+  "network": {
+    "interval": 5,
+    "interface": "wlp*",
+    "format-wifi": "[NET {signalStrength:>3}%]",
+    "format-ethernet": "[NET LAN]",
+    "format-disconnected": "[NET OFF]",
+    "on-click": "nm-connection-editor",
+    "tooltip": true
+  },
+
+  "pulseaudio": {
+    "format": "[VOL {volume:>3}%]",
+    "format-muted": "[VOL MUTE]",
+    "on-click": "pamixer -t",
+    "on-scroll-up": "pamixer -i 2",
+    "on-scroll-down": "pamixer -d 2",
+    "tooltip": true
+  },
+
+  "battery": {
+    "interval": 15,
+    "format": "[BAT {capacity:>3}%]",
+    "format-charging": "[CHG {capacity:>3}%]",
+    "format-plugged": "[PLG {capacity:>3}%]",
+    "format-alt": "[{time}]",
+    "states": {
+      "warning": 25,
+      "critical": 10
+    },
+    "on-click": "gnome-power-statistics",
+    "tooltip": true
+  },
+
+  "clock": {
+    "format": "[TIME {:%I:%M %p}]",
+    "format-alt": "[DATE {:%a %b %d}]",
+    "tooltip-format": "{:%a, %B %d, %Y | %I:%M:%S %p}",
+    "interval": 1
+  },
+
+  "mpris": {
+    "format": ">> {artist} - {title}",
+    "format-paused": "|| {title}",
+    "max-length": 30,
+    "tooltip-format": "{player}: {title}"
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8
+  }
+}

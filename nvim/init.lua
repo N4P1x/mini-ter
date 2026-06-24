@@ -1,0 +1,1 @@
+../../catbug0x1/.config/nvim/init.lua

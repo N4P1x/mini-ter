@@ -1,0 +1,59 @@
+#!/bin/bash
+
+while true; do
+    clear
+    echo "═══════════════════════════════════════════════════════════════════════════"
+    echo "  SYSTEM DASHBOARD - $(date '+%H:%M:%S')"
+    echo "═══════════════════════════════════════════════════════════════════════════════"
+    echo ""
+    
+    echo "━━━ THEME ━━━"
+    echo "  Current: $(cat ~/.config/catbug0x1/.current-theme 2>/dev/null)"
+    echo ""
+    
+    echo "━━━ CPU ━━━"
+    echo "  Governor: $(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 2>/dev/null)"
+    echo "  Usage: $(top -bn1 | grep "Cpu(s)" | awk '{print $2}')%"
+    echo "  Temp: $(cat /sys/class/thermal/thermal_zone0/temp 2>/dev/null | sed 's/000$/°C/')"
+    echo ""
+    
+    echo "━━━ MEMORY ━━━"
+    free -h | awk 'NR==1 || NR==2 {print "  " $0}'
+    echo ""
+    
+    echo "━━━ GPU ━━━"
+    echo "  Driver: $(lspci | grep -i vga | cut -d: -f3)"
+    echo "  Memory: $(cat /sys/class/drm/card0/mem_info_vram_used 2>/dev/null | sed 's/ / /')"
+    echo ""
+    
+    echo "━━━ STORAGE ━━━"
+    df -h / | awk 'NR==1 || /\/$/ {print "  " $0}'
+    echo ""
+    
+    echo "━━━ SERVICES ━━━"
+    echo -n "  Waybar:    "; pgrep -x waybar >/dev/null && echo "✓" || echo "✗"
+    echo -n "  Hyprland:  "; pgrep -x Hyprland >/dev/null && echo "✓" || echo "✗"
+    echo -n "  Mako:      "; pgrep -x mako >/dev/null && echo "✓" || echo "✗"
+    echo -n "  SwayNC:    "; pgrep -x swaync-agent >/dev/null && echo "✓" || echo "✗"
+    echo ""
+    
+    echo "━━━ QUICK ACTIONS ━━━"
+    echo "  [1] Sync Theme    [2] Switch Theme    [3] Reload Hyprland"
+    echo "  [4] CPU Perf      [5] Restart Waybar  [6] Refresh All"
+    echo ""
+    echo "  [q] Quit"
+    echo ""
+    
+    read -t 2 -n 1 key 2>/dev/null
+    
+    case "$key" in
+        1) ~/.config/hypr/scripts/theme/sync-all ;;
+        2) echo "Usage: catbug0x1 switch <theme>" ;;
+        3) hyprctl reload ;;
+        4) echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor ;;
+        5) pkill -x waybar; uwsm-app -- waybar & ;;
+        6) ~/.config/hypr/scripts/system/apply-optimizations ;;
+        q|Q) break ;;
+    esac
+    
+done

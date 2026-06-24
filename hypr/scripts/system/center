@@ -1,0 +1,55 @@
+#!/bin/bash
+
+VERSION="2.0"
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+RESET='\033[0m'
+
+THEME=$(cat ~/.config/catbug0x1/.current-theme 2>/dev/null)
+
+menu() {
+    echo ""
+    echo -e "${BOLD}═══════════════════════════════════════════════════════════════════════${RESET}"
+    echo -e "${BOLD}  CONTROL CENTER v$VERSION${RESET}  |  Theme: ${GREEN}$THEME${RESET}"
+    echo -e "${BOLD}═══════════════════════════════════════════════════════════════════════${RESET}"
+    echo ""
+    echo -e "${CYAN}[1]${RESET} Sync Theme         - Apply current theme to all apps"
+    echo -e "${CYAN}[2]${RESET} Switch Theme      - Single theme mode (dynamic)"
+    echo -e "${CYAN}[3]${RESET} List Themes       - Show all available themes"
+    echo -e "${CYAN}[4]${RESET} Verify            - Check theme sync status"
+    echo ""
+    echo -e "${CYAN}[5]${RESET} CPU Perf          - Enable performance mode"
+    echo -e "${CYAN}[6]${RESET} Restart Services  - Restart waybar/mako"
+    echo -e "${CYAN}[7]${RESET} Reload Hyprland   - Reload window manager"
+    echo ""
+    echo -e "${CYAN}[8]${RESET} Monitor           - Real-time system dashboard"
+    echo -e "${CYAN}[9]${RESET} Apply All         - Run all optimizations"
+    echo ""
+    echo -e "${CYAN}[r]${RESET} Random Theme     - Cycle to random wallpaper"
+    echo -e "${CYAN}[q]${RESET} Quit"
+    echo ""
+    echo -n "Select: "
+}
+
+while true; do
+    menu
+    read choice
+    
+    case "$choice" in
+        1) ~/.config/hypr/scripts/theme/sync-all ;;
+        2) echo "Usage: catbug0x1 switch dynamic" ;;
+        3) ~/.config/catbug0x1/catbug0x1 list ;;
+        4) ~/.config/hypr/scripts/theme/verify ;;
+        5) for f in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo performance | sudo tee "$f" 2>/dev/null; done; echo "CPU: performance mode" ;;
+        6) pkill -x waybar; uwsm-app -- waybar &; pkill -x mako; mako &; echo "Services restarted" ;;
+        7) hyprctl reload; echo "Hyprland reloaded" ;;
+        8) ~/.config/hypr/scripts/system/monitor ;;
+        9) ~/.config/hypr/scripts/system/apply-optimizations ;;
+        r) ~/.config/hypr/scripts/cycle-wallpaper random ;;
+        q|Q) exit 0 ;;
+    esac
+done

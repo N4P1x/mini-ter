@@ -1,0 +1,35 @@
+#!/bin/bash
+set -euo pipefail
+
+if command -v swww >/dev/null 2>&1; then
+    wallbin=swww
+elif command -v awww >/dev/null 2>&1; then
+    wallbin=awww
+else
+    notify-send "No wallpaper daemon" "Install swww or awww" "critical"
+    exit 1 
+fi
+
+WALLPAPER_DIR="$HOME/Wallpapers/"
+
+mapfile -t wallpapers < <(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) | sort)
+
+[[ ${#wallpapers[@]} -eq 0 ]] && {
+  notify-send -A "open=Get Wallpapers" --wait "No Wallpapers" "Add to ~/Wallpapers"
+  xdg-open "https://github.com/catbug0x1/Wallpapers" &
+  exit 1
+}
+
+"$wallbin" query &>/dev/null || "$wallbin"-daemon --format xrgb &
+sleep 0.5
+
+random_index=$((RANDOM % ${#wallpapers[@]}))
+selected_wallpaper="${wallpapers[$random_index]}"
+
+"$wallbin" img "$selected_wallpaper" \
+  --transition-type grow --transition-pos top-right \
+  --transition-fps 120 --transition-duration 1 \
+  --transition-bezier 0.25,0.1,0.25,1.0
+
+notify-send -i "$selected_wallpaper" "Random Wallpaper" "$(basename "$selected_wallpaper")"
+killall -SIGUSR1 kitty 2>/dev/null || true
