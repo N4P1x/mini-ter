@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "${BASH_SOURCE[0]%/*}/../../../N4P1x/env.sh"
+
 while true; do
     clear
     echo "═══════════════════════════════════════════════════════════════════════════"
@@ -8,7 +10,7 @@ while true; do
     echo ""
     
     echo "━━━ THEME ━━━"
-    echo "  Current: $(cat ~/.config/N4P1x/.current-theme 2>/dev/null)"
+    echo "  Current: $(cat "$N4P1X_CURRENT_THEME" 2>/dev/null)"
     echo ""
     
     echo "━━━ CPU ━━━"
@@ -47,12 +49,12 @@ while true; do
     read -t 2 -n 1 key 2>/dev/null
     
     case "$key" in
-        1) ~/.config/hypr/scripts/theme/sync-all ;;
+        1) "$N4P1X_SYNC_SCRIPT" ;;
         2) echo "Usage: N4P1x switch <theme>" ;;
         3) hyprctl reload ;;
         4) echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor ;;
         5) pkill -x waybar; uwsm-app -- waybar & ;;
-        6) ~/.config/hypr/scripts/system/apply-optimizations ;;
+        6) "$N4P1X_APPLY_SCRIPT" ;;
         q|Q) break ;;
     esac
     

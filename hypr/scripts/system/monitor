@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "${BASH_SOURCE[0]%/*}/../../../N4P1x/env.sh"
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -8,7 +10,7 @@ CYAN='\033[0;36m'
 BOLD='\033[1m'
 RESET='\033[0m'
 
-THEME=$(cat ~/.config/N4P1x/.current-theme 2>/dev/null)
+THEME=$(cat "$N4P1X_CURRENT_THEME" 2>/dev/null)
 
 draw_bar() {
     local value=$1
@@ -151,14 +153,14 @@ main() {
         read -t 3 -n 1 key 2>/dev/null
         
         case "$key" in
-            s|S) ~/.config/hypr/scripts/theme/sync-all ;;
+            s|S) "$N4P1X_SYNC_SCRIPT" ;;
             r|R) hyprctl reload ;;
             c|C) for f in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo performance | sudo tee "$f" 2>/dev/null; done; echo "CPU: performance" ;;
             w|W) pkill -x waybar; uwsm-app -- waybar &; echo "Waybar restarted" ;;
             t|T) echo "Use: N4P1x switch <theme>" ;;
-            v|V) ~/.config/hypr/scripts/theme/verify ;;
-            a|A) ~/.config/hypr/scripts/system/apply-optimizations ;;
-            d|D) ~/.config/hypr/scripts/system/dashboard ;;
+            v|V) "$N4P1X_VERIFY_SCRIPT" ;;
+            a|A) "$N4P1X_APPLY_SCRIPT" ;;
+            d|D) "$N4P1X_DASHBOARD_SCRIPT" ;;
             q|Q) break ;;
         esac
     done

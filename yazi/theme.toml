@@ -1,21 +1,21 @@
 
 [mgr]
-cwd = { fg = "#ecdfe5" }
+cwd = { fg = "#e0e4da" }
 
 find_keyword = { fg = "#ffb4ab", bold = true, italic = true, underline = true }
 find_position = { fg = "#ffb4ab", bold = true, italic = true }
 
-marker_copied = { fg = "#ff8f69", bg = "#ff8f69" }
-marker_cut = { fg = "#ffdbcf", bg = "#ffdbcf" }
+marker_copied = { fg = "#6ad2db", bg = "#6ad2db" }
+marker_cut = { fg = "#bcebef", bg = "#bcebef" }
 marker_marked = { fg = "#ffb4ab", bg = "#ffb4ab" }
-marker_selected = { fg = "#f5b9a4", bg = "#f5b9a4" }
+marker_selected = { fg = "#a0cfd3", bg = "#a0cfd3" }
 
-count_copied = { fg = "#321206", bg = "#ffdbcf" }
-count_cut = { fg = "#321206", bg = "#ffdbcf" }
-count_selected = { fg = "#4d1f46", bg = "#f5b9a4" }
+count_copied = { fg = "#002022", bg = "#bcebef" }
+count_cut = { fg = "#002022", bg = "#bcebef" }
+count_selected = { fg = "#0e380d", bg = "#a0cfd3" }
 
 border_symbol = " "
-border_style  = { fg = "#f3b2e3" }
+border_style  = { fg = "#a3d398" }
 
 
 
@@ -24,87 +24,87 @@ border_style  = { fg = "#f3b2e3" }
 sep_left = { open = "", close = "🭠" }
 sep_right = { open = "🭁", close = "" }
 
-perm_type = { fg = "#a45c8b" }
-perm_read = { fg = "#ff6836" }
-perm_write = { fg = "#e64f1a" }
+perm_type = { fg = "#6a8a5b" }
+perm_read = { fg = "#40c6d2" }
+perm_write = { fg = "#458f95" }
 perm_exec = { fg = "#ff2b12" }
-perm_sep = { fg = "#ff3ec0" }
+perm_sep = { fg = "#52d732" }
 
 progress_label = { bold = true }
-progress_normal = { fg = "#f3b2e3", bg = "#3f373c" }
-progress_error = { fg = "#ffb4ab", bg = "#3f373c" }
+progress_normal = { fg = "#a3d398", bg = "#363a34" }
+progress_error = { fg = "#ffb4ab", bg = "#363a34" }
 
 [mode]
-normal_main = { bg = "#f3b2e3", fg = "#4d1f46", bold = true }
-normal_alt  = { bg = "#4e444b", fg = "#d2c2cb" }
+normal_main = { bg = "#a3d398", fg = "#0e380d", bold = true }
+normal_alt  = { bg = "#42493f", fg = "#c2c8bc" }
 
-select_main = { bg = "#dbbed1", fg = "#3e2a39", bold = true }
-select_alt  = { bg = "#4e444b", fg = "#d2c2cb" }
+select_main = { bg = "#baccb2", fg = "#263422", bold = true }
+select_alt  = { bg = "#42493f", fg = "#c2c8bc" }
 
-unset_main = { bg = "#f5b9a4", fg = "#4c2619", bold = true }
-unset_alt  = { bg = "#4e444b", fg = "#d2c2cb" }
+unset_main = { bg = "#a0cfd3", fg = "#00363a", bold = true }
+unset_alt  = { bg = "#42493f", fg = "#c2c8bc" }
 
 
 
 
 [select]
-border = { fg = "#f3b2e3" }
-active = { fg = "#f5b9a4", bold = true }
+border = { fg = "#a3d398" }
+active = { fg = "#a0cfd3", bold = true }
 
 
 
 
 [input]
-border = { fg = "#f3b2e3" }
-value = { fg = "#ecdfe5" }
+border = { fg = "#a3d398" }
+value = { fg = "#e0e4da" }
 
 
 
 [tabs]
-active = { fg = "#f3b2e3", bold = true, bg = "#181216" }
-inactive = { fg = "#dbbed1", bg = "#181216" }
+active = { fg = "#a3d398", bold = true, bg = "#11140f" }
+inactive = { fg = "#baccb2", bg = "#11140f" }
 sep_inner = { open = "[", close = "]" }
 
 
 
 
 [cmp]
-border = { fg = "#f3b2e3", bg = "#4d1f46" }
+border = { fg = "#a3d398", bg = "#0e380d" }
 
 
 
 
 [tasks]
-border = { fg = "#f3b2e3" }
+border = { fg = "#a3d398" }
 title = {}
-hovered = { fg = "#ffdbcf", underline = true }
+hovered = { fg = "#bcebef", underline = true }
 
 
 
 
 [which]
 cols = 3
-mask = { bg = "#3f373c" }
-cand = { fg = "#f3b2e3" }
-rest = { fg = "#4d1f46" }
-desc = { fg = "#ecdfe5" }
+mask = { bg = "#363a34" }
+cand = { fg = "#a3d398" }
+rest = { fg = "#0e380d" }
+desc = { fg = "#e0e4da" }
 separator = " ▶ "
-separator_style = { fg = "#ecdfe5" }
+separator_style = { fg = "#e0e4da" }
 
 
 
 
 [help]
-on = { fg = "#ecdfe5" }
-run = { fg = "#ecdfe5" }
-footer = { fg = "#3e2a39", bg = "#dbbed1" }
+on = { fg = "#e0e4da" }
+run = { fg = "#e0e4da" }
+footer = { fg = "#263422", bg = "#baccb2" }
 
 
 
 
 [notify]
-title_info = { fg = "#f5b9a4" }
-title_warn = { fg = "#f3b2e3" }
+title_info = { fg = "#a0cfd3" }
+title_warn = { fg = "#a3d398" }
 title_error = { fg = "#ffb4ab" }
 
 
@@ -113,6 +113,6 @@ title_error = { fg = "#ffb4ab" }
 [filetype]
 
 rules = [
-    { mime = "image", fg = "#f3b2e3" },
+    { mime = "image", fg = "#a3d398" },
 ]
 

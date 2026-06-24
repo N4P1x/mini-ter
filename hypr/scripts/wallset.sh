@@ -1,26 +1,20 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
+source "${BASH_SOURCE[0]%/*}/../../N4P1x/env.sh"
 
-LOCKDIR="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-wallpaper.lock"
-if ! mkdir "$LOCKDIR" 2>/dev/null; then
-    exit 0
-fi
+if ! mkdir "$N4P1X_WALL_LOCK" 2>/dev/null; then exit 0; fi
 
 COOLDOWN_MS=900
-STAMP_FILE="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-wallpaper.last"
-update_stamp() { date +%s%3N 2>/dev/null > "$STAMP_FILE" || echo "$(( $(date +%s) * 1000 ))" > "$STAMP_FILE"; }
-trap 'update_stamp; rmdir "$LOCKDIR" 2>/dev/null || true' EXIT
+update_stamp() { date +%s%3N 2>/dev/null > "$N4P1X_WALL_STAMP" || echo "$(( $(date +%s) * 1000 ))" > "$N4P1X_WALL_STAMP"; }
+trap 'update_stamp; rmdir "$N4P1X_WALL_LOCK" 2>/dev/null || true' EXIT
 now_ms="$(date +%s%3N 2>/dev/null || echo "$(( $(date +%s) * 1000 ))")"
-last_ms="$(cat "$STAMP_FILE" 2>/dev/null || echo 0)"
-if [[ "$last_ms" =~ ^[0-9]+$ ]] && (( now_ms - last_ms < COOLDOWN_MS )); then
-    exit 0
-fi
-echo "$now_ms" > "$STAMP_FILE"
+last_ms="$(cat "$N4P1X_WALL_STAMP" 2>/dev/null || echo 0)"
+if [[ "$last_ms" =~ ^[0-9]+$ ]] && (( now_ms - last_ms < COOLDOWN_MS )); then exit 0; fi
+echo "$now_ms" > "$N4P1X_WALL_STAMP"
 
-DIR="${HOME}/Pictures/Wallpapers"
-[[ -d "$HOME/Wallpapers" ]] && DIR="$HOME/Wallpapers"
-MATUGEN_CONFIG="$HOME/.config/matugen/config.toml"
+DIR="$N4P1X_BG_DIR"
+[[ -d "$N4P1X_BG_DIR_FALLBACK" ]] && DIR="$N4P1X_BG_DIR_FALLBACK"
 
 if [[ ! -d "$DIR" ]]; then
     notify-send "No backgrounds" "Wallpapers folder not found" >/dev/null 2>&1 || true
@@ -28,11 +22,7 @@ if [[ ! -d "$DIR" ]]; then
 fi
 
 mapfile -t IMAGES < <(find "$DIR" -type f \( \
-    -iname "*.jpg" -o \
-    -iname "*.jpeg" -o \
-    -iname "*.png" -o \
-    -iname "*.gif" -o \
-    -iname "*.webp" \
+    -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" \
 \))
 
 if (( ${#IMAGES[@]} == 0 )); then
@@ -49,15 +39,14 @@ elif command -v awww >/dev/null 2>&1; then
     awww img "$RANDOM_PIC" >/dev/null 2>&1 &
 fi
 
-cp -f "$RANDOM_PIC" "$HOME/.config/N4P1x/current/wallpaper" 2>/dev/null || true
+cp -f "$RANDOM_PIC" "$N4P1X_CURRENT_WALL" 2>/dev/null || true
 
 notify-send -i "$RANDOM_PIC" "Wallpaper" "$(basename "$RANDOM_PIC")" >/dev/null 2>&1 &
 
 (
-    MATUGEN_LOCK="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-matugen.lock"
-    if command -v matugen >/dev/null 2>&1 && mkdir "$MATUGEN_LOCK" 2>/dev/null; then
-        trap "rmdir '$MATUGEN_LOCK' 2>/dev/null || true" EXIT
-        matugen image "$RANDOM_PIC" -c "$MATUGEN_CONFIG" --quiet --prefer saturation
+    if command -v matugen >/dev/null 2>&1 && mkdir "$N4P1X_MATUGEN_LOCK" 2>/dev/null; then
+        trap "rmdir '$N4P1X_MATUGEN_LOCK' 2>/dev/null || true" EXIT
+        matugen image "$RANDOM_PIC" -c "$N4P1X_MATUGEN_CONFIG" --quiet --prefer saturation
     fi
-    N4P1X_SKIP_WALLPAPER=1 N4P1X_FAST_SYNC=1 "$HOME/.config/hypr/scripts/theme/sync-all"
+    N4P1X_SKIP_WALLPAPER=1 N4P1X_FAST_SYNC=1 "$N4P1X_SYNC_SCRIPT"
 ) &>/dev/null &

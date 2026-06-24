@@ -1,7 +1,6 @@
 #!/bin/bash
 
-THEME_FILE="$HOME/.config/N4P1x/.current-theme"
-SYNC="$HOME/.config/hypr/scripts/theme/sync-all"
+source "${BASH_SOURCE[0]%/*}/../../../N4P1x/env.sh"
 
-echo "dynamic" > "$THEME_FILE"
-"$SYNC"
+echo "dynamic" > "$N4P1X_CURRENT_THEME"
+"$N4P1X_SYNC_SCRIPT"

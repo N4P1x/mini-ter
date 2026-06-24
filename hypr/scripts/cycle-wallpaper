@@ -1,34 +1,28 @@
 #!/bin/bash
 set -euo pipefail
+source "${BASH_SOURCE[0]%/*}/../../N4P1x/env.sh"
 
-LOCKDIR="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-wallpaper.lock"
-if ! mkdir "$LOCKDIR" 2>/dev/null; then
-    exit 0
-fi
+if ! mkdir "$N4P1X_WALL_LOCK" 2>/dev/null; then exit 0; fi
 
 COOLDOWN_MS=900
-STAMP_FILE="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-wallpaper.last"
-update_stamp() { date +%s%3N 2>/dev/null > "$STAMP_FILE" || echo "$(( $(date +%s) * 1000 ))" > "$STAMP_FILE"; }
-trap 'update_stamp; rmdir "$LOCKDIR" 2>/dev/null || true' EXIT
+update_stamp() { date +%s%3N 2>/dev/null > "$N4P1X_WALL_STAMP" || echo "$(( $(date +%s) * 1000 ))" > "$N4P1X_WALL_STAMP"; }
+trap 'update_stamp; rmdir "$N4P1X_WALL_LOCK" 2>/dev/null || true' EXIT
 now_ms="$(date +%s%3N 2>/dev/null || echo "$(( $(date +%s) * 1000 ))")"
-last_ms="$(cat "$STAMP_FILE" 2>/dev/null || echo 0)"
-if [[ "$last_ms" =~ ^[0-9]+$ ]] && (( now_ms - last_ms < COOLDOWN_MS )); then
-    exit 0
-fi
-echo "$now_ms" > "$STAMP_FILE"
+last_ms="$(cat "$N4P1X_WALL_STAMP" 2>/dev/null || echo 0)"
+if [[ "$last_ms" =~ ^[0-9]+$ ]] && (( now_ms - last_ms < COOLDOWN_MS )); then exit 0; fi
+echo "$now_ms" > "$N4P1X_WALL_STAMP"
 
-BG_DIR="$HOME/Pictures/Wallpapers"
-[[ -d "$HOME/Wallpapers" ]] && BG_DIR="$HOME/Wallpapers"
-MATUGEN_CONFIG="$HOME/.config/matugen/config.toml"
+BG_DIR="$N4P1X_BG_DIR"
+[[ -d "$N4P1X_BG_DIR_FALLBACK" ]] && BG_DIR="$N4P1X_BG_DIR_FALLBACK"
+MATUGEN_CONFIG="$N4P1X_MATUGEN_CONFIG"
 
 [[ ! -d "$BG_DIR" ]] && { notify-send "No backgrounds" "Wallpapers folder not found" >/dev/null 2>&1 || true; exit 1; }
 
 mapfile -t BGS < <(find "$BG_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" \) | sort)
 [[ ${#BGS[@]} -eq 0 ]] && { notify-send "No wallpapers" "No images in $BG_DIR" >/dev/null 2>&1 || true; exit 1; }
 
-CACHE="$HOME/.cache/N4P1x"
-mkdir -p "$CACHE"
-INDEX_FILE="$CACHE/wallpaper_index"
+mkdir -p "$N4P1X_CACHE_DIR"
+INDEX_FILE="$N4P1X_CACHE_DIR/wallpaper_index"
 
 read_index() { [[ -f "$INDEX_FILE" ]] && cat "$INDEX_FILE" || echo 0; }
 write_index() { echo "$1" > "$INDEX_FILE"; }
@@ -54,15 +48,14 @@ elif command -v awww >/dev/null 2>&1; then
     awww img "$SELECTED" >/dev/null 2>&1 &
 fi
 
-cp -f "$SELECTED" "$HOME/.config/N4P1x/current/wallpaper" 2>/dev/null || true
+cp -f "$SELECTED" "$N4P1X_CURRENT_WALL" 2>/dev/null || true
 
 notify-send -i "$SELECTED" "Wallpaper" "$((new_index + 1))/${#BGS[@]}: $(basename "$SELECTED")" >/dev/null 2>&1 &
 
 (
-    MATUGEN_LOCK="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-matugen.lock"
-    if command -v matugen >/dev/null 2>&1 && mkdir "$MATUGEN_LOCK" 2>/dev/null; then
-        trap "rmdir '$MATUGEN_LOCK' 2>/dev/null || true" EXIT
+    if command -v matugen >/dev/null 2>&1 && mkdir "$N4P1X_MATUGEN_LOCK" 2>/dev/null; then
+        trap "rmdir '$N4P1X_MATUGEN_LOCK' 2>/dev/null || true" EXIT
         matugen image "$SELECTED" -c "$MATUGEN_CONFIG" --quiet --prefer saturation
     fi
-    N4P1X_SKIP_WALLPAPER=1 N4P1X_FAST_SYNC=1 "$HOME/.config/hypr/scripts/theme/sync-all"
+    N4P1X_SKIP_WALLPAPER=1 N4P1X_FAST_SYNC=1 "$N4P1X_SYNC_SCRIPT"
 ) &>/dev/null &

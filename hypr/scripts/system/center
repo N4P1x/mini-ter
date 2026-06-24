@@ -2,6 +2,8 @@
 
 VERSION="2.0"
 
+source "${BASH_SOURCE[0]%/*}/../../../N4P1x/env.sh"
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -9,7 +11,7 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 RESET='\033[0m'
 
-THEME=$(cat ~/.config/N4P1x/.current-theme 2>/dev/null)
+THEME=$(cat "$N4P1X_CURRENT_THEME" 2>/dev/null)
 
 menu() {
     echo ""
@@ -40,16 +42,16 @@ while true; do
     read choice
     
     case "$choice" in
-        1) ~/.config/hypr/scripts/theme/sync-all ;;
+        1) "$N4P1X_SYNC_SCRIPT" ;;
         2) echo "Usage: N4P1x switch dynamic" ;;
-        3) ~/.config/N4P1x/N4P1x list ;;
-        4) ~/.config/hypr/scripts/theme/verify ;;
+        3) "$N4P1X_CLI" list ;;
+        4) "$N4P1X_VERIFY_SCRIPT" ;;
         5) for f in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo performance | sudo tee "$f" 2>/dev/null; done; echo "CPU: performance mode" ;;
         6) pkill -x waybar; uwsm-app -- waybar &; pkill -x mako; mako &; echo "Services restarted" ;;
         7) hyprctl reload; echo "Hyprland reloaded" ;;
-        8) ~/.config/hypr/scripts/system/monitor ;;
-        9) ~/.config/hypr/scripts/system/apply-optimizations ;;
-        r) ~/.config/hypr/scripts/cycle-wallpaper random ;;
+        8) "$N4P1X_MONITOR_SCRIPT" ;;
+        9) "$N4P1X_APPLY_SCRIPT" ;;
+        r) "$N4P1X_CYCLE_SCRIPT" random ;;
         q|Q) exit 0 ;;
     esac
 done

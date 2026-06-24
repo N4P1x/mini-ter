@@ -1,6 +1,8 @@
 #!/bin/bash
 
-THEME=$(cat ~/.config/N4P1x/.current-theme 2>/dev/null || echo "dynamic")
+source "${BASH_SOURCE[0]%/*}/../../../N4P1x/env.sh"
+
+THEME=$(cat "$N4P1X_CURRENT_THEME" 2>/dev/null || echo "dynamic")
 GREEN='\033[0;32m'; RED='\033[0;31m'; YEL='\033[1;33m'; RESET='\033[0m'
 
 echo "Theme: $THEME"

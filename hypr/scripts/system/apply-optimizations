@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -euo pipefail
+source "${BASH_SOURCE[0]%/*}/../../../N4P1x/env.sh"
 
 echo "═══════════════════════════════════════════════════════════════════════════"
 echo "  SYSTEM OPTIMIZATION - Applying all configurations"
@@ -16,12 +17,11 @@ echo "🧠 Memory: Applying optimizations..."
 sudo sysctl -p /etc/sysctl.d/99-memory.conf 2>/dev/null || true
 
 echo "🎨 Theme: Syncing to all applications..."
-N4P1X_SKIP_WALLPAPER=1 "$HOME/.config/hypr/scripts/theme/sync-all"
+N4P1X_SKIP_WALLPAPER=1 "$N4P1X_SYNC_SCRIPT"
 
 echo "🎯 Hyprland: Applying performance settings..."
 
-sed -i 's/animations {/animations {\n    enabled = false/' ~/.config/hypr/looknfeel.conf 2>/dev/null || true
-
+sed -i 's/animations {/animations {\n    enabled = false/' "$HOME/.config/hypr/looknfeel.conf" 2>/dev/null || true
 
 hyprctl setcursor Bibata-Modern-Ice 24 2>/dev/null || true
 
@@ -30,7 +30,7 @@ echo "════════════════════════�
 echo "  VERIFICATION"
 echo "═══════════════════════════════════════════════════════════════════════════"
 
-"$HOME/.config/hypr/scripts/theme/verify"
+"$N4P1X_VERIFY_SCRIPT"
 
 echo ""
 echo "✅ System optimization complete!"

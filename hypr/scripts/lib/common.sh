@@ -2,6 +2,9 @@
 [[ -n "${_COMMON_SH:-}" ]] && return 0
 readonly _COMMON_SH=1
 
+# Source environment paths
+source "${BASH_SOURCE[0]%/*}/../../../N4P1x/env.sh" 2>/dev/null || true
+
 NO_COLOR='\033[0m'
 RED='\033[0;31m'
 GRN='\033[0;32m'

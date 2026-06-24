@@ -1,9 +1,9 @@
 #!/bin/bash
 
-TF="$HOME/.config/N4P1x/.current-theme"
-SYM="$HOME/.config/N4P1x"
-T=$(cat "$TF" 2>/dev/null)
-SRC="$SYM/current/.config"
+source "${BASH_SOURCE[0]%/*}/../../../N4P1x/env.sh"
+
+T=$(cat "$N4P1X_CURRENT_THEME" 2>/dev/null)
+SRC="$N4P1X_DIR/current/.config"
 FAST_SYNC="${N4P1X_FAST_SYNC:-0}"
 
 CYAN='\033[0;36m'; GREEN='\033[0;32m'; BOLD='\033[1m'; RESET='\033[0m'
@@ -14,6 +14,34 @@ echo -e "${BOLD}═════════════════════�
 
 copy() { [[ -f "$1" ]] && rm -f "$2" && cp "$1" "$2" 2>/dev/null; }
 
+# Start wallpaper setup in parallel
+(
+if [[ "${N4P1X_SKIP_WALLPAPER:-0}" != "1" ]]; then
+    BG_DIR="$N4P1X_BG_DIR"
+    [[ -d "$N4P1X_BG_DIR_FALLBACK" ]] && BG_DIR="$N4P1X_BG_DIR_FALLBACK"
+    if [[ -d "$BG_DIR" ]]; then
+        mapfile -t BGS < <(find "$BG_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) | sort)
+        [[ ${#BGS[@]} -gt 0 ]] && {
+            SELECTED="${BGS[0]}"
+            if [[ -L "$N4P1X_CURRENT_WALL" || -f "$N4P1X_CURRENT_WALL" ]]; then
+                CURRENT_WALLPAPER="$(readlink -f "$N4P1X_CURRENT_WALL" 2>/dev/null || true)"
+                if [[ -n "${CURRENT_WALLPAPER:-}" && -f "$CURRENT_WALLPAPER" ]]; then
+                    SELECTED="$CURRENT_WALLPAPER"
+                fi
+            fi
+            if command -v swww >/dev/null 2>&1; then
+                swww img "$SELECTED" --transition-type grow --transition-pos top-right --transition-fps 120 --transition-duration 1 2>/dev/null
+            elif command -v awww >/dev/null 2>&1; then
+                pgrep -x awww-daemon >/dev/null 2>&1 || awww-daemon >/dev/null 2>&1 &
+                awww img "$SELECTED" 2>/dev/null || true
+            elif command -v hyprpaper >/dev/null 2>&1; then
+                pkill hyprpaper 2>/dev/null; hyprpaper &>/dev/null &
+            fi
+        }
+    fi
+fi
+) &
+
 copy "$SRC/gtk-3.0/colors.css" "$HOME/.config/gtk-3.0/gtk.css"
 sed -i "s/^gtk-theme-name=.*/gtk-theme-name=$T/" "$HOME/.config/gtk-3.0/settings.ini" 2>/dev/null
 echo -e "${GREEN}✓${RESET} GTK3"
@@ -23,12 +51,12 @@ sed -i "s/^gtk-theme-name=.*/gtk-theme-name=$T/" "$HOME/.config/gtk-4.0/settings
 echo -e "${GREEN}✓${RESET} GTK4"
 
 copy "$SRC/waybar/colors.css" "$HOME/.config/waybar/colors.css"
-if [[ -f "$HOME/N4P1x/.config/waybar/style.css" ]]; then
-    cp "$HOME/N4P1x/.config/waybar/style.css" "$HOME/.config/waybar/style.css"
+if [[ -f "$N4P1X_EXTERNAL/.config/waybar/style.css" ]]; then
+    cp "$N4P1X_EXTERNAL/.config/waybar/style.css" "$HOME/.config/waybar/style.css"
 else
     {
         echo '@import "colors.css";'
-        [[ -f "$SYM/base-waybar.css" ]] && cat "$SYM/base-waybar.css"
+        [[ -f "$N4P1X_DIR/base-waybar.css" ]] && cat "$N4P1X_DIR/base-waybar.css"
     } > "$HOME/.config/waybar/style.css"
 fi
 if [[ "$FAST_SYNC" != "1" ]]; then
@@ -64,29 +92,9 @@ else
 fi
 echo -e "${GREEN}✓${RESET} Hyprland"
 
+wait
+
 if [[ "${N4P1X_SKIP_WALLPAPER:-0}" != "1" ]]; then
-    BG_DIR="$HOME/Pictures/Wallpapers"
-    [[ -d "$HOME/Wallpapers" ]] && BG_DIR="$HOME/Wallpapers"
-    if [[ -d "$BG_DIR" ]]; then
-        mapfile -t BGS < <(find "$BG_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) | sort)
-        [[ ${#BGS[@]} -gt 0 ]] && {
-            SELECTED="${BGS[0]}"
-            if [[ -L "$HOME/.config/N4P1x/current/wallpaper" || -f "$HOME/.config/N4P1x/current/wallpaper" ]]; then
-                CURRENT_WALLPAPER="$(readlink -f "$HOME/.config/N4P1x/current/wallpaper" 2>/dev/null || true)"
-                if [[ -n "${CURRENT_WALLPAPER:-}" && -f "$CURRENT_WALLPAPER" ]]; then
-                    SELECTED="$CURRENT_WALLPAPER"
-                fi
-            fi
-            if command -v swww >/dev/null 2>&1; then
-                swww img "$SELECTED" --transition-type grow --transition-pos top-right --transition-fps 120 --transition-duration 1 2>/dev/null &
-            elif command -v awww >/dev/null 2>&1; then
-                pgrep -x awww-daemon >/dev/null 2>&1 || awww-daemon >/dev/null 2>&1 &
-                awww img "$SELECTED" 2>/dev/null || true
-            elif command -v hyprpaper >/dev/null 2>&1; then
-                pkill hyprpaper 2>/dev/null; hyprpaper &>/dev/null &
-            fi
-        }
-    fi
     echo -e "${GREEN}✓${RESET} Wallpaper"
 else
     echo -e "${GREEN}✓${RESET} Wallpaper (kept current)"
@@ -95,15 +103,18 @@ fi
 for v in 5 6; do [[ -f "$HOME/.config/qt${v}ct/qt${v}ct.conf" ]] && sed -i "s/^theme=.*/theme=$T/" "$HOME/.config/qt${v}ct/qt${v}ct.conf"; done
 echo -e "${GREEN}✓${RESET} Qt"
 
-copy "$SRC/alacritty/colors.toml" "$HOME/.config/alacritty/colors.toml"
+# Copy terminal configs in parallel
+copy "$SRC/alacritty/colors.toml" "$HOME/.config/alacritty/colors.toml" &
+copy "$SRC/kitty/colors.conf" "$HOME/.config/kitty/colors.conf" &
+copy "$SRC/ghostty/theme" "$HOME/.config/ghostty/theme" &
+copy "$SRC/starship.toml" "$HOME/.config/starship.toml" &
+wait
+
 pgrep -x alacritty >/dev/null && touch "$HOME/.config/alacritty/alacritty.toml"
-copy "$SRC/kitty/colors.conf" "$HOME/.config/kitty/colors.conf"
 pgrep -x kitty >/dev/null && killall -SIGUSR1 kitty 2>/dev/null
-copy "$SRC/ghostty/theme" "$HOME/.config/ghostty/theme"
 pgrep -x ghostty >/dev/null && killall -SIGUSR2 ghostty 2>/dev/null
 echo -e "${GREEN}✓${RESET} Terminals"
 
-copy "$SRC/starship.toml" "$HOME/.config/starship.toml"
 echo -e "${GREEN}✓${RESET} Starship"
 
 [[ -d "$SRC/btop" ]] && mkdir -p "$HOME/.config/btop/themes" && copy "$SRC/btop/themes/current.theme" "$HOME/.config/btop/themes/current.theme"

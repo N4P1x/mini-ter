@@ -1,7 +1,9 @@
 #!/bin/bash
 
-T=$(cat "$HOME/.config/N4P1x/.current-theme")
-SRC="$HOME/.config/N4P1x/$T/.config"
+source "${BASH_SOURCE[0]%/*}/../../../N4P1x/env.sh"
+
+T=$(cat "$N4P1X_CURRENT_THEME")
+SRC="$N4P1X_DIR/$T/.config"
 
 echo "Theme: $T"
 echo ""
