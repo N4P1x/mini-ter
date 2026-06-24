@@ -10,36 +10,36 @@
   --font: 'figtree';
 
   
-  --corner-text: 'N4P1x';
+  --corner-text: 'catbug0x1';
 
   
-  --online-indicator: #f2be6e; 
+  --online-indicator: #f0bf6d; 
   --dnd-indicator: #ffb4ab; 
-  --idle-indicator: #b6cea3; 
-  --streaming-indicator: #dcc3a1; 
+  --idle-indicator: #b4cea5; 
+  --streaming-indicator: #dbc3a1; 
 
   
-  --accent-1: #b6cea3; 
-  --accent-2: #f2be6e; 
-  --accent-3: #f2be6e; 
-  --accent-4: #614000; 
-  --accent-5: #f2be6e; 
-  --mention: #614000; 
-  --mention-hover: #f2be6e; 
+  --accent-1: #b4cea5; 
+  --accent-2: #f0bf6d; 
+  --accent-3: #f0bf6d; 
+  --accent-4: #5f4100; 
+  --accent-5: #f0bf6d; 
+  --mention: #5f4100; 
+  --mention-hover: #f0bf6d; 
 
   
-  --text-0: #442c00; 
-  --text-1: #ede1d4; 
-  --text-2: #ede1d4; 
-  --text-3: #ede1d4; 
-  --text-4: #d2c4b4; 
+  --text-0: #422c00; 
+  --text-1: #ece1d4; 
+  --text-2: #ece1d4; 
+  --text-3: #ece1d4; 
+  --text-4: #d2c5b4; 
   --text-5: #9b8f80; 
 
   
-  --bg-1: #18130b; 
+  --bg-1: #17130b; 
   --bg-2: #2f2921; 
   --bg-3: #241f17; 
-  --bg-4: #18130b; 
+  --bg-4: #17130b; 
   --hover: #2f2921; 
   --active: #3a342b; 
   --message-hover: #2f2921; 
