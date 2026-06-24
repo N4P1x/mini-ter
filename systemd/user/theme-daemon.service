@@ -1,5 +1,5 @@
 [Unit]
-Description=Apply catbug0x1 dynamic theme at session start
+Description=Apply N4P1x dynamic theme at session start
 After=graphical-session.target
 
 [Service]

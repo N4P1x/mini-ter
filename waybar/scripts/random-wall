@@ -16,7 +16,7 @@ mapfile -t wallpapers < <(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -in
 
 [[ ${#wallpapers[@]} -eq 0 ]] && {
   notify-send -A "open=Get Wallpapers" --wait "No Wallpapers" "Add to ~/Wallpapers"
-  xdg-open "https://github.com/catbug0x1/Wallpapers" &
+  xdg-open "https://github.com/N4P1x/Wallpapers" &
   exit 1
 }
 

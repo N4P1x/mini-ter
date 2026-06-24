@@ -1,12 +1,12 @@
 
 
-catbug0x1 is a centralized theme management system for Arch Linux that propagates theme changes instantly across ALL applications in the system. Built for Hyprland/Wayland with support for X11 apps via GTK/Qt.
+N4P1x is a centralized theme management system for Arch Linux that propagates theme changes instantly across ALL applications in the system. Built for Hyprland/Wayland with support for X11 apps via GTK/Qt.
 
 
 ```bash
-catbug0x1 switch <theme-name>
+N4P1x switch <theme-name>
 
-catbug0x1 list
+N4P1x list
 
 ~/.config/hypr/scripts/theme/verify
 
@@ -81,8 +81,8 @@ catbug0x1 list
 
 
 ```
-~/.config/catbug0x1/
-├── catbug0x1           # Main CLI tool
+~/.config/N4P1x/
+├── N4P1x           # Main CLI tool
 ├── hooks/             # Theme hook scripts
 │   ├── 01-gtk.sh    # Main hook (GTK, Qt, Waybar, Rofi, Mako, SwayNC, Hyprland)
 │   ├── 00-*.sh      # Terminal hooks (Alacritty, Ghostty, Kitty)
@@ -98,7 +98,7 @@ catbug0x1 list
 ```
 
 
-Hooks run in order when `catbug0x1 switch` executes:
+Hooks run in order when `N4P1x switch` executes:
 
 1. `00-*.sh` - Terminal emulators
 2. `01-gtk.sh` - Core system (GTK, Qt, Waybar, Mako, SwayNC, Hyprland, Firefox, VS Code)
@@ -134,23 +134,23 @@ Each theme contains `.config/` subdirectories:
 ```
 
 
-catbug0x1 sets these for applications:
+N4P1x sets these for applications:
 
 ```bash
 CATBUG0X1_THEME=<theme-name>
-CATBUG0X1_DIR=~/.config/catbug0x1
+CATBUG0X1_DIR=~/.config/N4P1x
 GTK_THEME=<theme-name>
 ```
 
 
 
-1. Check if hook exists: `ls ~/.config/catbug0x1/hooks/`
-2. Check theme has config: `ls ~/.config/catbug0x1/<theme>/.config/`
+1. Check if hook exists: `ls ~/.config/N4P1x/hooks/`
+2. Check theme has config: `ls ~/.config/N4P1x/<theme>/.config/`
 3. Verify application config: `ls ~/.config/<app>/`
 4. Run manual sync: `~/.config/hypr/scripts/theme/sync-all`
 
 
-1. Check source colors: `cat ~/.config/catbug0x1/<theme>/.config/gtk-3.0/colors.css`
+1. Check source colors: `cat ~/.config/N4P1x/<theme>/.config/gtk-3.0/colors.css`
 2. Check merged file: `cat ~/.config/gtk-3.0/gtk.css`
 3. Restart application
 

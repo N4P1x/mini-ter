@@ -11,7 +11,7 @@ All 11 audit phases completed. The desktop environment is **production-ready** w
 - 51 configuration directories
 - 44 shell scripts (audited)
 - 168 symlinks (all valid)
-- Full theming pipeline (catbug0x1 + matugen)
+- Full theming pipeline (N4P1x + matugen)
 - Multiple compositor options
 
 ---
@@ -74,7 +74,7 @@ All 11 audit phases completed. The desktop environment is **production-ready** w
 ### PHASE 7 — Theming
 | System | Status |
 |--------|--------|
-| catbug0x1 v10.0 | ✅ Functional |
+| N4P1x v10.0 | ✅ Functional |
 | matugen | ✅ 15+ templates |
 | Themes available | espresso, gruvbox, nordic, tokyo-night, etc. |
 
@@ -157,8 +157,8 @@ blur passes = 2   # Reduced from 4
 
 ```
 .config/
-├── hypr/                              → symlinks to catbug0x1/.config/hypr/
-├── catbug0x1/                          ← Git repo (master)
+├── hypr/                              → symlinks to N4P1x/.config/hypr/
+├── N4P1x/                          ← Git repo (master)
 │   └── .config/hypr/                 ← Primary config
 │       ├── hyprland.conf              ← Main
 │       ├── monitors.conf            ← Display
@@ -203,7 +203,7 @@ blur passes = 2   # Reduced from 4
    - windowsrules.conf (floating apps)
    - tiling.conf (workspace layout)
    - media.conf (volume keys)
-   - theme/colors.conf (catbug0x1)
+   - theme/colors.conf (N4P1x)
 
 ### 4. Autostart runs (via autostart.conf):
 ```
@@ -235,8 +235,8 @@ exec-once = system/auto-optimize
 | 5 | Added set -euo pipefail | lock-screen | Edit |
 | 6 | Added shopt nullglob | lock-screen | Edit |
 | 7 | Masked swaync.service | systemd/user/ | Mask |
-| 8 | Created animations_perf | catbug0x1/ | New file |
-| 9 | Created looknfeel_perf | catbug0x1/ | New file |
+| 8 | Created animations_perf | N4P1x/ | New file |
+| 9 | Created looknfeel_perf | N4P1x/ | New file |
 
 ---
 
@@ -264,8 +264,8 @@ systemctl --user list-units --type=service | grep active
 find ~/.config/hypr/scripts -name "*.sh" -executable | wc -l
 
 # Check themes
-catbug0x1 list
-cat ~/.config/catbug0x1/.current-theme
+N4P1x list
+cat ~/.config/N4P1x/.current-theme
 ```
 
 ---

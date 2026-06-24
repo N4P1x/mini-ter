@@ -1,1 +1,1 @@
-../../../../catbug0x1/.config/nvim/lua/servers/gopls.lua
+../../../../N4P1x/.config/nvim/lua/servers/gopls.lua

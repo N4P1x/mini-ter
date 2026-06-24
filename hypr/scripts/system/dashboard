@@ -8,7 +8,7 @@ while true; do
     echo ""
     
     echo "━━━ THEME ━━━"
-    echo "  Current: $(cat ~/.config/catbug0x1/.current-theme 2>/dev/null)"
+    echo "  Current: $(cat ~/.config/N4P1x/.current-theme 2>/dev/null)"
     echo ""
     
     echo "━━━ CPU ━━━"
@@ -48,7 +48,7 @@ while true; do
     
     case "$key" in
         1) ~/.config/hypr/scripts/theme/sync-all ;;
-        2) echo "Usage: catbug0x1 switch <theme>" ;;
+        2) echo "Usage: N4P1x switch <theme>" ;;
         3) hyprctl reload ;;
         4) echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor ;;
         5) pkill -x waybar; uwsm-app -- waybar & ;;

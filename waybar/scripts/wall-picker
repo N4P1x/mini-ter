@@ -10,7 +10,7 @@ WALLPAPER_PARAMS="--transition-fps 60 --transition-type=any --transition-duratio
 focused_monitor=$(hyprctl -j monitors | jq -r '.[] | select(.focused==true).name' || echo "HDMI-A-1")
 
 mapfile -d '' wallpapers < <(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) -print0)
-[[ ${#wallpapers[@]} -eq 0 ]] && { notify-send -A "open=Get Wallpapers" --wait "No Wallpapers" "Add to ~/Wallpapers"; xdg-open "https://github.com/catbug0x1/Wallpapers" & exit 1; }
+[[ ${#wallpapers[@]} -eq 0 ]] && { notify-send -A "open=Get Wallpapers" --wait "No Wallpapers" "Add to ~/Wallpapers"; xdg-open "https://github.com/N4P1x/Wallpapers" & exit 1; }
 
 choice=$(printf "%s\x00icon\x1f%s\n" "$(basename "${wallpapers[@]}")" "${wallpapers[@]}" | sort | rofi -i -dmenu -config ~/.config/rofi/custom-rofi/config-wallpaper.rasi)
 [[ -z "$choice" ]] && exit 0

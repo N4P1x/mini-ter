@@ -1,13 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
-LOCKDIR="${XDG_RUNTIME_DIR:-/tmp}/catbug0x1-wallpaper.lock"
+LOCKDIR="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-wallpaper.lock"
 if ! mkdir "$LOCKDIR" 2>/dev/null; then
 	exit 0
 fi
 
 COOLDOWN_MS=900
-STAMP_FILE="${XDG_RUNTIME_DIR:-/tmp}/catbug0x1-wallpaper.last"
+STAMP_FILE="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-wallpaper.last"
 update_stamp() { date +%s%3N 2>/dev/null > "$STAMP_FILE" || echo "$(( $(date +%s) * 1000 ))" > "$STAMP_FILE"; }
 trap 'update_stamp; rmdir "$LOCKDIR" 2>/dev/null || true' EXIT
 now_ms="$(date +%s%3N 2>/dev/null || echo "$(( $(date +%s) * 1000 ))")"
@@ -26,7 +26,7 @@ else
 	exit 1
 fi
 
-current_theme=$(cat ~/.config/catbug0x1/.current-theme 2>/dev/null || echo "dynamic")
+current_theme=$(cat ~/.config/N4P1x/.current-theme 2>/dev/null || echo "dynamic")
 
 [[ "$current_theme" != "dynamic" ]] && {
 	notify-send -A "open=Get Wallpapers" --wait "No Wallpapers" "Add to ~/Pictures/Wallpapers" >/dev/null 2>&1 || true
@@ -41,7 +41,7 @@ mapfile -d '' wallpapers < <(find "$wallpaper_dir" -type f \( -iname "*.jpg" -o 
 
 [[ ${#wallpapers[@]} -eq 0 ]] && {
 	notify-send -A "open=Get Wallpapers" --wait "No Wallpapers" "Add to ~/Pictures/Wallpapers" >/dev/null 2>&1 || true
-	xdg-open "https://github.com/catbug0x1/Wallpapers" &
+	xdg-open "https://github.com/N4P1x/Wallpapers" &
 	exit 1
 }
 
@@ -64,8 +64,8 @@ choice=$(menu | rofi -i -dmenu -p "" -config ~/.config/rofi/custom-rofi/config-w
 for wp in "${wallpapers[@]}"; do
 	[[ "$(basename "$wp")" == "$choice" ]] || continue
 	"$wallbin" img "$wp" $wallpaper_params >/dev/null 2>&1 &
-	mkdir -p "$HOME/.config/catbug0x1/current"
-	ln -sf "$wp" "$HOME/.config/catbug0x1/current/wallpaper"
+	mkdir -p "$HOME/.config/N4P1x/current"
+	ln -sf "$wp" "$HOME/.config/N4P1x/current/wallpaper"
 	WALL="$wp" HOME="$HOME" \
 		nohup bash -lc 'matugen image "$WALL" -m dark --source-color-index 0 >/dev/null 2>&1 || true; CATBUG0X1_SKIP_WALLPAPER=1 CATBUG0X1_FAST_SYNC=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1 || true' \
 		>/dev/null 2>&1 &

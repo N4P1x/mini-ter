@@ -1,9 +1,9 @@
 
 
 ```bash
-catbug0x1 switch <theme>
+N4P1x switch <theme>
 
-catbug0x1 list
+N4P1x list
 
 ~/.config/hypr/scripts/theme/verify
 
@@ -32,7 +32,7 @@ catbug0x1 list
 ├── sync-all    # Master sync (single file does ALL)
 └── verify     # Verification
 
-~/.config/catbug0x1/
-├── catbug0x1   # CLI tool
+~/.config/N4P1x/
+├── N4P1x   # CLI tool
 └── .current-theme
 ```

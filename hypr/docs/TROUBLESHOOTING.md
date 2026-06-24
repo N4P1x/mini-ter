@@ -2,14 +2,14 @@
 
 
 ```bash
-cat ~/.config/catbug0x1/.current-theme
+cat ~/.config/N4P1x/.current-theme
 
-ls ~/.config/catbug0x1/*/
+ls ~/.config/N4P1x/*/
 ```
 
 
 ```bash
-bash -x ~/.config/catbug0x1/hooks/01-gtk.sh
+bash -x ~/.config/N4P1x/hooks/01-gtk.sh
 ```
 
 
@@ -26,7 +26,7 @@ cat ~/.config/gtk-3.0/settings.ini
 
 nwg-look -s <theme>
 
-~/.config/catbug0x1/catbug0x1 switch <current-theme>
+~/.config/N4P1x/N4P1x switch <current-theme>
 ```
 
 
@@ -86,7 +86,7 @@ hyprctl reload
 ```bash
 ls ~/.mozilla/firefox/*/chrome/
 
-cp ~/.config/catbug0x1/<theme>/.config/gtk-3.0/colors.css \
+cp ~/.config/N4P1x/<theme>/.config/gtk-3.0/colors.css \
    ~/.mozilla/firefox/*/chrome/colors.css
 
 ```
@@ -162,7 +162,7 @@ journalctl -xe
 
 
 ```bash
-catbug0x1 switch espresso
+N4P1x switch espresso
 
 ~/.config/hypr/scripts/theme/sync-all
 

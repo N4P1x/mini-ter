@@ -1,1 +1,1 @@
-../../../../catbug0x1/.config/nvim/lua/servers/jsonls.lua
+../../../../N4P1x/.config/nvim/lua/servers/jsonls.lua

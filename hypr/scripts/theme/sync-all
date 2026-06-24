@@ -1,7 +1,7 @@
 #!/bin/bash
 
-TF="$HOME/.config/catbug0x1/.current-theme"
-SYM="$HOME/.config/catbug0x1"
+TF="$HOME/.config/N4P1x/.current-theme"
+SYM="$HOME/.config/N4P1x"
 T=$(cat "$TF" 2>/dev/null)
 SRC="$SYM/current/.config"
 FAST_SYNC="${CATBUG0X1_FAST_SYNC:-0}"
@@ -71,8 +71,8 @@ if [[ "${CATBUG0X1_SKIP_WALLPAPER:-0}" != "1" ]]; then
         mapfile -t BGS < <(find "$BG_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) | sort)
         [[ ${#BGS[@]} -gt 0 ]] && {
             SELECTED="${BGS[0]}"
-            if [[ -L "$HOME/.config/catbug0x1/current/wallpaper" || -f "$HOME/.config/catbug0x1/current/wallpaper" ]]; then
-                CURRENT_WALLPAPER="$(readlink -f "$HOME/.config/catbug0x1/current/wallpaper" 2>/dev/null || true)"
+            if [[ -L "$HOME/.config/N4P1x/current/wallpaper" || -f "$HOME/.config/N4P1x/current/wallpaper" ]]; then
+                CURRENT_WALLPAPER="$(readlink -f "$HOME/.config/N4P1x/current/wallpaper" 2>/dev/null || true)"
                 if [[ -n "${CURRENT_WALLPAPER:-}" && -f "$CURRENT_WALLPAPER" ]]; then
                     SELECTED="$CURRENT_WALLPAPER"
                 fi

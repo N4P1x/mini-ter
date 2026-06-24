@@ -2,7 +2,7 @@
   <img src="assets/screenshot.png" alt="Desktop Screenshot" width="800"/>
   <br/>
   <h1>mini-ter</h1>
-  <p><b>Arch Linux · Hyprland · catbug0x1 · Material You</b></p>
+  <p><b>Arch Linux · Hyprland · N4P1x · Material You</b></p>
   <p>
     <img src="https://img.shields.io/badge/OS-Arch_Linux-blue?style=flat&logo=arch-linux"/>
     <img src="https://img.shields.io/badge/WM-Hyprland-ebc16c?style=flat"/>
@@ -16,7 +16,7 @@
 
 ## Overview
 
-A cohesive, dynamic-themed Arch Linux desktop environment built on **Hyprland** (Wayland compositor) with a custom **Material Design 3** theming engine called **catbug0x1**. Colors are extracted from the current wallpaper via `matugen` and automatically propagated across **20+ applications** in real-time.
+A cohesive, dynamic-themed Arch Linux desktop environment built on **Hyprland** (Wayland compositor) with a custom **Material Design 3** theming engine called **N4P1x**. Colors are extracted from the current wallpaper via `matugen` and automatically propagated across **20+ applications** in real-time.
 
 > Theme is currently `dynamic` (wallpaper-generated). Toggle between 10+ themes instantly.
 
@@ -166,7 +166,7 @@ Wallpaper Image
 | **Editors** | Neovim (~53 plugins), VS Code, VSCodium, Kate |
 | **Multiplexer** | tmux (with plugins: tpm, sensible, vim-tmux-navigator) |
 | **Git** | gh (GitHub CLI), lazygit |
-| **Theme Engine** | catbug0x1 (custom TUI), matugen (22 templates) |
+| **Theme Engine** | N4P1x (custom TUI), matugen (22 templates) |
 | **GTK/Qt** | GTK3, GTK4, Qt5, Qt6, nwg-look |
 | **Fonts** | fontconfig (hintslight, subpixel rgb) |
 | **System** | systemd user services, WirePlumber (audio priority), uwsm |
@@ -228,7 +228,7 @@ git clone https://github.com/N4P1x/mini-ter.git ~/.config
 
 ## Credits
 
-- **catbug0x1** - Custom theme engine and desktop integration
+- **N4P1x** - Custom theme engine and desktop integration
 - **matugen** - Material You color generation from wallpaper
 - All open-source projects powering this setup
 

@@ -5,19 +5,19 @@
 @define-color foreground     #ebe1d4;
 @define-color black          #17130b;
 @define-color red            #ffb4ab;
-@define-color green          #ebc16c;
-@define-color yellow         #b1cfa8;
-@define-color blue           #d9c4a0;
-@define-color magenta        #344d2f;
-@define-color cyan           #53452a;
+@define-color green          #e7c26c;
+@define-color yellow         #afcfab;
+@define-color blue           #d7c4a0;
+@define-color magenta        #324d31;
+@define-color cyan           #52452a;
 @define-color white          #ebe1d4;
-@define-color bright_black   #241f17;
+@define-color bright_black   #231f17;
 @define-color bright_white   #ebe1d4;
 
 
-@define-color accent_bg_color #ebc16c;
-@define-color accent_fg_color #402d00;
-@define-color accent_color #ebc16c;
+@define-color accent_bg_color #e7c26c;
+@define-color accent_fg_color #3f2e00;
+@define-color accent_color #e7c26c;
 
 
 @define-color window_bg_color #17130b;
@@ -40,15 +40,15 @@
 @define-color headerbar_shade_color #17130b;
 
 
-@define-color card_bg_color #241f17;
+@define-color card_bg_color #231f17;
 @define-color card_fg_color #ebe1d4;
 
 
-@define-color popover_bg_color #241f17;
+@define-color popover_bg_color #231f17;
 @define-color popover_fg_color #ebe1d4;
 
 
-@define-color dialog_bg_color #241f17;
+@define-color dialog_bg_color #231f17;
 @define-color dialog_fg_color #ebe1d4;
 
 
@@ -56,13 +56,13 @@
 @define-color destructive_fg_color #690005;
 @define-color destructive_color #ffb4ab;
 
-@define-color success_bg_color #ebc16c;
-@define-color success_fg_color #402d00;
-@define-color success_color #ebc16c;
+@define-color success_bg_color #e7c26c;
+@define-color success_fg_color #3f2e00;
+@define-color success_color #e7c26c;
 
-@define-color warning_bg_color #b1cfa8;
-@define-color warning_fg_color #1e361b;
-@define-color warning_color #b1cfa8;
+@define-color warning_bg_color #afcfab;
+@define-color warning_fg_color #1c361d;
+@define-color warning_color #afcfab;
 
 @define-color error_bg_color #ffb4ab;
 @define-color error_fg_color #690005;

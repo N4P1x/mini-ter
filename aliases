@@ -2,16 +2,16 @@ alias sync-all='~/.config/hypr/scripts/theme/sync-all'
 alias verify='~/.config/hypr/scripts/theme/verify'
 alias theme='~/.config/hypr/scripts/theme/verify'
 
-alias catbug0x1-reload='~/.config/catbug0x1/catbug0x1 reload'
-alias catbug0x1-switch='~/.config/catbug0x1/catbug0x1 switch'
+alias N4P1x-reload='~/.config/N4P1x/N4P1x reload'
+alias N4P1x-switch='~/.config/N4P1x/N4P1x switch'
 
 alias apply-optimizations='~/.config/hypr/scripts/system/apply-optimizations'
 alias cpu-performance='echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 
-alias themes='~/.config/catbug0x1/catbug0x1 list'
+alias themes='~/.config/N4P1x/N4P1x list'
 
 alias waybar-restart='pkill -x waybar; uwsm-app -- waybar &'
 
 alias hypr-reload='hyprctl reload'
 
-alias status='echo "Theme: $(cat ~/.config/catbug0x1/.current-theme)" && echo "CPU: $(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)" && free -h | head -2'
+alias status='echo "Theme: $(cat ~/.config/N4P1x/.current-theme)" && echo "CPU: $(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)" && free -h | head -2'

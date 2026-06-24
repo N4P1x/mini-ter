@@ -1,1 +1,1 @@
-../../../../catbug0x1/.config/nvim/lua/config/options.lua
+../../../../N4P1x/.config/nvim/lua/config/options.lua

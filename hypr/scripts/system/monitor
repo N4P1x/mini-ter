@@ -8,7 +8,7 @@ CYAN='\033[0;36m'
 BOLD='\033[1m'
 RESET='\033[0m'
 
-THEME=$(cat ~/.config/catbug0x1/.current-theme 2>/dev/null)
+THEME=$(cat ~/.config/N4P1x/.current-theme 2>/dev/null)
 
 draw_bar() {
     local value=$1
@@ -155,7 +155,7 @@ main() {
             r|R) hyprctl reload ;;
             c|C) for f in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo performance | sudo tee "$f" 2>/dev/null; done; echo "CPU: performance" ;;
             w|W) pkill -x waybar; uwsm-app -- waybar &; echo "Waybar restarted" ;;
-            t|T) echo "Use: catbug0x1 switch <theme>" ;;
+            t|T) echo "Use: N4P1x switch <theme>" ;;
             v|V) ~/.config/hypr/scripts/theme/verify ;;
             a|A) ~/.config/hypr/scripts/system/apply-optimizations ;;
             d|D) ~/.config/hypr/scripts/system/dashboard ;;

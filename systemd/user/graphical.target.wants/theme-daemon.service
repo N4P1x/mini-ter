@@ -1,1 +1,11 @@
-/home/n4p1/.config/systemd/user/theme-daemon.service
+[Unit]
+Description=Apply N4P1x dynamic theme at session start
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -lc '%h/.config/hypr/scripts/theme/sync-all || true'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=graphical.target

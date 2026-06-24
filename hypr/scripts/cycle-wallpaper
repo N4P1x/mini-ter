@@ -1,13 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
-LOCKDIR="${XDG_RUNTIME_DIR:-/tmp}/catbug0x1-wallpaper.lock"
+LOCKDIR="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-wallpaper.lock"
 if ! mkdir "$LOCKDIR" 2>/dev/null; then
     exit 0
 fi
 
 COOLDOWN_MS=900
-STAMP_FILE="${XDG_RUNTIME_DIR:-/tmp}/catbug0x1-wallpaper.last"
+STAMP_FILE="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-wallpaper.last"
 update_stamp() { date +%s%3N 2>/dev/null > "$STAMP_FILE" || echo "$(( $(date +%s) * 1000 ))" > "$STAMP_FILE"; }
 trap 'update_stamp; rmdir "$LOCKDIR" 2>/dev/null || true' EXIT
 now_ms="$(date +%s%3N 2>/dev/null || echo "$(( $(date +%s) * 1000 ))")"
@@ -26,7 +26,7 @@ MATUGEN_CONFIG="$HOME/.config/matugen/config.toml"
 mapfile -t BGS < <(find "$BG_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" \) | sort)
 [[ ${#BGS[@]} -eq 0 ]] && { notify-send "No wallpapers" "No images in $BG_DIR" >/dev/null 2>&1 || true; exit 1; }
 
-CACHE="$HOME/.cache/catbug0x1"
+CACHE="$HOME/.cache/N4P1x"
 mkdir -p "$CACHE"
 INDEX_FILE="$CACHE/wallpaper_index"
 
@@ -54,7 +54,7 @@ elif command -v awww >/dev/null 2>&1; then
     awww img "$SELECTED" >/dev/null 2>&1 &
 fi
 
-cp -f "$SELECTED" "$HOME/.config/catbug0x1/current/wallpaper" 2>/dev/null || true
+cp -f "$SELECTED" "$HOME/.config/N4P1x/current/wallpaper" 2>/dev/null || true
 
 notify-send -i "$SELECTED" "Wallpaper" "$((new_index + 1))/${#BGS[@]}: $(basename "$SELECTED")" >/dev/null 2>&1 &
 

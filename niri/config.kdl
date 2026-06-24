@@ -331,7 +331,7 @@ binds {
     Mod+N                               hotkey-overlay-title="Notification Restore" { spawn-sh "makoctl restore"; }
     Mod+Shift+N                         hotkey-overlay-title="Notification Clear" { spawn-sh "makoctl dismiss -a"; }
     // Alt+Space                           hotkey-overlay-title="Run Code in Tmux" { spawn-sh "ghostty -e ~/Scripts/code-in-tmux"; }
-    Alt+Space                           hotkey-overlay-title="Run Portfolio in Localhost" { spawn-sh "launch-webapp https://catbug0x1.dev"; }
+    Alt+Space                           hotkey-overlay-title="Run Portfolio in Localhost" { spawn-sh "launch-webapp https://N4P1x.dev"; }
     Print                               hotkey-overlay-title="Color Picker" { spawn-sh "niri msg pick-color| wl-copy"; }
     Mod+Alt+P                           hotkey-overlay-title="Launch Android Emulator" { spawn-sh "env QT_QPA_PLATFORM=xcb ~/Android/Sdk/emulator/emulator -avd Pixel_9 &"; }
 

@@ -2,13 +2,13 @@
 
 set -euo pipefail
 
-LOCKDIR="${XDG_RUNTIME_DIR:-/tmp}/catbug0x1-wallpaper.lock"
+LOCKDIR="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-wallpaper.lock"
 if ! mkdir "$LOCKDIR" 2>/dev/null; then
     exit 0
 fi
 
 COOLDOWN_MS=900
-STAMP_FILE="${XDG_RUNTIME_DIR:-/tmp}/catbug0x1-wallpaper.last"
+STAMP_FILE="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-wallpaper.last"
 update_stamp() { date +%s%3N 2>/dev/null > "$STAMP_FILE" || echo "$(( $(date +%s) * 1000 ))" > "$STAMP_FILE"; }
 trap 'update_stamp; rmdir "$LOCKDIR" 2>/dev/null || true' EXIT
 now_ms="$(date +%s%3N 2>/dev/null || echo "$(( $(date +%s) * 1000 ))")"
@@ -49,7 +49,7 @@ elif command -v awww >/dev/null 2>&1; then
     awww img "$RANDOM_PIC" >/dev/null 2>&1 &
 fi
 
-cp -f "$RANDOM_PIC" "$HOME/.config/catbug0x1/current/wallpaper" 2>/dev/null || true
+cp -f "$RANDOM_PIC" "$HOME/.config/N4P1x/current/wallpaper" 2>/dev/null || true
 
 notify-send -i "$RANDOM_PIC" "Wallpaper" "$(basename "$RANDOM_PIC")" >/dev/null 2>&1 &
 

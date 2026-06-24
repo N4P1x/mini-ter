@@ -22,7 +22,7 @@ sudo pacman -S ttf-jetbrains-mono ttf-fira-code ttf-nerd-fonts-symbols
 
 ```bash
 mkdir -p ~/.config/hypr/scripts/{theme,system}
-mkdir -p ~/.config/catbug0x1
+mkdir -p ~/.config/N4P1x
 mkdir -p ~/.config/gtk-3.0 ~/.config/gtk-4.0
 mkdir -p ~/.config/waybar ~/.config/rofi ~/.config/mako
 mkdir -p ~/.config/alacritty ~/.config/kitty ~/.config/ghostty
@@ -56,8 +56,8 @@ mkdir -p ~/.config/btop/themes ~/.config/cava
 │       ├── PERFORMANCE.md
 │       └── TROUBLESHOOTING.md
 │
-├── catbug0x1/
-│   ├── catbug0x1           # Theme CLI
+├── N4P1x/
+│   ├── N4P1x           # Theme CLI
 │   ├── hooks/             # Theme hooks
 │   │   ├── 01-gtk.sh    # Main hook
 │   │   ├── 00-*.sh      # Terminals
@@ -88,9 +88,9 @@ mkdir -p ~/.config/btop/themes ~/.config/cava
 
 
 ```bash
-catbug0x1 switch <theme>
+N4P1x switch <theme>
 
-catbug0x1 list
+N4P1x list
 
 ~/.config/hypr/scripts/theme/verify
 
@@ -172,7 +172,7 @@ Files included per theme:
    ```
 3. Set theme:
    ```bash
-   catbug0x1 switch espresso
+   N4P1x switch espresso
    ```
 4. Verify:
    ```bash
@@ -206,7 +206,7 @@ Install GTK themes:
 
 
 ```bash
-tar -czvf config-backup.tar.gz ~/.config/hypr ~/.config/catbug0x1 ~/.config/gtk-3.0 ~/.config/gtk-4.0
+tar -czvf config-backup.tar.gz ~/.config/hypr ~/.config/N4P1x ~/.config/gtk-3.0 ~/.config/gtk-4.0
 
-tar -czvf themes-backup.tar.gz ~/.config/catbug0x1/*/
+tar -czvf themes-backup.tar.gz ~/.config/N4P1x/*/
 ```

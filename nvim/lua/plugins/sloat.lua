@@ -1,5 +1,5 @@
 return {
-  "catbug0x1/sloat",
+  "N4P1x/sloat",
   opts = {
     float = {
       width = 0.4, -- bigger float

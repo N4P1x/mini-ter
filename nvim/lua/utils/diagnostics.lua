@@ -1,1 +1,1 @@
-../../../../catbug0x1/.config/nvim/lua/utils/diagnostics.lua
+../../../../N4P1x/.config/nvim/lua/utils/diagnostics.lua

@@ -1,5 +1,5 @@
 #!/bin/bash
 
-THEME_FILE="$HOME/.config/catbug0x1/.current-theme"
+THEME_FILE="$HOME/.config/N4P1x/.current-theme"
 
 echo "dynamic" > "$THEME_FILE"

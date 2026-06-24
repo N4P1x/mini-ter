@@ -1,13 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
-MARKER="$HOME/.local/state/catbug0x1/first-run-done"
+MARKER="$HOME/.local/state/N4P1x/first-run-done"
 [[ -f "$MARKER" ]] && exit 0
 
 sleep 2
-catbug0x1 dynamic 2>/dev/null || true
+N4P1x dynamic 2>/dev/null || true
 notify-send -u critical "App Launcher" "Press Super + Space to launch apps"
 notify-send -u critical "Keybindings" "Press Super + K to view all keybindings"
-notify-send -u critical "Welcome to catbug0x1" "Run 'catbug0x1 help' for commands."
+notify-send -u critical "Welcome to N4P1x" "Run 'N4P1x help' for commands."
 
 mkdir -p "$(dirname "$MARKER")" && touch "$MARKER"

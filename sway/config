@@ -113,7 +113,7 @@ for_window [app_id="mpv"] floating enable, resize set width 960 height 540, move
 for_window [app_id="thunar"] floating enable, resize set width 1000 height 600, move position center
 for_window [class="feh"] floating enable, resize set width 960 height 540, move position center
 for_window [app_id="com.github.wwmm.easyeffects"] floating enable, resize set 1000 600, move position center
-for_window [app_id="com.catbug0x1.kanshi-switch"] floating enable, resize set width 400 height 220, move position center
+for_window [app_id="com.N4P1x.kanshi-switch"] floating enable, resize set width 400 height 220, move position center
 
 # ╭───────────────────────────────────────────────────────────────────────╮
 # │ KEYBINDINGS                                                           │
@@ -137,7 +137,7 @@ bindsym Alt+slash exec ghostty -e btop
 bindsym Alt+N exec ghostty -e nvim
 bindsym Alt+M exec ghostty -e rmpc
 bindsym Alt+Q exec ghostty -e yazi
-bindsym Alt+I exec ghostty --class=com.catbug0x1.kanshi-switch -e ~/Scripts/kanshi-switch
+bindsym Alt+I exec ghostty --class=com.N4P1x.kanshi-switch -e ~/Scripts/kanshi-switch
 # bindsym $mod+Shift+Return exec ghostty -e tmux a 
 bindsym $mod+Shift+BackSpace exec ~/Scripts/run-scrcpy mirror
 
@@ -158,7 +158,7 @@ bindsym Alt+G exec ghostty --title='gh-dash' -e gh dash
 bindsym $mod+X exec ~/Scripts/launch-webapp https://X.com
 bindsym $mod+Shift+W exec ~/Scripts/launch-webapp https://web.whatsapp.com
 bindsym $mod+Backslash exec ~/Scripts/launch-webapp https://devhints.io
-bindsym Alt+Space exec ~/Scripts/launch-webapp https://catbug0x1.dev
+bindsym Alt+Space exec ~/Scripts/launch-webapp https://N4P1x.dev
 
 # ─── Utilities ───
 bindsym $mod+Alt+m exec ~/Scripts/dual-dac

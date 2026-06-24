@@ -9,7 +9,7 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 RESET='\033[0m'
 
-THEME=$(cat ~/.config/catbug0x1/.current-theme 2>/dev/null)
+THEME=$(cat ~/.config/N4P1x/.current-theme 2>/dev/null)
 
 menu() {
     echo ""
@@ -41,8 +41,8 @@ while true; do
     
     case "$choice" in
         1) ~/.config/hypr/scripts/theme/sync-all ;;
-        2) echo "Usage: catbug0x1 switch dynamic" ;;
-        3) ~/.config/catbug0x1/catbug0x1 list ;;
+        2) echo "Usage: N4P1x switch dynamic" ;;
+        3) ~/.config/N4P1x/N4P1x list ;;
         4) ~/.config/hypr/scripts/theme/verify ;;
         5) for f in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo performance | sudo tee "$f" 2>/dev/null; done; echo "CPU: performance mode" ;;
         6) pkill -x waybar; uwsm-app -- waybar &; pkill -x mako; mako &; echo "Services restarted" ;;

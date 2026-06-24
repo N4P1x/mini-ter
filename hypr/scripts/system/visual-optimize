@@ -127,7 +127,7 @@ cat > ~/.config/hypr/looknfeel.conf << 'EOF'
 # LOOK & FEEL - Optimized for visual sharpness
 # ════════════════════════════════════════════════════════════════════════════════
 
-source = ~/.config/catbug0x1/current/.config/hypr/theme/colors.conf
+source = ~/.config/N4P1x/current/.config/hypr/theme/colors.conf
 
 general {
     gaps_in = 5

@@ -248,7 +248,7 @@ show_banner() {
 EOF
     echo -e "${N}"
     echo -e "  ${W}mini-ter v${VERSION} — Arch Linux Rice Installer${N}"
-    echo -e "  ${Y}catbug0x1 · Material You · Hyprland${N}"
+    echo -e "  ${Y}N4P1x · Material You · Hyprland${N}"
     echo -e "  ${C}https://github.com/N4P1x/mini-ter${N}\n"
     echo -e "  ${W}This installer will guide you through setting up the${N}"
     echo -e "  ${W}complete mini-ter desktop environment on your system.${N}\n"
@@ -531,7 +531,7 @@ setup_compositor() {
 
         sway)
             log "Sway config ready at $CONFIG_TARGET/sway/config"
-            warn "Sway does not support catbug0x1 color sync natively."
+            warn "Sway does not support N4P1x color sync natively."
             warn "Waybar and mako will still be themed."
             ;;
 
@@ -549,14 +549,14 @@ setup_compositor() {
 # ──────────────────────────────────────────────────────────────────────────────
 
 setup_theme_engine() {
-    head "Setting Up Theme Engine (catbug0x1)"
+    head "Setting Up Theme Engine (N4P1x)"
 
-    # Symlink hypr/ → catbug0x1 (if not already)
+    # Symlink hypr/ → N4P1x (if not already)
     local hypr_link="$CONFIG_TARGET/hypr"
     if [[ -L "$hypr_link" ]]; then
-        log "Hyprland → catbug0x1 symlink already exists."
+        log "Hyprland → N4P1x symlink already exists."
     else
-        warn "Hyprland configs should be symlinked to catbug0x1."
+        warn "Hyprland configs should be symlinked to N4P1x."
         log "Configs are currently standalone, which is fine for static setups."
     fi
 
@@ -570,8 +570,8 @@ setup_theme_engine() {
     if [[ ! -d "$wall_dir" || -z "$(ls -A "$wall_dir" 2>/dev/null)" ]]; then
         warn "No wallpapers found in $wall_dir"
         log "Copying sample wallpapers from repo..."
-        if [[ -d "$CONFIG_TARGET/catbug0x1/wallpapers" ]]; then
-            cmd cp -r "$CONFIG_TARGET/catbug0x1/wallpapers"/* "$wall_dir"/ 2>/dev/null || true
+        if [[ -d "$CONFIG_TARGET/N4P1x/wallpapers" ]]; then
+            cmd cp -r "$CONFIG_TARGET/N4P1x/wallpapers"/* "$wall_dir"/ 2>/dev/null || true
         fi
     fi
 
