@@ -14,14 +14,14 @@ configuration {
 * {
     background: transparent;
     background-alt: transparent;
-    foreground: #eee0d5;
-    selected: #302921;
-    active: #251e17;
+    foreground: #ecdfe5;
+    selected: #2f282c;
+    active: #241e22;
     urgent: #ffb4ab;
     border-colour: transparent;
     separatorcolor: transparent;
     background-color: transparent;
-    text-color: #eee0d5;
+    text-color: #ecdfe5;
 }
 
 window {
@@ -31,7 +31,7 @@ window {
     width: 350px;
     border: 0;
     border-radius: 12px;
-    background-color: #251e17;
+    background-color: #241e22;
 }
 
 mainbox {
@@ -46,7 +46,7 @@ inputbar {
     margin: 0;
     border: 0;
     border-radius: 8px;
-    background-color: #302921;
+    background-color: #2f282c;
     children: [ "entry" ];
 }
 
@@ -56,9 +56,9 @@ prompt {
 
 entry {
     placeholder: "search";
-    placeholder-color: #d4c4b5;
+    placeholder-color: #d2c2cb;
     background-color: transparent;
-    text-color: #eee0d5;
+    text-color: #ecdfe5;
     horizontal-align: 0.5;
     cursor: text;
     font: "CaskaydiaCove Nerd Font Mono 10";
@@ -87,17 +87,17 @@ element {
 
 element normal.normal {
     background-color: transparent;
-    text-color: #eee0d5;
+    text-color: #ecdfe5;
 }
 
 element selected.normal {
-    background-color: #673d00;
-    text-color: #ffdcbb;
+    background-color: #67355e;
+    text-color: #ffd7f2;
 }
 
 element alternate.normal {
     background-color: transparent;
-    text-color: #eee0d5;
+    text-color: #ecdfe5;
 }
 
 element-icon {

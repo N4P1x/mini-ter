@@ -17,4 +17,4 @@ echo "  Accent:     #$ACCENT"
 echo ""
 
 echo "Configs: $(ls "$SRC" | wc -l)"
-echo "Apps: $(ls "$SRC" | tr '\n' ', ')"
+echo "Apps: $(ls "$SRC" | paste -sd ', ')"

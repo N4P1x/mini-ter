@@ -1,10 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
+# Source shared utilities
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+source "$SCRIPT_DIR/../../hypr/scripts/lib/common.sh" 2>/dev/null || true
+
+# Cooldown lock
 LOCKDIR="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-wallpaper.lock"
-if ! mkdir "$LOCKDIR" 2>/dev/null; then
-	exit 0
-fi
+if ! mkdir "$LOCKDIR" 2>/dev/null; then exit 0; fi
 
 COOLDOWN_MS=900
 STAMP_FILE="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-wallpaper.last"
@@ -12,26 +15,13 @@ update_stamp() { date +%s%3N 2>/dev/null > "$STAMP_FILE" || echo "$(( $(date +%s
 trap 'update_stamp; rmdir "$LOCKDIR" 2>/dev/null || true' EXIT
 now_ms="$(date +%s%3N 2>/dev/null || echo "$(( $(date +%s) * 1000 ))")"
 last_ms="$(cat "$STAMP_FILE" 2>/dev/null || echo 0)"
-if [[ "$last_ms" =~ ^[0-9]+$ ]] && (( now_ms - last_ms < COOLDOWN_MS )); then
-	exit 0
-fi
+if [[ "$last_ms" =~ ^[0-9]+$ ]] && (( now_ms - last_ms < COOLDOWN_MS )); then exit 0; fi
 echo "$now_ms" > "$STAMP_FILE"
 
-if command -v swww >/dev/null 2>&1; then
-    wallbin=swww
-elif command -v awww >/dev/null 2>&1; then
-    wallbin=awww
-else
-	notify-send "No wallpaper daemon" "Install swww or awww" "critical" >/dev/null 2>&1 || true
-	exit 1
-fi
+wallbin=$(get_wallbin 2>/dev/null || true)
+[[ -z "$wallbin" ]] && { notify-send "No wallpaper daemon" "Install swww or awww" "critical"; exit 1; }
 
-current_theme=$(cat ~/.config/N4P1x/.current-theme 2>/dev/null || echo "dynamic")
-
-[[ "$current_theme" != "dynamic" ]] && {
-	notify-send -A "open=Get Wallpapers" --wait "No Wallpapers" "Add to ~/Pictures/Wallpapers" >/dev/null 2>&1 || true
-	exit 0
-}
+MATUGEN_CONFIG="$HOME/.config/matugen/config.toml"
 
 wallpaper_dir="$HOME/Pictures/Wallpapers"
 [[ -d "$HOME/Wallpapers" ]] && wallpaper_dir="$HOME/Wallpapers"
@@ -40,8 +30,7 @@ wallpaper_params="--transition-fps 60 --transition-type grow --transition-durati
 mapfile -d '' wallpapers < <(find "$wallpaper_dir" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" -o -iname "*.webp" \) -print0)
 
 [[ ${#wallpapers[@]} -eq 0 ]] && {
-	notify-send -A "open=Get Wallpapers" --wait "No Wallpapers" "Add to ~/Pictures/Wallpapers" >/dev/null 2>&1 || true
-	xdg-open "https://github.com/N4P1x/Wallpapers" &
+	notify-send -A "open=Get Wallpapers" --wait "No Wallpapers" "Add to ~/Pictures/Wallpapers"
 	exit 1
 }
 
@@ -51,12 +40,7 @@ menu() {
 	done | sort
 }
 
-if [[ "$wallbin" == "swww" ]]; then
-	swww query &>/dev/null || swww-daemon --format xrgb
-else
-	pgrep -x awww-daemon >/dev/null 2>&1 || awww-daemon >/dev/null 2>&1 &
-	awww query &>/dev/null || true
-fi
+ensure_wallpaper_daemon &>/dev/null || true
 
 choice=$(menu | rofi -i -dmenu -p "" -config ~/.config/rofi/custom-rofi/config-wallpaper.rasi)
 [[ -z "$choice" ]] && exit 0
@@ -65,10 +49,17 @@ for wp in "${wallpapers[@]}"; do
 	[[ "$(basename "$wp")" == "$choice" ]] || continue
 	"$wallbin" img "$wp" $wallpaper_params >/dev/null 2>&1 &
 	mkdir -p "$HOME/.config/N4P1x/current"
-	ln -sf "$wp" "$HOME/.config/N4P1x/current/wallpaper"
-	WALL="$wp" MATUGEN_CONFIG="$HOME/.config/matugen/config.toml" HOME="$HOME" \
-		nohup bash -lc 'matugen image "$WALL" -c "$MATUGEN_CONFIG" --quiet --prefer saturation >/dev/null 2>&1 || true; N4P1X_SKIP_WALLPAPER=1 N4P1X_FAST_SYNC=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1 || true' \
-		>/dev/null 2>&1 &
-	notify-send -i "$wp" "Dynamic" "Colors from wallpaper" >/dev/null 2>&1 &
+	cp -f "$wp" "$HOME/.config/N4P1x/current/wallpaper" 2>/dev/null || true
+
+	(
+		MATUGEN_LOCK="${XDG_RUNTIME_DIR:-/tmp}/N4P1x-matugen.lock"
+		if command -v matugen >/dev/null 2>&1 && mkdir "$MATUGEN_LOCK" 2>/dev/null; then
+			trap "rmdir '$MATUGEN_LOCK' 2>/dev/null || true" EXIT
+			matugen image "$wp" -c "$MATUGEN_CONFIG" --quiet --prefer saturation
+		fi
+		N4P1X_SKIP_WALLPAPER=1 N4P1X_FAST_SYNC=1 "$HOME/.config/hypr/scripts/theme/sync-all"
+	) &>/dev/null &
+
+	notify-send -i "$wp" "Dynamic" "Colors from wallpaper"
 	break
 done

@@ -110,8 +110,10 @@ echo -e "${GREEN}✓${RESET} Starship"
 copy "$SRC/cava/config" "$HOME/.config/cava/config"
 echo -e "${GREEN}✓${RESET} Monitors"
 
-mkdir -p "$HOME/.mozilla/firefox"/*/chrome
-cp "$SRC/gtk-3.0/colors.css" "$HOME/.mozilla/firefox"/*/chrome/colors.css 2>/dev/null
+for profile in "$HOME/.mozilla/firefox"/*/chrome; do
+    mkdir -p "$profile"
+    cp "$SRC/gtk-3.0/colors.css" "$profile/colors.css" 2>/dev/null
+done
 echo -e "${GREEN}✓${RESET} Firefox"
 
 if [[ -f "$SRC/Code/User/settings.json" ]]; then 

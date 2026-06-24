@@ -128,14 +128,25 @@ list_scripts() {
   echo ""
 }
 
+resolve_script() {
+  local script="$1"
+  local path="$SCRIPT_DIR/$script"
+  [[ -f "$path" ]] && { echo "$path"; return; }
+  path="$SCRIPT_DIR/${script#scripts/}"
+  [[ -f "$path" ]] && { echo "$path"; return; }
+  path="$SCRIPT_DIR/${script#theme/}"
+  [[ -f "$path" ]] && { echo "$path"; return; }
+  echo ""
+}
+
 run_script() {
   local script="$1"
   [[ -z "$script" ]] && { err "Usage: scripts.sh run <script>"; return 1; }
   
-  local path="$SCRIPT_DIR/$script"
-  [[ ! -f "$path" ]] && path="$SCRIPT_DIR/${script#scripts/}"
+  local path
+  path=$(resolve_script "$script")
   
-  if [[ ! -f "$path" ]]; then
+  if [[ -z "$path" ]]; then
     err "Script not found: $script"
     return 1
   fi
@@ -148,10 +159,10 @@ script_info() {
   local script="$1"
   [[ -z "$script" ]] && { err "Usage: scripts.sh info <script>"; return 1; }
   
-  local path="$SCRIPT_DIR/$script"
-  [[ ! -f "$path" ]] && path="$SCRIPT_DIR/${script#scripts/}"
+  local path
+  path=$(resolve_script "$script")
   
-  if [[ ! -f "$path" ]]; then
+  if [[ -z "$path" ]]; then
     err "Script not found: $script"
     return 1
   fi

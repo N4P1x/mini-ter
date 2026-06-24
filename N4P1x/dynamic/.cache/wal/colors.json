@@ -1,27 +1,27 @@
 {
-    "wallpaper": "/home/n4p1/Pictures/Wallpapers/Artistic Oil Painting 4k Ultra HD Wallpaper Background Image.jpg",
+    "wallpaper": "/home/n4p1/Pictures/Wallpapers/wallhaven-k81776.jpg",
     "alpha": "100",
     "special": {
-        "background": "#19120c",
-        "foreground": "#eee0d5",
-        "cursor": "#faba73"
+        "background": "#181216",
+        "foreground": "#ecdfe5",
+        "cursor": "#f3b2e3"
     },
     "colors": {
-        "color0": "#19120c",
+        "color0": "#181216",
         "color1": "#ffb4ab",
-        "color2": "#faba73",
-        "color3": "#becc9c",
-        "color4": "#e0c1a3",
-        "color5": "#3f4b26",
-        "color6": "#58432c",
-        "color7": "#eee0d5",
-        "color8": "#251e17",
+        "color2": "#f3b2e3",
+        "color3": "#f5b9a4",
+        "color4": "#dbbed1",
+        "color5": "#663c2d",
+        "color6": "#554050",
+        "color7": "#ecdfe5",
+        "color8": "#241e22",
         "color9": "#ffb4ab",
-        "color10": "#faba73",
-        "color11": "#becc9c",
-        "color12": "#e0c1a3",
-        "color13": "#3f4b26",
-        "color14": "#58432c",
-        "color15": "#eee0d5"
+        "color10": "#f3b2e3",
+        "color11": "#f5b9a4",
+        "color12": "#dbbed1",
+        "color13": "#663c2d",
+        "color14": "#554050",
+        "color15": "#ecdfe5"
     }
 }

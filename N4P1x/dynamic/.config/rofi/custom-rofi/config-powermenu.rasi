@@ -4,10 +4,10 @@ configuration {
 }
 
 * {
-    background-color: #251e17;
-    background: #251e17;
-    foreground: #eee0d5;
-    text-color: #eee0d5;
+    background-color: #241e22;
+    background: #241e22;
+    foreground: #ecdfe5;
+    text-color: #ecdfe5;
 }
 
 window {
@@ -16,13 +16,13 @@ window {
     width: 220px;
     border: 0;
     border-radius: 14px;
-    background-color: #251e17;
+    background-color: #241e22;
 }
 
 mainbox {
     padding: 12px;
     spacing: 4px;
-    background-color: #251e17;
+    background-color: #241e22;
     children: [ "listview" ];
 }
 
@@ -34,32 +34,32 @@ listview {
     dynamic: true;
     scrollbar: false;
     layout: vertical;
-    background-color: #251e17;
+    background-color: #241e22;
 }
 
 element {
     padding: 10px 14px;
     border-radius: 8px;
-    background-color: #251e17;
+    background-color: #241e22;
     cursor: pointer;
     border: 0;
 }
 
 element normal.normal {
     background-color: transparent;
-    text-color: #eee0d5;
+    text-color: #ecdfe5;
     border: 0;
 }
 
 element selected.normal {
-    background-color: #673d00;
-    text-color: #ffdcbb;
+    background-color: #67355e;
+    text-color: #ffd7f2;
     border: 0;
 }
 
 element alternate.normal {
     background-color: transparent;
-    text-color: #eee0d5;
+    text-color: #ecdfe5;
     border: 0;
 }
 
