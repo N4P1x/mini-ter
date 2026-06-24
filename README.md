@@ -225,11 +225,11 @@ Targets **Intel i5-6300U / HD Graphics 520**:
 # Clone to ~/.config
 git clone https://github.com/N4P1x/mini-ter.git ~/.config
 
-# Install dependencies (Hyprland, Waybar, Rofi, etc.)
-# Refer to docs/INSTALL.md for the full dependency list
+# Smart installer — detects your system and installs everything
+~/.config/install.sh
 
-# Run the theme sync
-~/.config/hypr/scripts/theme/sync-all
+# Or skip the installer and just sync the theme:
+# ~/.config/hypr/scripts/theme/sync-all
 ```
 
 > **Note:** This is a personal rice. Some paths may need adjustment for your system. See `docs/` for detailed setup guides.
