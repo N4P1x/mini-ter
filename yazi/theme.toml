@@ -1,110 +1,115 @@
 
 [mgr]
-cwd = { fg = "#ebe1d4" }
+cwd = { fg = "#ede1d4" }
+
+tab_active = { fg = "#442c00", bg = "#f2be6e", bold = true }
+tab_inactive = { fg = "#ffddaf", bg = "#281800" }
+tab_width = 1
 
 find_keyword = { fg = "#ffb4ab", bold = true, italic = true, underline = true }
 find_position = { fg = "#ffb4ab", bold = true, italic = true }
 
-marker_copied = { fg = "#87d179", bg = "#87d179" }
-marker_cut = { fg = "#cbebc5", bg = "#cbebc5" }
+marker_copied = { fg = "#9dd170", bg = "#9dd170" }
+marker_cut = { fg = "#d2eabd", bg = "#d2eabd" }
 marker_marked = { fg = "#ffb4ab", bg = "#ffb4ab" }
-marker_selected = { fg = "#afcfab", bg = "#afcfab" }
+marker_selected = { fg = "#b6cea3", bg = "#b6cea3" }
 
-count_copied = { fg = "#062109", bg = "#cbebc5" }
-count_cut = { fg = "#062109", bg = "#cbebc5" }
-count_selected = { fg = "#3f2e00", bg = "#afcfab" }
+count_copied = { fg = "#0e2005", bg = "#d2eabd" }
+count_cut = { fg = "#0e2005", bg = "#d2eabd" }
+count_selected = { fg = "#442c00", bg = "#b6cea3" }
 
 border_symbol = " "
-border_style  = { fg = "#e7c26c" }
+border_style  = { fg = "#f2be6e" }
 
 
 
 
 [status]
-sep_left = { open = "", close = "🭠" }
-sep_right = { open = "🭁", close = "" }
-
-perm_type = { fg = "#9c7d42" }
-perm_read = { fg = "#65c453" }
-perm_write = { fg = "#598f52" }
-perm_exec = { fg = "#ff2b12" }
-perm_sep = { fg = "#ffaf01" }
-
-progress_label = { bold = true }
-progress_normal = { fg = "#e7c26c", bg = "#3e392f" }
-progress_error = { fg = "#ffb4ab", bg = "#3e392f" }
+separator_open = "🭁"
+separator_close = "🭠"
+separator_style = { bg = "#442c00", fg = "#F4A261" }
 
 [mode]
-normal_main = { bg = "#e7c26c", fg = "#3f2e00", bold = true }
-normal_alt  = { bg = "#4d4639", fg = "#d0c5b4" }
+normal_main = { bg = "#f2be6e", fg = "#442c00", bold = true }
+normal_alt  = { bg = "#4f4539", fg = "#d2c4b4" }
 
-select_main = { bg = "#d7c4a0", fg = "#3a2f15", bold = true }
-select_alt  = { bg = "#4d4639", fg = "#d0c5b4" }
+select_main = { bg = "#dcc3a1", fg = "#3d2e16", bold = true }
+select_alt  = { bg = "#4f4539", fg = "#d2c4b4" }
 
-unset_main = { bg = "#afcfab", fg = "#1c361d", bold = true }
-unset_alt  = { bg = "#4d4639", fg = "#d0c5b4" }
+unset_main = { bg = "#b6cea3", fg = "#233517", bold = true }
+unset_alt  = { bg = "#4f4539", fg = "#d2c4b4" }
+
+progress_label = { bold = true }
+progress_normal = { fg = "#f2be6e", bg = "#3f382f" }
+progress_error = { fg = "#ffb4ab", bg = "#3f382f" }
+
+permissions_t = { fg = "#a67a3e" }
+permissions_w = { fg = "#688d4b" }
+permissions_x = { fg = "#ff2b12" }
+permissions_r = { fg = "#83c549" }
+permissions_s = { fg = "#ff9c16" }
 
 
 
 
 [select]
-border = { fg = "#e7c26c" }
-active = { fg = "#afcfab", bold = true }
+border = { fg = "#f2be6e" }
+active = { fg = "#b6cea3", bold = true }
 
 
 
 
 [input]
-border = { fg = "#e7c26c" }
-value = { fg = "#ebe1d4" }
+border = { fg = "#f2be6e" }
+value = { fg = "#ede1d4" }
 
 
 
 [tabs]
-active = { fg = "#e7c26c", bold = true, bg = "#17130b" }
-inactive = { fg = "#d7c4a0", bg = "#17130b" }
+active = { fg = "#f2be6e", bold = true, bg = "#18130b" }
+inactive = { fg = "#dcc3a1", bg = "#18130b" }
 sep_inner = { open = "[", close = "]" }
 
 
 
 
-[cmp]
-border = { fg = "#e7c26c", bg = "#3f2e00" }
+[completion]
+border = { fg = "#f2be6e", bg = "#442c00" }
 
 
 
 
 [tasks]
-border = { fg = "#e7c26c" }
+border = { fg = "#f2be6e" }
 title = {}
-hovered = { fg = "#cbebc5", underline = true }
+hovered = { fg = "#d2eabd", underline = true }
 
 
 
 
 [which]
 cols = 3
-mask = { bg = "#3e392f" }
-cand = { fg = "#e7c26c" }
-rest = { fg = "#3f2e00" }
-desc = { fg = "#ebe1d4" }
+mask = { bg = "#3f382f" }
+cand = { fg = "#f2be6e" }
+rest = { fg = "#442c00" }
+desc = { fg = "#ede1d4" }
 separator = " ▶ "
-separator_style = { fg = "#ebe1d4" }
+separator_style = { fg = "#ede1d4" }
 
 
 
 
 [help]
-on = { fg = "#ebe1d4" }
-run = { fg = "#ebe1d4" }
-footer = { fg = "#3a2f15", bg = "#d7c4a0" }
+on = { fg = "#ede1d4" }
+run = { fg = "#ede1d4" }
+footer = { fg = "#3d2e16", bg = "#dcc3a1" }
 
 
 
 
 [notify]
-title_info = { fg = "#afcfab" }
-title_warn = { fg = "#e7c26c" }
+title_info = { fg = "#b6cea3" }
+title_warn = { fg = "#f2be6e" }
 title_error = { fg = "#ffb4ab" }
 
 
@@ -113,6 +118,6 @@ title_error = { fg = "#ffb4ab" }
 [filetype]
 
 rules = [
-    { mime = "image", fg = "#e7c26c" },
+    { mime = "image", fg = "#f2be6e" },
 ]
 

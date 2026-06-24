@@ -15,7 +15,7 @@ log "Applying memory settings..."
 sudo sysctl -p /etc/sysctl.d/99-memory.conf 2>/dev/null || true
 
 log "Syncing theme..."
-CATBUG0X1_SKIP_WALLPAPER=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1
+N4P1X_SKIP_WALLPAPER=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1
 
 log "Applying visual optimizations..."
 [[ -f "$HOME/.config/hypr/looknfeel.conf" ]] && {
@@ -36,6 +36,6 @@ pkill -x waybar 2>/dev/null && uwsm-app -- waybar >/dev/null 2>&1 &
 pkill -x mako 2>/dev/null && mako >/dev/null 2>&1 &
 
 log "Final theme sync..."
-CATBUG0X1_SKIP_WALLPAPER=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1
+N4P1X_SKIP_WALLPAPER=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1
 
 log "Optimization complete!"

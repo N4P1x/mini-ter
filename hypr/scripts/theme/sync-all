@@ -4,7 +4,7 @@ TF="$HOME/.config/N4P1x/.current-theme"
 SYM="$HOME/.config/N4P1x"
 T=$(cat "$TF" 2>/dev/null)
 SRC="$SYM/current/.config"
-FAST_SYNC="${CATBUG0X1_FAST_SYNC:-0}"
+FAST_SYNC="${N4P1X_FAST_SYNC:-0}"
 
 CYAN='\033[0;36m'; GREEN='\033[0;32m'; BOLD='\033[1m'; RESET='\033[0m'
 
@@ -23,8 +23,8 @@ sed -i "s/^gtk-theme-name=.*/gtk-theme-name=$T/" "$HOME/.config/gtk-4.0/settings
 echo -e "${GREEN}✓${RESET} GTK4"
 
 copy "$SRC/waybar/colors.css" "$HOME/.config/waybar/colors.css"
-if [[ -f "$HOME/dotfiles/.config/waybar/style.css" ]]; then
-    cp "$HOME/dotfiles/.config/waybar/style.css" "$HOME/.config/waybar/style.css"
+if [[ -f "$HOME/N4P1x/.config/waybar/style.css" ]]; then
+    cp "$HOME/N4P1x/.config/waybar/style.css" "$HOME/.config/waybar/style.css"
 else
     {
         echo '@import "colors.css";'
@@ -64,7 +64,7 @@ else
 fi
 echo -e "${GREEN}✓${RESET} Hyprland"
 
-if [[ "${CATBUG0X1_SKIP_WALLPAPER:-0}" != "1" ]]; then
+if [[ "${N4P1X_SKIP_WALLPAPER:-0}" != "1" ]]; then
     BG_DIR="$HOME/Pictures/Wallpapers"
     [[ -d "$HOME/Wallpapers" ]] && BG_DIR="$HOME/Wallpapers"
     if [[ -d "$BG_DIR" ]]; then

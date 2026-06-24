@@ -2,8 +2,8 @@
 
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DOTFILES="$(dirname "$(dirname "$SCRIPT_DIR")")"
+SCRIPT_DIR="$HOME/.config/N4P1x"
+DOTFILES="$HOME/N4P1x"
 THEMES_DIR="$DOTFILES/themes"
 BRANDING="$DOTFILES/branding"
 API="https://omarchythemes.com/api/themes/all"
@@ -61,11 +61,11 @@ EOF
     url=$(cut -f2 <<< "$sel")
     
     echo ""
-    "$SCRIPT_DIR/catbug0x1-import/import.sh" "$url" && echo -e "${C_OK}done${C_RESET}" || echo -e "${C_ERR}failed${C_RESET}"
+    "$DOTFILES/install/themes/catbug0x1-import/import.sh" "$url" && echo -e "${C_OK}done${C_RESET}" || echo -e "${C_ERR}failed${C_RESET}"
     sleep 2
 }
 
-browse() { kitty --title catbug0x1-browse -e "$0" --browse-inner 2>/dev/null; }
+browse() { kitty --title N4P1x-browse -e "$0" --browse-inner 2>/dev/null; }
 
 
 delete_themes() {
@@ -93,7 +93,7 @@ delete_themes() {
     gum confirm "confirm?" || return
     
     while IFS= read -r theme; do
-        "$SCRIPT_DIR/catbug0x1" remove "$theme" <<< "y" 2>/dev/null
+        "$SCRIPT_DIR/N4P1x" remove "$theme" <<< "y" 2>/dev/null
     done <<< "$result"
     echo -e "${C_OK}done${C_RESET}"
     sleep 1
@@ -109,7 +109,7 @@ import_url() {
     [[ -z "$url" ]] && return
     echo ""
     
-    "$SCRIPT_DIR/catbug0x1-import/import.sh" "$url" && echo -e "${C_OK}done${C_RESET}" || echo -e "${C_ERR}failed${C_RESET}"
+    "$DOTFILES/install/themes/catbug0x1-import/import.sh" "$url" && echo -e "${C_OK}done${C_RESET}" || echo -e "${C_ERR}failed${C_RESET}"
     sleep 2
 }
 
@@ -148,7 +148,7 @@ webapp_menu() {
 
 
 show_banner() {
-    [[ ! -f "$BRANDING/catbug0x1.txt" ]] && return
+    [[ ! -f "$BRANDING/N4P1x.txt" ]] && return
     
     local cols=$(tput cols)
     local pad=$(( (cols - 55) / 2 ))
@@ -156,7 +156,7 @@ show_banner() {
     local padding=$(printf '%*s' "$pad" '')
     
     if command -v tte &>/dev/null; then
-        sed "s/^/$padding/" "$BRANDING/catbug0x1.txt" | tte \
+        sed "s/^/$padding/" "$BRANDING/N4P1x.txt" | tte \
             --frame-rate 120 expand \
             --movement-speed 0.5 \
             --expand-easing IN_OUT_QUART \
@@ -167,7 +167,7 @@ show_banner() {
     fi
     
     echo -e "${C_ACCENT}"
-    sed "s/^/$padding/" "$BRANDING/catbug0x1.txt"
+    sed "s/^/$padding/" "$BRANDING/N4P1x.txt"
     echo -e "${C_RESET}"
 }
 

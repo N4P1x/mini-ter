@@ -16,7 +16,7 @@ echo "🧠 Memory: Applying optimizations..."
 sudo sysctl -p /etc/sysctl.d/99-memory.conf 2>/dev/null || true
 
 echo "🎨 Theme: Syncing to all applications..."
-CATBUG0X1_SKIP_WALLPAPER=1 "$HOME/.config/hypr/scripts/theme/sync-all"
+N4P1X_SKIP_WALLPAPER=1 "$HOME/.config/hypr/scripts/theme/sync-all"
 
 echo "🎯 Hyprland: Applying performance settings..."
 

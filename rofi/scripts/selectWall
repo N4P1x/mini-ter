@@ -67,7 +67,7 @@ for wp in "${wallpapers[@]}"; do
 	mkdir -p "$HOME/.config/N4P1x/current"
 	ln -sf "$wp" "$HOME/.config/N4P1x/current/wallpaper"
 	WALL="$wp" HOME="$HOME" \
-		nohup bash -lc 'matugen image "$WALL" -m dark --source-color-index 0 >/dev/null 2>&1 || true; CATBUG0X1_SKIP_WALLPAPER=1 CATBUG0X1_FAST_SYNC=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1 || true' \
+		nohup bash -lc 'matugen image "$WALL" -m dark --source-color-index 0 >/dev/null 2>&1 || true; N4P1X_SKIP_WALLPAPER=1 N4P1X_FAST_SYNC=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1 || true' \
 		>/dev/null 2>&1 &
 	notify-send -i "$wp" "Dynamic" "Colors from wallpaper" >/dev/null 2>&1 &
 	break

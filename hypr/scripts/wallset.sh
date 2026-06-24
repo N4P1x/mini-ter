@@ -55,8 +55,8 @@ notify-send -i "$RANDOM_PIC" "Wallpaper" "$(basename "$RANDOM_PIC")" >/dev/null 
 
 if command -v matugen >/dev/null 2>&1; then
     WALL="$RANDOM_PIC" MATUGEN_CONFIG="$MATUGEN_CONFIG" HOME="$HOME" \
-        nohup bash -lc 'matugen image "$WALL" -c "$MATUGEN_CONFIG" --quiet --prefer saturation >/dev/null 2>&1 || true; CATBUG0X1_SKIP_WALLPAPER=1 CATBUG0X1_FAST_SYNC=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1 || true' \
+        nohup bash -lc 'matugen image "$WALL" -c "$MATUGEN_CONFIG" --quiet --prefer saturation >/dev/null 2>&1 || true; N4P1X_SKIP_WALLPAPER=1 N4P1X_FAST_SYNC=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1 || true' \
         >/dev/null 2>&1 &
 else
-    HOME="$HOME" nohup bash -lc 'CATBUG0X1_SKIP_WALLPAPER=1 CATBUG0X1_FAST_SYNC=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1 || true' >/dev/null 2>&1 &
+    HOME="$HOME" nohup bash -lc 'N4P1X_SKIP_WALLPAPER=1 N4P1X_FAST_SYNC=1 "$HOME/.config/hypr/scripts/theme/sync-all" >/dev/null 2>&1 || true' >/dev/null 2>&1 &
 fi

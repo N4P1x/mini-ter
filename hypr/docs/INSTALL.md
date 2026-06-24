@@ -52,7 +52,7 @@ mkdir -p ~/.config/btop/themes ~/.config/cava
 │   │       ├── hardware-optimize  # CPU/GPU/RAM
 │   │       └── monitor          # Dashboard
 │   └── docs/
-│       ├── CATBUG0X1.md
+│       ├── N4P1X.md
 │       ├── PERFORMANCE.md
 │       └── TROUBLESHOOTING.md
 │
