@@ -1,27 +1,27 @@
 {
-    "wallpaper": "/home/n4p1/Wallpapers/others/a_sculpture_of_a_man_with_a_face_on_his_head.png",
+    "wallpaper": "/home/n4p1/Pictures/Wallpapers/Artistic Oil Painting 4k Ultra HD Wallpaper Background Image.jpg",
     "alpha": "100",
     "special": {
-        "background": "#18130b",
-        "foreground": "#ede1d4",
-        "cursor": "#f2be6e"
+        "background": "#19120c",
+        "foreground": "#eee0d5",
+        "cursor": "#faba73"
     },
     "colors": {
-        "color0": "#18130b",
+        "color0": "#19120c",
         "color1": "#ffb4ab",
-        "color2": "#f2be6e",
-        "color3": "#b6cea3",
-        "color4": "#dcc3a1",
-        "color5": "#384c2b",
-        "color6": "#55442a",
-        "color7": "#ede1d4",
-        "color8": "#241f17",
+        "color2": "#faba73",
+        "color3": "#becc9c",
+        "color4": "#e0c1a3",
+        "color5": "#3f4b26",
+        "color6": "#58432c",
+        "color7": "#eee0d5",
+        "color8": "#251e17",
         "color9": "#ffb4ab",
-        "color10": "#f2be6e",
-        "color11": "#b6cea3",
-        "color12": "#dcc3a1",
-        "color13": "#384c2b",
-        "color14": "#55442a",
-        "color15": "#ede1d4"
+        "color10": "#faba73",
+        "color11": "#becc9c",
+        "color12": "#e0c1a3",
+        "color13": "#3f4b26",
+        "color14": "#58432c",
+        "color15": "#eee0d5"
     }
 }

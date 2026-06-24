@@ -1,21 +1,21 @@
 
 [mgr]
-cwd = { fg = "#ece1d4" }
+cwd = { fg = "#eee0d5" }
 
 find_keyword = { fg = "#ffb4ab", bold = true, italic = true, underline = true }
 find_position = { fg = "#ffb4ab", bold = true, italic = true }
 
-marker_copied = { fg = "#98d172", bg = "#98d172" }
-marker_cut = { fg = "#d0eabf", bg = "#d0eabf" }
+marker_copied = { fg = "#b2d168", bg = "#b2d168" }
+marker_cut = { fg = "#dae9b6", bg = "#dae9b6" }
 marker_marked = { fg = "#ffb4ab", bg = "#ffb4ab" }
-marker_selected = { fg = "#b4cea5", bg = "#b4cea5" }
+marker_selected = { fg = "#becc9c", bg = "#becc9c" }
 
-count_copied = { fg = "#0c2006", bg = "#d0eabf" }
-count_cut = { fg = "#0c2006", bg = "#d0eabf" }
-count_selected = { fg = "#422c00", bg = "#b4cea5" }
+count_copied = { fg = "#141f01", bg = "#dae9b6" }
+count_cut = { fg = "#141f01", bg = "#dae9b6" }
+count_selected = { fg = "#482900", bg = "#becc9c" }
 
 border_symbol = " "
-border_style  = { fg = "#f0bf6d" }
+border_style  = { fg = "#faba73" }
 
 
 
@@ -24,87 +24,87 @@ border_style  = { fg = "#f0bf6d" }
 sep_left = { open = "", close = "🭠" }
 sep_right = { open = "🭁", close = "" }
 
-perm_type = { fg = "#a47a3f" }
-perm_read = { fg = "#7bc44c" }
-perm_write = { fg = "#648d4d" }
+perm_type = { fg = "#af743b" }
+perm_read = { fg = "#9ec640" }
+perm_write = { fg = "#758946" }
 perm_exec = { fg = "#ff2b12" }
-perm_sep = { fg = "#ffa212" }
+perm_sep = { fg = "#ff8d22" }
 
 progress_label = { bold = true }
-progress_normal = { fg = "#f0bf6d", bg = "#3f382f" }
-progress_error = { fg = "#ffb4ab", bg = "#3f382f" }
+progress_normal = { fg = "#faba73", bg = "#403830" }
+progress_error = { fg = "#ffb4ab", bg = "#403830" }
 
 [mode]
-normal_main = { bg = "#f0bf6d", fg = "#422c00", bold = true }
-normal_alt  = { bg = "#4e4539", fg = "#d2c5b4" }
+normal_main = { bg = "#faba73", fg = "#482900", bold = true }
+normal_alt  = { bg = "#50453a", fg = "#d4c4b5" }
 
-select_main = { bg = "#dbc3a1", fg = "#3c2e16", bold = true }
-select_alt  = { bg = "#4e4539", fg = "#d2c5b4" }
+select_main = { bg = "#e0c1a3", fg = "#402d17", bold = true }
+select_alt  = { bg = "#50453a", fg = "#d4c4b5" }
 
-unset_main = { bg = "#b4cea5", fg = "#213618", bold = true }
-unset_alt  = { bg = "#4e4539", fg = "#d2c5b4" }
+unset_main = { bg = "#becc9c", fg = "#293411", bold = true }
+unset_alt  = { bg = "#50453a", fg = "#d4c4b5" }
 
 
 
 
 [select]
-border = { fg = "#f0bf6d" }
-active = { fg = "#b4cea5", bold = true }
+border = { fg = "#faba73" }
+active = { fg = "#becc9c", bold = true }
 
 
 
 
 [input]
-border = { fg = "#f0bf6d" }
-value = { fg = "#ece1d4" }
+border = { fg = "#faba73" }
+value = { fg = "#eee0d5" }
 
 
 
 [tabs]
-active = { fg = "#f0bf6d", bold = true, bg = "#17130b" }
-inactive = { fg = "#dbc3a1", bg = "#17130b" }
+active = { fg = "#faba73", bold = true, bg = "#19120c" }
+inactive = { fg = "#e0c1a3", bg = "#19120c" }
 sep_inner = { open = "[", close = "]" }
 
 
 
 
 [cmp]
-border = { fg = "#f0bf6d", bg = "#422c00" }
+border = { fg = "#faba73", bg = "#482900" }
 
 
 
 
 [tasks]
-border = { fg = "#f0bf6d" }
+border = { fg = "#faba73" }
 title = {}
-hovered = { fg = "#d0eabf", underline = true }
+hovered = { fg = "#dae9b6", underline = true }
 
 
 
 
 [which]
 cols = 3
-mask = { bg = "#3f382f" }
-cand = { fg = "#f0bf6d" }
-rest = { fg = "#422c00" }
-desc = { fg = "#ece1d4" }
+mask = { bg = "#403830" }
+cand = { fg = "#faba73" }
+rest = { fg = "#482900" }
+desc = { fg = "#eee0d5" }
 separator = " ▶ "
-separator_style = { fg = "#ece1d4" }
+separator_style = { fg = "#eee0d5" }
 
 
 
 
 [help]
-on = { fg = "#ece1d4" }
-run = { fg = "#ece1d4" }
-footer = { fg = "#3c2e16", bg = "#dbc3a1" }
+on = { fg = "#eee0d5" }
+run = { fg = "#eee0d5" }
+footer = { fg = "#402d17", bg = "#e0c1a3" }
 
 
 
 
 [notify]
-title_info = { fg = "#b4cea5" }
-title_warn = { fg = "#f0bf6d" }
+title_info = { fg = "#becc9c" }
+title_warn = { fg = "#faba73" }
 title_error = { fg = "#ffb4ab" }
 
 
@@ -113,6 +113,6 @@ title_error = { fg = "#ffb4ab" }
 [filetype]
 
 rules = [
-    { mime = "image", fg = "#f0bf6d" },
+    { mime = "image", fg = "#faba73" },
 ]
 
